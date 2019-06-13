@@ -1,0 +1,566 @@
+// post
+
+class Post {
+  final String id;
+  final Meta meta;
+
+  Post({this.id, this.meta});
+
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+      id: json['id'],
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+// admin
+
+class Admins {
+  final List<Admin> admins;
+  final Meta meta;
+
+  Admins({this.admins, this.meta});
+
+  factory Admins.fromJson(Map<String, dynamic> json) {
+    return Admins(
+      admins: json['data'] != null
+          ? List<Admin>.from(json['data'].map((i) => Admin.fromJson(i)))
+          : new List<Admin>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Admin {
+  final String id;
+  final String username;
+  final String password;
+  final String hostels;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Admin(
+      {this.id,
+      this.username,
+      this.password,
+      this.hostels,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Admin.fromJson(Map<String, dynamic> json) {
+    return Admin(
+      id: json['id'],
+      username: json['username'],
+      password: json['password'],
+      hostels: json['hostels'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// bill
+
+class Bills {
+  final List<Bill> bills;
+  final Meta meta;
+
+  Bills({this.bills, this.meta});
+
+  factory Bills.fromJson(Map<String, dynamic> json) {
+    return Bills(
+      bills: json['data'] != null
+          ? List<Bill>.from(json['data'].map((i) => Bill.fromJson(i)))
+          : new List<Bill>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Bill {
+  final String id;
+  final String hostelID;
+  final String title;
+  final String description;
+  final String type;
+  final String amount;
+  final String paid;
+  final String paidDateTime;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Bill(
+      {this.id,
+      this.hostelID,
+      this.title,
+      this.description,
+      this.type,
+      this.amount,
+      this.paid,
+      this.paidDateTime,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Bill.fromJson(Map<String, dynamic> json) {
+    return Bill(
+      id: json['id'],
+      hostelID: json['hostel_id'],
+      title: json['title'],
+      description: json['description'],
+      type: json['type'],
+      amount: json['amount'],
+      paid: json['paid'],
+      paidDateTime: json['paid_date_time'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// employee
+
+class Employees {
+  final List<Employee> employees;
+  final Meta meta;
+
+  Employees({this.employees, this.meta});
+
+  factory Employees.fromJson(Map<String, dynamic> json) {
+    return Employees(
+      employees: json['data'] != null
+          ? List<Employee>.from(json['data'].map((i) => Employee.fromJson(i)))
+          : new List<Employee>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Employee {
+  final String id;
+  final String username;
+  final String password;
+  final String name;
+  final String designation;
+  final List<String> allowedHostels;
+  final String phone;
+  final String email;
+  final String address;
+  final String document;
+  final String salary;
+  final String joiningDateTime;
+  final String lastPaidDateTime;
+  final String expiryDateTime;
+  final String leaveDateTime;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Employee(
+      {this.id,
+      this.username,
+      this.password,
+      this.name,
+      this.designation,
+      this.allowedHostels,
+      this.phone,
+      this.email,
+      this.address,
+      this.document,
+      this.salary,
+      this.joiningDateTime,
+      this.lastPaidDateTime,
+      this.expiryDateTime,
+      this.leaveDateTime,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Employee.fromJson(Map<String, dynamic> json) {
+    return Employee(
+      id: json['id'],
+      username: json['username'],
+      password: json['password'],
+      name: json['name'],
+      designation: json['designation'],
+      allowedHostels: json['allowed_hostels'] == null
+          ? new List<String>()
+          : List<String>.from(json['allowed_hostels']),
+      phone: json['phone'],
+      email: json['email'],
+      address: json['address'],
+      document: json['document'],
+      salary: json['salary'],
+      joiningDateTime: json['joining_date_time'],
+      lastPaidDateTime: json['last_paid_date_time'],
+      expiryDateTime: json['expiry_date_time'],
+      leaveDateTime: json['leave_date_time'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// hostel
+
+class Hostels {
+  final List<Hostel> hostels;
+  final Meta meta;
+
+  Hostels({this.hostels, this.meta});
+
+  factory Hostels.fromJson(Map<String, dynamic> json) {
+    return Hostels(
+      hostels: json['data'] != null
+          ? List<Hostel>.from(json['data'].map((i) => Hostel.fromJson(i)))
+          : new List<Hostel>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Hostel {
+  final String id;
+  final String name;
+  final String phone;
+  final String email;
+  final String address;
+  final String amenities;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Hostel(
+      {this.id,
+      this.name,
+      this.phone,
+      this.email,
+      this.address,
+      this.amenities,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Hostel.fromJson(Map<String, dynamic> json) {
+    return Hostel(
+      id: json['id'],
+      name: json['name'],
+      phone: json['phone'],
+      email: json['email'],
+      address: json['address'],
+      amenities: json['amenities'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// log
+
+class Logs {
+  final List<Log> logs;
+  final Meta meta;
+
+  Logs({this.logs, this.meta});
+
+  factory Logs.fromJson(Map<String, dynamic> json) {
+    return Logs(
+      logs: json['data'] != null
+          ? List<Log>.from(json['data'].map((i) => Log.fromJson(i)))
+          : new List<Log>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Log {
+  final String id;
+  final String log;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Log(
+      {this.id,
+      this.log,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Log.fromJson(Map<String, dynamic> json) {
+    return Log(
+      id: json['id'],
+      log: json['log'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// note
+
+class Notes {
+  final List<Note> notes;
+  final Meta meta;
+
+  Notes({this.notes, this.meta});
+
+  factory Notes.fromJson(Map<String, dynamic> json) {
+    return Notes(
+      notes: json['data'] != null
+          ? List<Note>.from(json['data'].map((i) => Note.fromJson(i)))
+          : new List<Note>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Note {
+  final String id;
+  final String note;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Note(
+      {this.id,
+      this.note,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Note.fromJson(Map<String, dynamic> json) {
+    return Note(
+      id: json['id'],
+      note: json['note'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// room
+
+class Rooms {
+  final List<Room> rooms;
+  final Meta meta;
+
+  Rooms({this.rooms, this.meta});
+
+  factory Rooms.fromJson(Map<String, dynamic> json) {
+    return Rooms(
+      rooms: json['data'] != null
+          ? List<Room>.from(json['data'].map((i) => Room.fromJson(i)))
+          : new List<Room>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Room {
+  final String id;
+  final String hostelID;
+  final String roomno;
+  final String rent;
+  final String floor;
+  final String filled;
+  final String capacity;
+  final String amenities;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Room(
+      {this.id,
+      this.hostelID,
+      this.roomno,
+      this.rent,
+      this.floor,
+      this.filled,
+      this.capacity,
+      this.amenities,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Room.fromJson(Map<String, dynamic> json) {
+    return Room(
+      id: json['id'],
+      hostelID: json['hostel_id'],
+      roomno: json['roomno'],
+      rent: json['rent'],
+      floor: json['floor'],
+      filled: json['filled'],
+      capacity: json['capacity'],
+      amenities: json['amenities'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// user
+
+class Users {
+  final List<User> users;
+  final Meta meta;
+
+  Users({this.users, this.meta});
+
+  factory Users.fromJson(Map<String, dynamic> json) {
+    return Users(
+      users: json['data'] != null
+          ? List<User>.from(json['data'].map((i) => User.fromJson(i)))
+          : new List<User>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class User {
+  final String id;
+  final String hostelID;
+  final String name;
+  final String phone;
+  final String email;
+  final String address;
+  final String roomID;
+  final String roomno;
+  final String rent;
+  final String emerContact;
+  final String emerPhone;
+  final String food;
+  final String document;
+  final String paymentStatus;
+  final String joiningDateTime;
+  final String lastPaidDateTime;
+  final String expiryDateTime;
+  final String leaveDateTime;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  User(
+      {this.id,
+      this.hostelID,
+      this.name,
+      this.phone,
+      this.email,
+      this.address,
+      this.roomID,
+      this.roomno,
+      this.rent,
+      this.emerContact,
+      this.emerPhone,
+      this.food,
+      this.document,
+      this.paymentStatus,
+      this.joiningDateTime,
+      this.lastPaidDateTime,
+      this.expiryDateTime,
+      this.leaveDateTime,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      id: json['id'],
+      hostelID: json['hostel_id'],
+      name: json['name'],
+      phone: json['phone'],
+      email: json['email'],
+      address: json['address'],
+      roomID: json['room_id'],
+      roomno: json['roomno'],
+      rent: json['rent'],
+      emerContact: json['emer_contact'],
+      emerPhone: json['emer_phone'],
+      food: json['food'],
+      document: json['document'],
+      paymentStatus: json['payment_status'],
+      joiningDateTime: json['joining_date_time'],
+      lastPaidDateTime: json['last_paid_date_time'],
+      expiryDateTime: json['expiry_date_time'],
+      leaveDateTime: json['leave_date_time'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+class Meta {
+  final String status;
+  final String message;
+  final String messageType;
+
+  Meta({this.status, this.message, this.messageType});
+
+  factory Meta.fromJson(Map<String, dynamic> json) {
+    return Meta(
+      status: json['status'],
+      message: json['message'],
+      messageType: json['message_type'],
+    );
+  }
+}
