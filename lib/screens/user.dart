@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:image_picker/image_picker.dart';
+
 import '../utils/utils.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
@@ -34,6 +36,8 @@ class UserActivityState extends State<UserActivity> {
   Room room;
 
   bool loading = false;
+  List<String> fileNames = new List();
+  List<Widget> fileWidgets = new List();
 
   UserActivityState(this.user, this.room);
 
@@ -49,10 +53,66 @@ class UserActivityState extends State<UserActivity> {
       emergencyPhone.text = user.emerPhone;
       rent.text = user.rent;
       eating = int.parse(user.food);
+      if (user.document != null) {
+        fileNames = user.document.split(",");
+      }
+      loadDocuments();
     } else {
       rent.text = room.rent;
       joiningDate = dateFormat.format(new DateTime.now());
     }
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      Future<String> uploadResponse = upload(image);
+      uploadResponse.then((fileName) {
+        if (fileName.isNotEmpty) {
+          setState(() {
+            fileNames.add(fileName);
+            loadDocuments();
+          });
+        }
+      });
+    }
+  }
+
+  void loadDocuments() {
+    print(fileNames);
+    fileWidgets.clear();
+    fileNames.forEach((file) {
+      fileWidgets.add(new Row(
+        children: <Widget>[
+          new IconButton(
+            icon: new Image.network(mediaURL + file),
+            onPressed: () => getImage(),
+          ),
+          new Expanded(
+            child: new IconButton(
+              onPressed: () {
+                setState(() {
+                  fileNames.remove(file);
+                  loadDocuments();
+                });
+              },
+              icon: new Icon(Icons.delete),
+            ),
+          )
+        ],
+      ));
+    });
+    fileWidgets.add(new Row(
+      children: <Widget>[
+        new Expanded(
+          child: new FlatButton(
+            onPressed: () => getImage(),
+            child: new Text("Add Document"),
+          ),
+        )
+      ],
+    ));
   }
 
   Future _selectDate(BuildContext context) async {
@@ -91,6 +151,7 @@ class UserActivityState extends State<UserActivity> {
                     'emer_phone': emergencyPhone.text,
                     'food': eating.toString(),
                     'rent': rent.text,
+                    'document': fileNames.join(","),
                   }),
                   Map.from({'hostel_id': hostelID, 'id': user.id}),
                 );
@@ -109,6 +170,7 @@ class UserActivityState extends State<UserActivity> {
                     'room_id': room.id,
                     'rent': rent.text,
                     'room_id': room.id,
+                    'document': fileNames.join(","),
                     'joining_date_time': joiningDate
                   }),
                 );
@@ -272,6 +334,25 @@ class UserActivityState extends State<UserActivity> {
                               onSubmitted: (String value) {},
                             ),
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  new Container(
+                    margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        new Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          child: new Text("Document"),
+                        ),
+                        new Expanded(
+                          child: new Container(
+                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: new Column(
+                                children: fileWidgets,
+                              )),
                         ),
                       ],
                     ),

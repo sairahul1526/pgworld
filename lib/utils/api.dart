@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
+import 'package:path/path.dart';
+import 'package:async/async.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:pgworld/utils/utils.dart';
@@ -165,10 +168,10 @@ Future<Hostels> getHostels(Map<String, String> query) async {
 Future<bool> add(String endpoint, Map<String, String> body) async {
   checkInternet().then((internet) {
     if (internet == null || !internet) {
-      return new Admins();
+      return false;
     }
   });
-  if (!body.containsKey("status")) {
+  if (body["status"] != null) {
     body["status"] = "1";
   }
   var request = new http.MultipartRequest(
@@ -193,7 +196,7 @@ Future<bool> update(String endpoint, Map<String, String> body,
     Map<String, String> query) async {
   checkInternet().then((internet) {
     if (internet == null || !internet) {
-      return new Admins();
+      return false;
     }
   });
   var request = new http.MultipartRequest(
@@ -214,7 +217,7 @@ Future<bool> update(String endpoint, Map<String, String> body,
 Future<bool> delete(String endpoint, Map<String, String> query) async {
   checkInternet().then((internet) {
     if (internet == null || !internet) {
-      return new Admins();
+      return false;
     }
   });
   var request = new http.MultipartRequest(
@@ -230,4 +233,42 @@ Future<bool> delete(String endpoint, Map<String, String> query) async {
     return true;
   }
   return false;
+}
+
+Future<String> upload(File file) async {
+  checkInternet().then((internet) {
+    if (internet == null || !internet) {
+      return "";
+    }
+  });
+  var request = new http.MultipartRequest(
+    "POST",
+    Uri.http(
+      API.URL,
+      "upload",
+    ),
+  );
+  request.headers.addAll(headers);
+  request.fields["admin_name"] = adminName;
+
+  var stream = new http.ByteStream(DelegatingStream.typed(file.openRead()));
+  // get file length
+  var length = await file.length();
+  // multipart that takes file
+  var multipartFile = new http.MultipartFile('photo', stream, length,
+      filename: basename(file.path));
+
+  // add file to multipart
+  request.files.add(multipartFile);
+
+  var response = await request.send();
+
+  if (response.statusCode == 200) {
+    String responseData = await response.stream.transform(utf8.decoder).join();
+    Map data = json.decode(responseData);
+    if (data["data"] != null) {
+      return data["data"][0]["image"];
+    }
+  }
+  return "";
 }

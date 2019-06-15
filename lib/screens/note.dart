@@ -64,7 +64,7 @@ class NoteActivityState extends State<NoteActivity> {
                   Map.from({
                     'hostel_id': hostelID,
                     'note': item.text,
-                    'status': "0"
+                    'status': "1"
                   }),
                 );
                 load.then((onValue) {

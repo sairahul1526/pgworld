@@ -1,5 +1,5 @@
 class API {
-  static const URL = "localhost:5000";
+  static const URL = "test-pgworld.ap-south-1.elasticbeanstalk.com";
   static const ADMIN = "admin";
   static const BILL = "bill";
   static const EMPLOYEE = "employee";
@@ -12,6 +12,8 @@ class API {
   static const RENT = "rent";
   static const SALARY = "salary";
 }
+
+String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
   static const ANDROID = "1";

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './user.dart';
+import './userFilter.dart';
 import './bills.dart';
 import '../utils/models.dart';
 import '../utils/api.dart';
@@ -15,8 +16,17 @@ class UsersActivity extends StatefulWidget {
 }
 
 class UsersActivityState extends State<UsersActivity> {
+  Map<String, String> filter = new Map();
+
+  @override
+  void initState() {
+    super.initState();
+    filter["hostel_id"] = hostelID;
+    filter["status"] = "1";
+  }
+
   Widget fillData() => new FutureBuilder<Users>(
-        future: getUsers(Map.from({'hostel_id': hostelID, "status": "1"})),
+        future: getUsers(filter),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.meta.messageType == "4") {
@@ -37,30 +47,12 @@ class UsersActivityState extends State<UsersActivity> {
       columns: <DataColumn>[
         new DataColumn(
           label: new Text("Name"),
-          onSort: (i, b) {
-            print("$i $b");
-            setState(() {
-              users.sort((a, b) => a.name.compareTo(b.name));
-            });
-          },
         ),
         new DataColumn(
           label: new Text("Room"),
-          onSort: (i, b) {
-            print("$i $b");
-            setState(() {
-              users.sort((a, b) => a.roomno.compareTo(b.roomno));
-            });
-          },
         ),
         new DataColumn(
           label: new Text("Rent"),
-          onSort: (i, b) {
-            print("$i $b");
-            setState(() {
-              users.sort((a, b) => a.rent.compareTo(b.expiryDateTime));
-            });
-          },
         ),
       ],
       rows: users
@@ -74,14 +66,14 @@ class UsersActivityState extends State<UsersActivity> {
                             builder: (context) => new UserActivity(user, null)),
                       );
                     }),
-                    new DataCell(Text(user.roomno), onTap: () {
+                    new DataCell(Text(user.roomID), onTap: () {
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
                             builder: (context) => new UserActivity(user, null)),
                       );
                     }),
-                    new DataCell(Text(user.expiryDateTime), onTap: () {
+                    new DataCell(Text(user.rent), onTap: () {
                       Navigator.push(
                         context,
                         new MaterialPageRoute(
@@ -94,11 +86,35 @@ class UsersActivityState extends State<UsersActivity> {
           )
           .toList());
 
+  filterPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as Map<String, String>;
+
+    if (data != null) {
+      data["hostel_id"] = hostelID;
+      data["status"] = "1";
+      print(data);
+      setState(() {
+        filter = data;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Users"),
+        actions: <Widget>[
+          new IconButton(
+            onPressed: () {
+              filterPage(context, new UserFilterActivity());
+            },
+            icon: new Icon(Icons.filter_list),
+          ),
+        ],
       ),
       body: new SingleChildScrollView(
         scrollDirection: Axis.horizontal,

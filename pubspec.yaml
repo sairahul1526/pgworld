@@ -32,6 +32,7 @@ dev_dependencies:
   intl: ^0.15.8
   flutter_range_slider: ^1.2.0
   date_range_picker: ^1.0.6
+  image_picker: ^0.6.0+9
   # easy_json: ^1.0.1
   # json_serializable: ^3.0.0
 

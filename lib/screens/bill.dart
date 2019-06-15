@@ -41,6 +41,9 @@ class BillActivityState extends State<BillActivity> {
     super.initState();
     if (user != null) {
       amount.text = user.rent;
+      paidDate = dateFormat.format(new DateTime.now());
+      expiryDate =
+          dateFormat.format(new DateTime.now().add(new Duration(days: 30)));
       if (bill != null) {
         amount.text = bill.amount;
         paidDate = bill.paidDateTime;
@@ -100,8 +103,11 @@ class BillActivityState extends State<BillActivity> {
                 loading = true;
               });
 
+              print("recieve clicked");
+
               Future<bool> load;
               if (user != null) {
+                print("user not null");
                 load = add(
                   API.RENT,
                   Map.from({

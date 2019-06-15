@@ -29,7 +29,6 @@ class LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-
     if (Platform.isAndroid) {
       headers["appversion"] = APPVERSION.ANDROID;
       if (kReleaseMode) {
@@ -47,6 +46,7 @@ class LoginState extends State<Login> {
     }
     Future<bool> prefInit = initSharedPreference();
     prefInit.then((onValue) {
+      prefs.clear();
       if (onValue) {
         if (prefs.getString("username") != null &&
             prefs.getString("username").length > 0) {

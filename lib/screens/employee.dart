@@ -70,8 +70,9 @@ class EmployeeActivityState extends State<EmployeeActivity> {
               setState(() {
                 loading = true;
               });
+              Future<bool> load;
               if (employee != null) {
-                Future<bool> load = update(
+                load = update(
                   API.EMPLOYEE,
                   Map.from({
                     'name': name.text,
@@ -83,14 +84,8 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                   }),
                   Map.from({'hostel_id': hostelID, 'id': employee.id}),
                 );
-                load.then((onValue) {
-                  setState(() {
-                    loading = false;
-                  });
-                  Navigator.pop(context);
-                });
               } else {
-                Future<bool> load = add(
+                load = add(
                   API.EMPLOYEE,
                   Map.from({
                     'hostel_id': hostelID,
@@ -103,13 +98,13 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                     'joining_date_time': joiningDate
                   }),
                 );
-                load.then((onValue) {
-                  setState(() {
-                    loading = false;
-                  });
-                  Navigator.pop(context);
-                });
               }
+              load.then((onValue) {
+                setState(() {
+                  loading = false;
+                });
+                Navigator.pop(context);
+              });
             },
           ),
         ],

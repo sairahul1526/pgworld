@@ -19,7 +19,7 @@ class NotesActivityState extends State<NotesActivity> {
 
   Widget fillData() => new FutureBuilder<Notes>(
         future: getNotes(
-            Map.from({'hostel_id': hostelID, 'status': checked ? '1' : '0'})),
+            Map.from({'hostel_id': hostelID, 'status': checked ? '0' : '1'})),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.meta.messageType == "4") {
@@ -51,7 +51,7 @@ class NotesActivityState extends State<NotesActivity> {
                   cells: [
                     new DataCell(
                         new Checkbox(
-                          value: note.status == "1" ? true : false,
+                          value: note.status == "0" ? true : false,
                           onChanged: (bool value) {
                             setState(() {
                               update(

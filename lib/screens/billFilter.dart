@@ -13,7 +13,8 @@ class BillFilterActivity extends StatefulWidget {
 }
 
 class BillFilterActivityState extends State<BillFilterActivity> {
-  bool filled = false;
+  int paid = -1;
+  int type = -1;
 
   TextEditingController title = new TextEditingController();
   TextEditingController amount = new TextEditingController();
@@ -52,14 +53,17 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                     "," +
                     dateFormat.format(billDates[1]);
               }
+              if (paid >= 0) {
+                filter["paid"] = paid.toString();
+              }
+              if (type >= 0) {
+                filter["type"] = type.toString();
+              }
               filter["amount"] = amountLower.round().toString() +
                   "," +
                   (amountUpper.round() == 2000
                       ? "10000000"
                       : amountUpper.round().toString());
-              // filter["capacity"] = capacityLower.round().toString() +
-              //     "," +
-              //     capacityUpper.round().toString();
               Navigator.pop(context, filter);
             },
           ),
@@ -134,8 +138,7 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                   new Flexible(
                     child: new Container(
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: new MaterialButton(
-                          color: Colors.deepOrangeAccent,
+                      child: new FlatButton(
                           onPressed: () async {
                             final List<DateTime> picked =
                                 await DateRagePicker.showDatePicker(
@@ -171,24 +174,99 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                 children: <Widget>[
                   new Container(
                     width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Available Only"),
-                  ),
-                  new Flexible(
-                    child: new Container(
-                      margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: new Checkbox(
-                        value: filled,
-                        onChanged: (bool value) {
-                          setState(() {
-                            filled = value;
-                          });
-                        },
-                      ),
-                    ),
+                    child: new Text("Show"),
                   ),
                 ],
               ),
             ),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Radio(
+                    value: -1,
+                    groupValue: paid,
+                    onChanged: (value) {
+                      setState(() {
+                        paid = value;
+                      });
+                    },
+                  ),
+                  new Text("All"),
+                  new Radio(
+                    value: 1,
+                    groupValue: paid,
+                    onChanged: (value) {
+                      setState(() {
+                        paid = value;
+                      });
+                    },
+                  ),
+                  new Text("Paid"),
+                  new Radio(
+                    value: 0,
+                    groupValue: paid,
+                    onChanged: (value) {
+                      setState(() {
+                        paid = value;
+                      });
+                    },
+                  ),
+                  new Text("Received"),
+                ],
+              ),
+            ),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  new Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child: new Text("Bill Type"),
+                  ),
+                ],
+              ),
+            ),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Radio(
+                    value: -1,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new Text("All"),
+                  new Radio(
+                    value: 1,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new Text("Rent"),
+                  new Radio(
+                    value: 0,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new Text("Salary"),
+                ],
+              ),
+            )
           ],
         ),
       ),
