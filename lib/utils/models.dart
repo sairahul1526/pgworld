@@ -160,7 +160,6 @@ class Employee {
   final String password;
   final String name;
   final String designation;
-  final List<String> allowedHostels;
   final String phone;
   final String email;
   final String address;
@@ -182,7 +181,6 @@ class Employee {
       this.password,
       this.name,
       this.designation,
-      this.allowedHostels,
       this.phone,
       this.email,
       this.address,
@@ -205,9 +203,6 @@ class Employee {
       password: json['password'],
       name: json['name'],
       designation: json['designation'],
-      allowedHostels: json['allowed_hostels'] == null
-          ? new List<String>()
-          : List<String>.from(json['allowed_hostels']),
       phone: json['phone'],
       email: json['email'],
       address: json['address'],

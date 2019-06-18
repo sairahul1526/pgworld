@@ -55,6 +55,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  flutter_slidable:
+    dependency: "direct dev"
+    description:
+      name: flutter_slidable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -123,6 +130,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  rflutter_alert:
+    dependency: "direct dev"
+    description:
+      name: rflutter_alert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
+  rich_alert:
+    dependency: "direct dev"
+    description:
+      name: rich_alert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.32"
   shared_preferences:
     dependency: "direct dev"
     description:
@@ -184,6 +205,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
+  url_launcher:
+    dependency: "direct dev"
+    description:
+      name: url_launcher
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.3"
   vector_math:
     dependency: transitive
     description:

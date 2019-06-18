@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:intl/intl.dart';
 
@@ -15,7 +16,19 @@ Future<bool> initSharedPreference() async {
   return false;
 }
 
-void checkinte() {}
+void makePhone(String phone) async {
+  var url = 'tel:' + phone;
+  if (await canLaunch(url)) {
+    await launch(url);
+  }
+}
+
+void sendMail(String mail) async {
+  var url = 'mailto:' + mail;
+  if (await canLaunch(url)) {
+    await launch(url);
+  }
+}
 
 Future<bool> checkInternet() async {
   try {
@@ -106,6 +119,17 @@ String getAmenityName(String id) {
       return "Power Backup";
       break;
     default:
-      return null;
+      return "";
   }
+}
+
+String getAmenitiesNames(String amenities) {
+  List<String> names = new List();
+  amenities.split(",").forEach((amenity) {
+    String name = getAmenityName(amenity);
+    if (name.length > 0) {
+      names.add(name);
+    }
+  });
+  return names.join(",");
 }

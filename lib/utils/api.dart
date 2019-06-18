@@ -63,6 +63,7 @@ Future<Employees> getEmployees(Map<String, String> query) async {
       .timeout(Duration(seconds: timeout));
 
   if (response.statusCode == 200) {
+    print(response.body);
     return Employees.fromJson(json.decode(response.body));
   } else {
     return Employees();

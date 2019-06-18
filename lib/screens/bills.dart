@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:rich_alert/rich_alert.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
 import './bill.dart';
 import './billFilter.dart';
 import '../utils/models.dart';
@@ -24,9 +28,13 @@ class BillsActivityState extends State<BillsActivity> {
 
   BillsActivityState(this.user, this.employee);
 
-  List<Bill> bills = new List();
-
   Map<String, String> filter = new Map();
+
+  List<Bill> bills = new List();
+  bool end = false;
+  bool ongoing = false;
+
+  double width = 0;
 
   @override
   void initState() {
@@ -40,122 +48,25 @@ class BillsActivityState extends State<BillsActivity> {
     filter["status"] = "1";
     filter["hostel_id"] = hostelID;
 
-    // fillData2();
+    fillData();
   }
 
-  void fillData2() {
-    Future<Bills> billsResponse = getBills(user != null
-        ? Map.from({'hostel_id': hostelID, 'user_id': user.id, 'status': '1'})
-        : (employee != null
-            ? Map.from({
-                'hostel_id': hostelID,
-                'employee_id': employee.id,
-                'status': '1'
-              })
-            : Map.from({'hostel_id': hostelID, 'status': '1'})));
-    billsResponse.then((response) {
-      setState(() {
-        bills.addAll(response.bills);
+  void fillData() {
+    if (!end && !ongoing) {
+      ongoing = true;
+      Future<Bills> data = getBills(filter);
+      data.then((response) {
+        if (response.bills.length > 0) {
+          setState(() {
+            bills.addAll(response.bills);
+          });
+        } else {
+          end = true;
+        }
+        ongoing = false;
       });
-    });
+    }
   }
-
-  Widget fillData() => new FutureBuilder<Bills>(
-        future: getBills(filter),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data.meta.messageType == "4") {
-              return new Center(
-                  child: popDialog(context, "App Update Required", true));
-            }
-            return bodyData(snapshot.data.bills);
-          } else if (snapshot.hasError) {
-            return new Center(child: popDialog(context, "Network Error", true));
-          }
-          return new Center(child: showProgress("loading..."));
-        },
-      );
-
-  Widget bodyData(List<Bill> bills) => new DataTable(
-      onSelectAll: (b) {},
-      sortAscending: true,
-      columns: <DataColumn>[
-        new DataColumn(
-          label: new Text(""),
-        ),
-        new DataColumn(
-          label: new Text("Item"),
-        ),
-        new DataColumn(
-          label: new Text("Amount"),
-          // onSort: (i, b) {
-          //   print("$i $b");
-          //   setState(() {
-          //     bills.sort((a, b) => a.amount.compareTo(b.amount));
-          //   });
-          // },
-        ),
-        new DataColumn(
-          label: new Text("Date"),
-        ),
-      ],
-      rows: bills
-          .map(
-            (bill) => new DataRow(
-                  cells: [
-                    new DataCell(
-                        new Radio(
-                          value: 0,
-                          groupValue: 1,
-                          onChanged: (value) => {},
-                        ), onTap: () {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => user != null
-                                ? new BillActivity(bill, user, null)
-                                : (employee != null
-                                    ? new BillActivity(bill, null, employee)
-                                    : new BillActivity(bill, null, null))),
-                      );
-                    }),
-                    new DataCell(new Text(bill.title), onTap: () {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => user != null
-                                ? new BillActivity(bill, user, null)
-                                : (employee != null
-                                    ? new BillActivity(bill, null, employee)
-                                    : new BillActivity(bill, null, null))),
-                      );
-                    }),
-                    new DataCell(Text(bill.amount), onTap: () {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => user != null
-                                ? new BillActivity(bill, user, null)
-                                : (employee != null
-                                    ? new BillActivity(bill, null, employee)
-                                    : new BillActivity(bill, null, null))),
-                      );
-                    }),
-                    new DataCell(Text(bill.amount), onTap: () {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) => user != null
-                                ? new BillActivity(bill, user, null)
-                                : (employee != null
-                                    ? new BillActivity(bill, null, employee)
-                                    : new BillActivity(bill, null, null))),
-                      );
-                    })
-                  ],
-                ),
-          )
-          .toList());
 
   filterPage(BuildContext context, Widget page) async {
     final data = await Navigator.push(
@@ -164,16 +75,6 @@ class BillsActivityState extends State<BillsActivity> {
     ) as Map<String, String>;
 
     if (data != null) {
-      if (user != null) {
-        filter = Map.from(
-            {'hostel_id': hostelID, 'user_id': user.id, 'status': '1'});
-      } else if (employee != null) {
-        Map.from(
-            {'hostel_id': hostelID, 'employee_id': employee.id, 'status': '1'});
-      } else {
-        Map.from({'hostel_id': hostelID, 'status': '1'});
-      }
-
       if (user != null) {
         data["user_id"] = user.id;
       } else if (employee != null) {
@@ -184,12 +85,16 @@ class BillsActivityState extends State<BillsActivity> {
       print(data);
       setState(() {
         filter = data;
+        bills.clear();
+        fillData();
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    width = MediaQuery.of(context).size.width;
+
     return new Scaffold(
         appBar: new AppBar(
           title: new Text(
@@ -217,14 +122,85 @@ class BillsActivityState extends State<BillsActivity> {
             ),
           ],
         ),
-        body: new SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: new SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: new ListView(
-              children: <Widget>[fillData()],
-            ),
-          ),
+        body: new ListView.separated(
+          itemCount: bills.length,
+          separatorBuilder: (context, index) => Divider(),
+          itemBuilder: (context, i) {
+            return new Container(
+              child: new Slidable(
+                actionPane: new SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                child: new Container(
+                  margin: new EdgeInsets.all(13),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Flexible(
+                        child: new Column(
+                          children: <Widget>[
+                            new Text(
+                              bills[i].title,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            bills[i].description.length > 0
+                                ? new Container(
+                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                    child: new Text(
+                                      bills[i].description,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w100),
+                                    ),
+                                  )
+                                : new Text(""),
+                          ],
+                        ),
+                      ),
+                      new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        width: width * 0.4,
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: <Widget>[
+                            new Text(
+                              "₹" + bills[i].amount,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w100,
+                                  color: bills[i].paid == "0"
+                                      ? Colors.green
+                                      : Colors.red),
+                            ),
+                            new Text(
+                              bills[i].paidDateTime.split(" ")[0],
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.w100),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                secondaryActions: <Widget>[
+                  new IconSlideAction(
+                    caption: 'Delete',
+                    color: Colors.red,
+                    icon: Icons.delete,
+                    onTap: () {
+                      print(bills[i].amount + " deleted");
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
         ));
   }
 }
