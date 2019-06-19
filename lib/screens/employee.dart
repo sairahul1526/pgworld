@@ -294,6 +294,38 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                             ],
                           ),
                         ),
+                  new Container(
+                    margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
+                    child: new Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        new FlatButton(
+                          child: new Text(
+                            (employee == null) ? "" : "DELETE",
+                            style: TextStyle(color: Colors.red),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              loading = true;
+                            });
+                            Future<bool> delete = update(
+                                API.EMPLOYEE,
+                                Map.from({'status': '0'}),
+                                Map.from({
+                                  'hostel_id': hostelID,
+                                  'id': employee.id,
+                                }));
+                            delete.then((response) {
+                              setState(() {
+                                loading = false;
+                              });
+                              Navigator.pop(context);
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

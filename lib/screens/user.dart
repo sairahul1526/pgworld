@@ -83,25 +83,27 @@ class UserActivityState extends State<UserActivity> {
     print(fileNames);
     fileWidgets.clear();
     fileNames.forEach((file) {
-      fileWidgets.add(new Row(
-        children: <Widget>[
-          new IconButton(
-            icon: new Image.network(mediaURL + file),
-            onPressed: () => getImage(),
-          ),
-          new Expanded(
-            child: new IconButton(
-              onPressed: () {
-                setState(() {
-                  fileNames.remove(file);
-                  loadDocuments();
-                });
-              },
-              icon: new Icon(Icons.delete),
+      if (file.length > 0) {
+        fileWidgets.add(new Row(
+          children: <Widget>[
+            new IconButton(
+              icon: new Image.network(mediaURL + file),
+              onPressed: () => getImage(),
             ),
-          )
-        ],
-      ));
+            new Expanded(
+              child: new IconButton(
+                onPressed: () {
+                  setState(() {
+                    fileNames.remove(file);
+                    loadDocuments();
+                  });
+                },
+                icon: new Icon(Icons.delete),
+              ),
+            )
+          ],
+        ));
+      }
     });
     fileWidgets.add(new Row(
       children: <Widget>[

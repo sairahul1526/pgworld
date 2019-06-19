@@ -126,78 +126,72 @@ class BillsActivityState extends State<BillsActivity> {
           itemCount: bills.length,
           separatorBuilder: (context, index) => Divider(),
           itemBuilder: (context, i) {
-            return new Container(
-              child: new Slidable(
-                actionPane: new SlidableDrawerActionPane(),
-                actionExtentRatio: 0.25,
-                child: new Container(
-                  margin: new EdgeInsets.all(13),
-                  child: new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      new Flexible(
-                        child: new Column(
-                          children: <Widget>[
-                            new Text(
-                              bills[i].title,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+            return new ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) =>
+                          new BillActivity(bills[i], null, null)),
+                );
+              },
+              title: new Container(
+                margin: new EdgeInsets.all(13),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Flexible(
+                      child: new Column(
+                        children: <Widget>[
+                          new Text(
+                            bills[i].title,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                            bills[i].description.length > 0
-                                ? new Container(
-                                    margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                                    child: new Text(
-                                      bills[i].description,
-                                      overflow: TextOverflow.clip,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w100),
-                                    ),
-                                  )
-                                : new Text(""),
-                          ],
-                        ),
+                          ),
+                          bills[i].description.length > 0
+                              ? new Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                                  child: new Text(
+                                    bills[i].description,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w100),
+                                  ),
+                                )
+                              : new Text(""),
+                        ],
                       ),
-                      new Container(
-                        margin: EdgeInsets.only(left: 10),
-                        width: width * 0.4,
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            new Text(
-                              "₹" + bills[i].amount,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w100,
-                                  color: bills[i].paid == "0"
-                                      ? Colors.green
-                                      : Colors.red),
-                            ),
-                            new Text(
-                              bills[i].paidDateTime.split(" ")[0],
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 12, fontWeight: FontWeight.w100),
-                            )
-                          ],
-                        ),
+                    ),
+                    new Container(
+                      margin: EdgeInsets.only(left: 10),
+                      width: width * 0.4,
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          new Text(
+                            "₹" + bills[i].amount,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w100,
+                                color: bills[i].paid == "0"
+                                    ? Colors.green
+                                    : Colors.red),
+                          ),
+                          new Text(
+                            bills[i].paidDateTime.split(" ")[0],
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w100),
+                          )
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                secondaryActions: <Widget>[
-                  new IconSlideAction(
-                    caption: 'Delete',
-                    color: Colors.red,
-                    icon: Icons.delete,
-                    onTap: () {
-                      print(bills[i].amount + " deleted");
-                    },
-                  ),
-                ],
               ),
             );
           },

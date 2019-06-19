@@ -7,7 +7,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import './room.dart';
 import './roomFilter.dart';
 import './user.dart';
-import './roomUsers.dart';
+import './users.dart';
 import '../utils/api.dart';
 import '../utils/models.dart';
 import '../utils/config.dart';
@@ -99,89 +99,77 @@ class RoomsActivityState extends State<RoomsActivity> {
         itemCount: rooms.length,
         separatorBuilder: (context, index) => Divider(),
         itemBuilder: (itemContext, i) {
-          return new Container(
-            child: new Slidable(
-              actionPane: new SlidableDrawerActionPane(),
-              actionExtentRatio: 0.25,
-              child: new Column(
-                children: <Widget>[
-                  new Container(
-                    margin: new EdgeInsets.all(13),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Text(
-                          rooms[i].roomno,
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        new Column(
-                          children: <Widget>[
-                            new Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                              child: new Text(
-                                rooms[i].filled + "/" + rooms[i].capacity,
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w100),
-                              ),
+          return new ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new RoomActivity(rooms[i])),
+              );
+            },
+            title: new Container(
+              child: new Slidable(
+                actionPane: new SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                child: new Column(
+                  children: <Widget>[
+                    new Container(
+                      margin: new EdgeInsets.all(13),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new Text(
+                            rooms[i].roomno,
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
                             ),
-                            new Text(getAmenitiesNames(rooms[i].amenities)),
-                          ],
-                        ),
-                        new Column(
-                          children: <Widget>[
-                            new Text(
-                              "₹" + rooms[i].rent,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.green),
-                            )
-                          ],
-                        ),
-                      ],
+                          ),
+                          new Column(
+                            children: <Widget>[
+                              new Container(
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                child: new Text(
+                                  rooms[i].filled + "/" + rooms[i].capacity,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w100),
+                                ),
+                              ),
+                              new Text(getAmenitiesNames(rooms[i].amenities)),
+                            ],
+                          ),
+                          new Column(
+                            children: <Widget>[
+                              new Text(
+                                "₹" + rooms[i].rent,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.green),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+                secondaryActions: <Widget>[
+                  new IconSlideAction(
+                    caption: 'User',
+                    color: Colors.blue,
+                    icon: Icons.person_add,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new UsersActivity(rooms[i])),
+                      );
+                    },
                   ),
                 ],
               ),
-              secondaryActions: <Widget>[
-                new IconSlideAction(
-                  caption: 'Delete',
-                  color: Colors.red,
-                  icon: Icons.delete,
-                  onTap: () {
-                    if (rooms[i].filled != "0") {
-                      Alert(
-                        context: context,
-                        type: AlertType.warning,
-                        style: AlertStyle(
-                          isCloseButton: false,
-                          isOverlayTapDismiss: true,
-                        ),
-                        title: "RFLUTTER ALERT",
-                        desc: "Flutter is more awesome with RFlutter Alert.",
-                        buttons: [
-                          DialogButton(
-                            child: Text(
-                              "COOL",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                            onPressed: () {
-                              // Navigator.pop(itemContext);
-                            },
-                            width: 120,
-                          )
-                        ],
-                      ).show();
-                    } else {
-                      print(rooms[i].roomno + " deleted");
-                    }
-                  },
-                ),
-              ],
             ),
           );
         },

@@ -115,7 +115,7 @@ class BillActivityState extends State<BillActivity> {
                     'amount': amount.text,
                     'title': 'Rent',
                     'description':
-                        user.name + ' paid rent for room ' + user.roomno,
+                        user.name + ' paid rent for room ' + user.roomID,
                     'hostel_id': hostelID,
                     'user_id': user.id,
                     'bill_id': bill != null ? bill.id : "",
@@ -344,6 +344,38 @@ class BillActivityState extends State<BillActivity> {
                     ),
                   )
                 : new Text(""),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text(
+                      (bill == null) ? "" : "DELETE",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        loading = true;
+                      });
+                      Future<bool> delete = update(
+                          API.BILL,
+                          Map.from({'status': '0'}),
+                          Map.from({
+                            'hostel_id': hostelID,
+                            'id': bill.id,
+                          }));
+                      delete.then((response) {
+                        setState(() {
+                          loading = false;
+                        });
+                        Navigator.pop(context);
+                      });
+                    },
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),

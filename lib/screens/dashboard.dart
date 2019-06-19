@@ -64,7 +64,7 @@ class DashBoardState extends State<DashBoard> {
                   Navigator.push(
                     context,
                     new MaterialPageRoute(
-                        builder: (context) => new UsersActivity()),
+                        builder: (context) => new UsersActivity(null)),
                   );
                 },
               ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:pgworld/screens/bill.dart';
 import 'package:rich_alert/rich_alert.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -78,104 +79,119 @@ class EmployeesActivityState extends State<EmployeesActivity> {
         itemCount: employees.length,
         separatorBuilder: (context, index) => Divider(),
         itemBuilder: (itemContext, i) {
-          return new Container(
-            child: new Slidable(
-              actionPane: new SlidableDrawerActionPane(),
-              actionExtentRatio: 0.25,
-              child: new Column(
-                children: <Widget>[
-                  new Container(
-                    child: new Text(
-                      employees[i].name,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+          return new ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new EmployeeActivity(employees[i])),
+              );
+            },
+            title: new Container(
+              child: new Slidable(
+                actionPane: new SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                child: new Column(
+                  children: <Widget>[
+                    new Container(
+                      child: new Text(
+                        employees[i].name,
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  new Container(
-                    margin: new EdgeInsets.all(13),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Flexible(
-                          child: new Column(
-                            children: <Widget>[
-                              new RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: employees[i].phone,
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        color: Colors.blue,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          makePhone(employees[i].phone);
-                                        }),
-                                ]),
-                              ),
-                              new RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: employees[i].email,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          sendMail(employees[i].email);
-                                        }),
-                                ]),
-                              ),
-                            ],
-                          ),
-                        ),
-                        new Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: width * 0.4,
-                            child: new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    new Container(
+                      margin: new EdgeInsets.all(13),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new Flexible(
+                            child: new Column(
                               children: <Widget>[
-                                new Flexible(
-                                  child: new Column(
-                                    children: <Widget>[
-                                      new Text(
-                                        employees[i].designation,
-                                        overflow: TextOverflow.clip,
+                                new RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: employees[i].phone,
                                         style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500,
+                                          fontSize: 22,
+                                          color: Colors.blue,
                                         ),
-                                      ),
-                                      new Text(
-                                        "₹" + employees[i].salary,
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            makePhone(employees[i].phone);
+                                          }),
+                                  ]),
+                                ),
+                                new RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: employees[i].email,
                                         style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w100,
-                                            color: Colors.green),
-                                      )
-                                    ],
-                                  ),
+                                          fontSize: 16,
+                                          color: Colors.grey,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            sendMail(employees[i].email);
+                                          }),
+                                  ]),
                                 ),
                               ],
-                            )),
-                      ],
+                            ),
+                          ),
+                          new Container(
+                              margin: EdgeInsets.only(left: 10),
+                              width: width * 0.4,
+                              child: new Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  new Flexible(
+                                    child: new Column(
+                                      children: <Widget>[
+                                        new Text(
+                                          employees[i].designation,
+                                          overflow: TextOverflow.clip,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        new Text(
+                                          "₹" + employees[i].salary,
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w100,
+                                              color: Colors.green),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+                secondaryActions: <Widget>[
+                  new IconSlideAction(
+                    caption: 'Salary',
+                    color: Colors.red,
+                    icon: Icons.money_off,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) =>
+                                new BillsActivity(null, employees[i])),
+                      );
+                    },
                   ),
                 ],
               ),
-              secondaryActions: <Widget>[
-                new IconSlideAction(
-                  caption: 'Delete',
-                  color: Colors.red,
-                  icon: Icons.delete,
-                  onTap: () {
-                    print(employees[i].name + " deleted");
-                  },
-                ),
-              ],
             ),
           );
         },

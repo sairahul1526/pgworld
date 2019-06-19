@@ -14,9 +14,13 @@ import '../utils/config.dart';
 import '../utils/utils.dart';
 
 class UsersActivity extends StatefulWidget {
+  final Room room;
+
+  UsersActivity(this.room);
+
   @override
   UsersActivityState createState() {
-    return new UsersActivityState();
+    return new UsersActivityState(room);
   }
 }
 
@@ -29,11 +33,18 @@ class UsersActivityState extends State<UsersActivity> {
 
   double width = 0;
 
+  Room room;
+
+  UsersActivityState(this.room);
+
   @override
   void initState() {
     super.initState();
     filter["hostel_id"] = hostelID;
     filter["status"] = "1";
+    if (room != null) {
+      filter["room_id"] = room.id;
+    }
 
     fillData();
   }
@@ -64,6 +75,9 @@ class UsersActivityState extends State<UsersActivity> {
     if (data != null) {
       data["hostel_id"] = hostelID;
       data["status"] = "1";
+      if (room != null) {
+        filter["room_id"] = room.id;
+      }
       print(data);
       setState(() {
         filter = data;
@@ -79,7 +93,7 @@ class UsersActivityState extends State<UsersActivity> {
 
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Users"),
+        title: new Text(room != null ? room.roomno : "" + " Users"),
         actions: <Widget>[
           new IconButton(
             onPressed: () {
@@ -93,114 +107,129 @@ class UsersActivityState extends State<UsersActivity> {
         itemCount: users.length,
         separatorBuilder: (context, index) => Divider(),
         itemBuilder: (itemContext, i) {
-          return new Container(
-            child: new Slidable(
-              actionPane: new SlidableDrawerActionPane(),
-              actionExtentRatio: 0.25,
-              child: new Column(
-                children: <Widget>[
-                  new Container(
-                    child: new Text(
-                      users[i].name,
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+          return new ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new UserActivity(users[i], room)),
+              );
+            },
+            title: new Container(
+              child: new Slidable(
+                actionPane: new SlidableDrawerActionPane(),
+                actionExtentRatio: 0.25,
+                child: new Column(
+                  children: <Widget>[
+                    new Container(
+                      child: new Text(
+                        users[i].name,
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  new Container(
-                    margin: new EdgeInsets.all(13),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Flexible(
-                          child: new Column(
-                            children: <Widget>[
-                              new RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: users[i].phone,
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        color: Colors.blue,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          makePhone(users[i].phone);
-                                        }),
-                                ]),
-                              ),
-                              new RichText(
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                      text: users[i].email,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.grey,
-                                      ),
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = () {
-                                          sendMail(users[i].email);
-                                        }),
-                                ]),
-                              ),
-                            ],
-                          ),
-                        ),
-                        new Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: width * 0.3,
-                            child: new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    new Container(
+                      margin: new EdgeInsets.all(13),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          new Flexible(
+                            child: new Column(
                               children: <Widget>[
-                                new Column(
-                                  children: <Widget>[
-                                    new Text(
-                                      users[i].roomID,
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    new Text(
-                                      "₹" + users[i].rent,
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w100,
-                                          color: Colors.green),
-                                    )
-                                  ],
-                                ),
-                                new Column(
-                                  children: <Widget>[
-                                    new Text(
-                                      users[i].food == "1" ? "Veg" : "Non",
-                                      style: TextStyle(
+                                new RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: users[i].phone,
+                                        style: TextStyle(
                                           fontSize: 22,
-                                          fontWeight: FontWeight.w500,
-                                          color: users[i].food == "1"
-                                              ? Colors.green
-                                              : Colors.red),
-                                    ),
-                                  ],
+                                          color: Colors.blue,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            makePhone(users[i].phone);
+                                          }),
+                                  ]),
+                                ),
+                                new RichText(
+                                  text: TextSpan(children: [
+                                    TextSpan(
+                                        text: users[i].email,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey,
+                                        ),
+                                        recognizer: TapGestureRecognizer()
+                                          ..onTap = () {
+                                            sendMail(users[i].email);
+                                          }),
+                                  ]),
                                 ),
                               ],
-                            )),
-                      ],
+                            ),
+                          ),
+                          new Container(
+                              margin: EdgeInsets.only(left: 10),
+                              width: width * 0.3,
+                              child: new Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  new Column(
+                                    children: <Widget>[
+                                      new Text(
+                                        users[i].roomID,
+                                        style: TextStyle(
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      new Text(
+                                        "₹" + users[i].rent,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w100,
+                                            color: Colors.green),
+                                      )
+                                    ],
+                                  ),
+                                  new Column(
+                                    children: <Widget>[
+                                      new Text(
+                                        users[i].food == "1" ? "Veg" : "Non",
+                                        style: TextStyle(
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w500,
+                                            color: users[i].food == "1"
+                                                ? Colors.green
+                                                : Colors.red),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+                secondaryActions: <Widget>[
+                  new IconSlideAction(
+                    caption: 'Rent',
+                    color: Colors.green,
+                    icon: Icons.attach_money,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) =>
+                                new BillsActivity(users[i], null)),
+                      );
+                    },
                   ),
                 ],
               ),
-              secondaryActions: <Widget>[
-                new IconSlideAction(
-                  caption: 'Delete',
-                  color: Colors.red,
-                  icon: Icons.delete,
-                  onTap: () {
-                    print(users[i].name + " deleted");
-                  },
-                ),
-              ],
             ),
           );
         },

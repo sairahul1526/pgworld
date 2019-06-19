@@ -206,6 +206,38 @@ class RoomActivityState extends State<RoomActivity> {
                   crossAxisCount: 2,
                   children: amenitiesWidget()),
             ),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new FlatButton(
+                    child: new Text(
+                      (room == null || room.filled != "0") ? "" : "DELETE",
+                      style: TextStyle(color: Colors.red),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        loading = true;
+                      });
+                      Future<bool> delete = update(
+                          API.ROOM,
+                          Map.from({'status': '0'}),
+                          Map.from({
+                            'hostel_id': hostelID,
+                            'id': room.id,
+                          }));
+                      delete.then((response) {
+                        setState(() {
+                          loading = false;
+                        });
+                        Navigator.pop(context);
+                      });
+                    },
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
