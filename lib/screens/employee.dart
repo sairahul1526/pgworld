@@ -305,21 +305,27 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                             style: TextStyle(color: Colors.red),
                           ),
                           onPressed: () {
-                            setState(() {
-                              loading = true;
-                            });
-                            Future<bool> delete = update(
-                                API.EMPLOYEE,
-                                Map.from({'status': '0'}),
-                                Map.from({
-                                  'hostel_id': hostelID,
-                                  'id': employee.id,
-                                }));
-                            delete.then((response) {
-                              setState(() {
-                                loading = false;
-                              });
-                              Navigator.pop(context);
+                            Future<bool> dialog = twoButtonDialog(context,
+                                "Do you want to delete the employee?", "");
+                            dialog.then((onValue) {
+                              if (onValue) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                Future<bool> delete = update(
+                                    API.EMPLOYEE,
+                                    Map.from({'status': '0'}),
+                                    Map.from({
+                                      'hostel_id': hostelID,
+                                      'id': employee.id,
+                                    }));
+                                delete.then((response) {
+                                  setState(() {
+                                    loading = false;
+                                  });
+                                  Navigator.pop(context);
+                                });
+                              }
                             });
                           },
                         )

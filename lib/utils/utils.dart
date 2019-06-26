@@ -133,3 +133,37 @@ String getAmenitiesNames(String amenities) {
   });
   return names.join(",");
 }
+
+Future<bool> twoButtonDialog(
+    BuildContext context, String title, String content) async {
+  bool returned = false;
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: new Text(title),
+        content: new Text(content),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text("No"),
+            onPressed: () {
+              Navigator.of(context).pop();
+              returned = false;
+            },
+          ),
+          new FlatButton(
+            child: new Text(
+              "Yes",
+              style: TextStyle(color: Colors.red),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              returned = true;
+            },
+          ),
+        ],
+      );
+    },
+  );
+  return returned;
+}

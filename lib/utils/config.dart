@@ -29,8 +29,11 @@ class APIKEY {
 
 String adminName;
 String hostelID;
-List<String> amenities = ["1", "2", "5"];
+List<String> amenities = new List();
 
 Map<String, String> headers = {};
 
 const timeout = 10;
+
+const defaultLimit = "10";
+const defaultOffset = "0";

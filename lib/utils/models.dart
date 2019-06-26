@@ -19,8 +19,9 @@ class Post {
 class Admins {
   final List<Admin> admins;
   final Meta meta;
+  final Pagination pagination;
 
-  Admins({this.admins, this.meta});
+  Admins({this.admins, this.meta, this.pagination});
 
   factory Admins.fromJson(Map<String, dynamic> json) {
     return Admins(
@@ -28,6 +29,7 @@ class Admins {
           ? List<Admin>.from(json['data'].map((i) => Admin.fromJson(i)))
           : new List<Admin>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -37,6 +39,7 @@ class Admin {
   final String username;
   final String password;
   final String hostels;
+  final String amenities;
   final String status;
   final String createdBy;
   final String modifiedBy;
@@ -48,6 +51,7 @@ class Admin {
       this.username,
       this.password,
       this.hostels,
+      this.amenities,
       this.status,
       this.createdBy,
       this.modifiedBy,
@@ -60,6 +64,7 @@ class Admin {
       username: json['username'],
       password: json['password'],
       hostels: json['hostels'],
+      amenities: json['amenities'],
       status: json['status'],
       createdBy: json['created_by'],
       modifiedBy: json['modified_by'],
@@ -74,8 +79,9 @@ class Admin {
 class Bills {
   final List<Bill> bills;
   final Meta meta;
+  final Pagination pagination;
 
-  Bills({this.bills, this.meta});
+  Bills({this.bills, this.meta, this.pagination});
 
   factory Bills.fromJson(Map<String, dynamic> json) {
     return Bills(
@@ -83,6 +89,7 @@ class Bills {
           ? List<Bill>.from(json['data'].map((i) => Bill.fromJson(i)))
           : new List<Bill>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -141,8 +148,9 @@ class Bill {
 class Employees {
   final List<Employee> employees;
   final Meta meta;
+  final Pagination pagination;
 
-  Employees({this.employees, this.meta});
+  Employees({this.employees, this.meta, this.pagination});
 
   factory Employees.fromJson(Map<String, dynamic> json) {
     return Employees(
@@ -150,6 +158,7 @@ class Employees {
           ? List<Employee>.from(json['data'].map((i) => Employee.fromJson(i)))
           : new List<Employee>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -226,8 +235,9 @@ class Employee {
 class Hostels {
   final List<Hostel> hostels;
   final Meta meta;
+  final Pagination pagination;
 
-  Hostels({this.hostels, this.meta});
+  Hostels({this.hostels, this.meta, this.pagination});
 
   factory Hostels.fromJson(Map<String, dynamic> json) {
     return Hostels(
@@ -235,6 +245,7 @@ class Hostels {
           ? List<Hostel>.from(json['data'].map((i) => Hostel.fromJson(i)))
           : new List<Hostel>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -287,8 +298,9 @@ class Hostel {
 class Logs {
   final List<Log> logs;
   final Meta meta;
+  final Pagination pagination;
 
-  Logs({this.logs, this.meta});
+  Logs({this.logs, this.meta, this.pagination});
 
   factory Logs.fromJson(Map<String, dynamic> json) {
     return Logs(
@@ -296,6 +308,7 @@ class Logs {
           ? List<Log>.from(json['data'].map((i) => Log.fromJson(i)))
           : new List<Log>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -336,8 +349,9 @@ class Log {
 class Notes {
   final List<Note> notes;
   final Meta meta;
+  final Pagination pagination;
 
-  Notes({this.notes, this.meta});
+  Notes({this.notes, this.meta, this.pagination});
 
   factory Notes.fromJson(Map<String, dynamic> json) {
     return Notes(
@@ -345,6 +359,7 @@ class Notes {
           ? List<Note>.from(json['data'].map((i) => Note.fromJson(i)))
           : new List<Note>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -385,8 +400,9 @@ class Note {
 class Rooms {
   final List<Room> rooms;
   final Meta meta;
+  final Pagination pagination;
 
-  Rooms({this.rooms, this.meta});
+  Rooms({this.rooms, this.meta, this.pagination});
 
   factory Rooms.fromJson(Map<String, dynamic> json) {
     return Rooms(
@@ -394,6 +410,7 @@ class Rooms {
           ? List<Room>.from(json['data'].map((i) => Room.fromJson(i)))
           : new List<Room>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -452,8 +469,9 @@ class Room {
 class Users {
   final List<User> users;
   final Meta meta;
+  final Pagination pagination;
 
-  Users({this.users, this.meta});
+  Users({this.users, this.meta, this.pagination});
 
   factory Users.fromJson(Map<String, dynamic> json) {
     return Users(
@@ -461,6 +479,7 @@ class Users {
           ? List<User>.from(json['data'].map((i) => User.fromJson(i)))
           : new List<User>(),
       meta: Meta.fromJson(json['meta']),
+      pagination: Pagination.fromJson(json['pagination']),
     );
   }
 }
@@ -556,6 +575,22 @@ class Meta {
       status: json['status'],
       message: json['message'],
       messageType: json['message_type'],
+    );
+  }
+}
+
+class Pagination {
+  final String count;
+  final String offset;
+  final String totalCount;
+
+  Pagination({this.count, this.offset, this.totalCount});
+
+  factory Pagination.fromJson(Map<String, dynamic> json) {
+    return Pagination(
+      count: json['count'],
+      offset: json['offset'],
+      totalCount: json['total_count'],
     );
   }
 }

@@ -46,7 +46,6 @@ class LoginState extends State<Login> {
     }
     Future<bool> prefInit = initSharedPreference();
     prefInit.then((onValue) {
-      prefs.clear();
       if (onValue) {
         if (prefs.getString("username") != null &&
             prefs.getString("username").length > 0) {
@@ -91,10 +90,11 @@ class LoginState extends State<Login> {
           prefs.setString('username', response.admins[0].username);
           prefs.setString('hostelIDs', response.admins[0].hostels);
           prefs.setString('hostelID', response.admins[0].hostels.split(",")[0]);
+          prefs.setString('amenities', response.admins[0].amenities);
           adminName = response.admins[0].username;
           hostelID = response.admins[0].hostels.split(",")[0];
+          amenities = response.admins[0].amenities.split(",");
 
-          print("response.admins[0].hostels " + response.admins[0].hostels);
           // get hostel details
           Future<Hostels> hostelResponse =
               getHostels(Map.from({'id': response.admins[0].hostels}));
@@ -107,7 +107,6 @@ class LoginState extends State<Login> {
             // print(hostelresponse.hostels[0].amenities.split(","));
             // print(json.encode(hostelresponse.hostels));
             amenities = hostelresponse.hostels[0].amenities.split(",");
-            // prefs.setString("hostels", toJsonString(hostelresponse));
           });
 
           Navigator.of(context).pushReplacement(new MaterialPageRoute(

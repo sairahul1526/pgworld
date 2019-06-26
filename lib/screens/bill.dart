@@ -355,21 +355,27 @@ class BillActivityState extends State<BillActivity> {
                       style: TextStyle(color: Colors.red),
                     ),
                     onPressed: () {
-                      setState(() {
-                        loading = true;
-                      });
-                      Future<bool> delete = update(
-                          API.BILL,
-                          Map.from({'status': '0'}),
-                          Map.from({
-                            'hostel_id': hostelID,
-                            'id': bill.id,
-                          }));
-                      delete.then((response) {
-                        setState(() {
-                          loading = false;
-                        });
-                        Navigator.pop(context);
+                      Future<bool> dialog = twoButtonDialog(
+                          context, "Do you want to delete the bill?", "");
+                      dialog.then((onValue) {
+                        if (onValue) {
+                          setState(() {
+                            loading = true;
+                          });
+                          Future<bool> delete = update(
+                              API.BILL,
+                              Map.from({'status': '0'}),
+                              Map.from({
+                                'hostel_id': hostelID,
+                                'id': bill.id,
+                              }));
+                          delete.then((response) {
+                            setState(() {
+                              loading = false;
+                            });
+                            Navigator.pop(context);
+                          });
+                        }
                       });
                     },
                   )

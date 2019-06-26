@@ -217,21 +217,27 @@ class RoomActivityState extends State<RoomActivity> {
                       style: TextStyle(color: Colors.red),
                     ),
                     onPressed: () {
-                      setState(() {
-                        loading = true;
-                      });
-                      Future<bool> delete = update(
-                          API.ROOM,
-                          Map.from({'status': '0'}),
-                          Map.from({
-                            'hostel_id': hostelID,
-                            'id': room.id,
-                          }));
-                      delete.then((response) {
-                        setState(() {
-                          loading = false;
-                        });
-                        Navigator.pop(context);
+                      Future<bool> dialog = twoButtonDialog(
+                          context, "Do you want to delete the room?", "");
+                      dialog.then((onValue) {
+                        if (onValue) {
+                          setState(() {
+                            loading = true;
+                          });
+                          Future<bool> delete = update(
+                              API.ROOM,
+                              Map.from({'status': '0'}),
+                              Map.from({
+                                'hostel_id': hostelID,
+                                'id': room.id,
+                              }));
+                          delete.then((response) {
+                            setState(() {
+                              loading = false;
+                            });
+                            Navigator.pop(context);
+                          });
+                        }
                       });
                     },
                   )
