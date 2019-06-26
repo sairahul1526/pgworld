@@ -34,7 +34,7 @@ class BillsActivityState extends State<BillsActivity> {
   double width = 0;
 
   String offset = defaultOffset;
-  bool _saving = true;
+  bool loading = true;
 
   ScrollController _controller;
 
@@ -62,7 +62,7 @@ class BillsActivityState extends State<BillsActivity> {
         !_controller.position.outOfRange) {
       if (!end && !ongoing) {
         setState(() {
-          _saving = true;
+          loading = true;
         });
         fillData();
       }
@@ -83,7 +83,7 @@ class BillsActivityState extends State<BillsActivity> {
       }
       setState(() {
         ongoing = false;
-        _saving = false;
+        loading = false;
       });
     });
   }
@@ -226,7 +226,7 @@ class BillsActivityState extends State<BillsActivity> {
                   );
                 },
               ),
-        inAsyncCall: _saving,
+        inAsyncCall: loading,
       ),
     );
   }

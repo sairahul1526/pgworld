@@ -28,7 +28,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
   double width = 0;
 
   String offset = defaultOffset;
-  bool _saving = true;
+  bool loading = true;
 
   ScrollController _controller;
 
@@ -50,7 +50,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
         !_controller.position.outOfRange) {
       if (!end && !ongoing) {
         setState(() {
-          _saving = true;
+          loading = true;
         });
         fillData();
       }
@@ -72,7 +72,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
       }
       setState(() {
         ongoing = false;
-        _saving = false;
+        loading = false;
       });
     });
   }
@@ -230,7 +230,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                   );
                 },
               ),
-        inAsyncCall: _saving,
+        inAsyncCall: loading,
       ),
     );
   }

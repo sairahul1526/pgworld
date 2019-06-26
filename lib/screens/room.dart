@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
 import '../utils/api.dart';
 import '../utils/config.dart';
 import '../utils/models.dart';
@@ -124,128 +126,134 @@ class RoomActivityState extends State<RoomActivity> {
           ),
         ],
       ),
-      body: new Container(
-        margin: new EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.1,
-            25, MediaQuery.of(context).size.width * 0.1, 0),
-        child: new Column(
-          children: <Widget>[
-            new Row(
-              children: <Widget>[
-                new Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: new Text("Room No."),
-                ),
-                new Expanded(
-                  child: new Container(
-                    margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    child: new TextField(
-                        controller: roomno,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(hintText: 'Room No.'),
-                        onSubmitted: (String value) {}),
-                  ),
-                ),
-              ],
-            ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+      body: ModalProgressHUD(
+        child: new Container(
+          margin: new EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.1,
+              25,
+              MediaQuery.of(context).size.width * 0.1,
+              0),
+          child: new Column(
+            children: <Widget>[
+              new Row(
                 children: <Widget>[
                   new Container(
                     width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Capacity"),
+                    child: new Text("Room No."),
                   ),
-                  new Flexible(
+                  new Expanded(
                     child: new Container(
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                       child: new TextField(
-                        controller: capacity,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(hintText: 'Capacity'),
-                        onSubmitted: (String value) {},
-                      ),
+                          controller: roomno,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(hintText: 'Room No.'),
+                          onSubmitted: (String value) {}),
                     ),
                   ),
                 ],
               ),
-            ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  new Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Rent"),
-                  ),
-                  new Flexible(
-                    child: new Container(
-                      margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: new TextField(
-                        controller: rent,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(hintText: 'Rent'),
-                        onSubmitted: (String value) {},
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    new Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: new Text("Capacity"),
+                    ),
+                    new Flexible(
+                      child: new Container(
+                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: new TextField(
+                          controller: capacity,
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(hintText: 'Capacity'),
+                          onSubmitted: (String value) {},
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 30, 0, 0),
-            ),
-            new Expanded(
-              child: new GridView.count(
-                  childAspectRatio: 3,
-                  primary: false,
-                  crossAxisCount: 2,
-                  children: amenitiesWidget()),
-            ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new FlatButton(
-                    child: new Text(
-                      (room == null || room.filled != "0") ? "" : "DELETE",
-                      style: TextStyle(color: Colors.red),
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: new Text("Rent"),
                     ),
-                    onPressed: () {
-                      Future<bool> dialog = twoButtonDialog(
-                          context, "Do you want to delete the room?", "");
-                      dialog.then((onValue) {
-                        if (onValue) {
-                          setState(() {
-                            loading = true;
-                          });
-                          Future<bool> delete = update(
-                              API.ROOM,
-                              Map.from({'status': '0'}),
-                              Map.from({
-                                'hostel_id': hostelID,
-                                'id': room.id,
-                              }));
-                          delete.then((response) {
+                    new Flexible(
+                      child: new Container(
+                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: new TextField(
+                          controller: rent,
+                          textInputAction: TextInputAction.done,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(hintText: 'Rent'),
+                          onSubmitted: (String value) {},
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 30, 0, 0),
+              ),
+              new Expanded(
+                child: new GridView.count(
+                    childAspectRatio: 3,
+                    primary: false,
+                    crossAxisCount: 2,
+                    children: amenitiesWidget()),
+              ),
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new FlatButton(
+                      child: new Text(
+                        (room == null || room.filled != "0") ? "" : "DELETE",
+                        style: TextStyle(color: Colors.red),
+                      ),
+                      onPressed: () {
+                        Future<bool> dialog = twoButtonDialog(
+                            context, "Do you want to delete the room?", "");
+                        dialog.then((onValue) {
+                          if (onValue) {
                             setState(() {
-                              loading = false;
+                              loading = true;
                             });
-                            Navigator.pop(context);
-                          });
-                        }
-                      });
-                    },
-                  )
-                ],
+                            Future<bool> delete = update(
+                                API.ROOM,
+                                Map.from({'status': '0'}),
+                                Map.from({
+                                  'hostel_id': hostelID,
+                                  'id': room.id,
+                                }));
+                            delete.then((response) {
+                              setState(() {
+                                loading = false;
+                              });
+                              Navigator.pop(context);
+                            });
+                          }
+                        });
+                      },
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        inAsyncCall: loading,
       ),
     );
   }

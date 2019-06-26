@@ -26,7 +26,7 @@ class RoomsActivityState extends State<RoomsActivity> {
   bool ongoing = false;
 
   String offset = defaultOffset;
-  bool _saving = true;
+  bool loading = true;
 
   ScrollController _controller;
 
@@ -48,7 +48,7 @@ class RoomsActivityState extends State<RoomsActivity> {
         !_controller.position.outOfRange) {
       if (!end && !ongoing) {
         setState(() {
-          _saving = true;
+          loading = true;
         });
         fillData();
       }
@@ -69,7 +69,7 @@ class RoomsActivityState extends State<RoomsActivity> {
       }
       setState(() {
         ongoing = false;
-        _saving = false;
+        loading = false;
       });
     });
   }
@@ -209,7 +209,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                     );
                   },
                 ),
-          inAsyncCall: _saving,
+          inAsyncCall: loading,
         ));
   }
 }
