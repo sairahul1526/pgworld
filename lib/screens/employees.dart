@@ -112,7 +112,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                         context,
                         new MaterialPageRoute(
                             builder: (context) =>
-                                new EmployeeActivity(employees[i])),
+                                new BillsActivity(null, employees[i])),
                       );
                     },
                     title: new Container(
@@ -212,15 +212,15 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                         ),
                         secondaryActions: <Widget>[
                           new IconSlideAction(
-                            caption: 'Salary',
-                            color: Colors.red,
-                            icon: Icons.money_off,
+                            caption: 'EDIT',
+                            icon: Icons.edit,
+                            color: Colors.blue,
                             onTap: () {
                               Navigator.push(
                                 context,
                                 new MaterialPageRoute(
                                     builder: (context) =>
-                                        new BillsActivity(null, employees[i])),
+                                        new EmployeeActivity(employees[i])),
                               );
                             },
                           ),

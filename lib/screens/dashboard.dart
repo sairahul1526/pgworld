@@ -41,170 +41,221 @@ class DashBoardState extends State<DashBoard> {
           child: new GridView.count(
             primary: false,
             padding: const EdgeInsets.all(20.0),
-            crossAxisSpacing: 10.0,
+            crossAxisSpacing: 15.0,
+            mainAxisSpacing: 15.0,
             crossAxisCount: 2,
             children: <Widget>[
-              new MaterialButton(
-                child: new Center(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.supervisor_account,
-                        size: 70,
-                      ),
-                      new Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5)),
-                      new Text("Users", style: new TextStyle(fontSize: 20)),
-                    ],
-                  ),
+              new Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new UsersActivity(null)),
-                  );
-                },
+                elevation: 10,
+                child: new MaterialButton(
+                  child: new Center(
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          Icons.supervisor_account,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        new Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5)),
+                        new Text("Users", style: new TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new UsersActivity(null)),
+                    );
+                  },
+                ),
               ),
-              new MaterialButton(
-                child: new Center(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.local_hotel,
-                        size: 70,
-                      ),
-                      new Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5)),
-                      new Text("Rooms", style: new TextStyle(fontSize: 20)),
-                    ],
-                  ),
+              new Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new RoomsActivity()),
-                  );
-                },
+                elevation: 10,
+                child: new MaterialButton(
+                  child: new Center(
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          Icons.local_hotel,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        new Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5)),
+                        new Text("Rooms", style: new TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new RoomsActivity()),
+                    );
+                  },
+                ),
               ),
-              new MaterialButton(
-                child: new Center(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.attach_money,
-                        size: 70,
-                      ),
-                      new Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5)),
-                      new Text("Bills", style: new TextStyle(fontSize: 20)),
-                    ],
-                  ),
+              new Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new BillsActivity(null, null)),
-                  );
-                },
+                elevation: 10,
+                child: new MaterialButton(
+                  child: new Center(
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          Icons.attach_money,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        new Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5)),
+                        new Text("Bills", style: new TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new BillsActivity(null, null)),
+                    );
+                  },
+                ),
               ),
-              new MaterialButton(
-                child: new Center(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.format_list_numbered,
-                        size: 70,
-                      ),
-                      new Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5)),
-                      new Text("Notes", style: new TextStyle(fontSize: 20)),
-                    ],
-                  ),
+              new Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new NotesActivity()),
-                  );
-                },
+                elevation: 10,
+                child: new MaterialButton(
+                  child: new Center(
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          Icons.format_list_numbered,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        new Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5)),
+                        new Text("Notes", style: new TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new NotesActivity()),
+                    );
+                  },
+                ),
               ),
-              new MaterialButton(
-                child: new Center(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.account_box,
-                        size: 70,
-                      ),
-                      new Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5)),
-                      new Text("Employees", style: new TextStyle(fontSize: 20)),
-                    ],
-                  ),
+              new Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new EmployeesActivity()),
-                  );
-                },
+                elevation: 10,
+                child: new MaterialButton(
+                  child: new Center(
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          Icons.account_box,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        new Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5)),
+                        new Text("Employees",
+                            style: new TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new EmployeesActivity()),
+                    );
+                  },
+                ),
               ),
-              new MaterialButton(
-                child: new Center(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.track_changes,
-                        size: 70,
-                      ),
-                      new Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5)),
-                      new Text("Logs", style: new TextStyle(fontSize: 20)),
-                    ],
-                  ),
+              new Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                        builder: (context) => new LogsActivity()),
-                  );
-                },
+                elevation: 10,
+                child: new MaterialButton(
+                  child: new Center(
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          Icons.track_changes,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        new Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5)),
+                        new Text("Logs", style: new TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new LogsActivity()),
+                    );
+                  },
+                ),
               ),
-              new MaterialButton(
-                child: new Center(
-                  child: new Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      new Icon(
-                        Icons.show_chart,
-                        size: 70,
-                      ),
-                      new Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5)),
-                      new Text("Reports", style: new TextStyle(fontSize: 20)),
-                    ],
-                  ),
+              new Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15.0),
                 ),
-                onPressed: () {},
+                elevation: 10,
+                child: new MaterialButton(
+                  child: new Center(
+                    child: new Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new Icon(
+                          Icons.show_chart,
+                          color: Colors.blue,
+                          size: 40,
+                        ),
+                        new Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5)),
+                        new Text("Reports", style: new TextStyle(fontSize: 20)),
+                      ],
+                    ),
+                  ),
+                  onPressed: () {},
+                ),
               )
             ],
           ),

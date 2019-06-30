@@ -133,7 +133,8 @@ class RoomsActivityState extends State<RoomsActivity> {
                         Navigator.push(
                           context,
                           new MaterialPageRoute(
-                              builder: (context) => new RoomActivity(rooms[i])),
+                              builder: (context) =>
+                                  new UsersActivity(rooms[i])),
                         );
                       },
                       title: new Container(
@@ -191,15 +192,15 @@ class RoomsActivityState extends State<RoomsActivity> {
                           ),
                           secondaryActions: <Widget>[
                             new IconSlideAction(
-                              caption: 'User',
+                              caption: 'EDIT',
+                              icon: Icons.edit,
                               color: Colors.blue,
-                              icon: Icons.person_add,
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   new MaterialPageRoute(
                                       builder: (context) =>
-                                          new UsersActivity(rooms[i])),
+                                          new RoomActivity(rooms[i])),
                                 );
                               },
                             ),

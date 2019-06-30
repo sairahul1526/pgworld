@@ -142,7 +142,7 @@ class UsersActivityState extends State<UsersActivity> {
                         context,
                         new MaterialPageRoute(
                             builder: (context) =>
-                                new UserActivity(users[i], room)),
+                                new BillsActivity(users[i], null)),
                       );
                     },
                     title: new Container(
@@ -253,15 +253,15 @@ class UsersActivityState extends State<UsersActivity> {
                         ),
                         secondaryActions: <Widget>[
                           new IconSlideAction(
-                            caption: 'Rent',
-                            color: Colors.green,
-                            icon: Icons.attach_money,
+                            caption: 'EDIT',
+                            icon: Icons.edit,
+                            color: Colors.blue,
                             onTap: () {
                               Navigator.push(
                                 context,
                                 new MaterialPageRoute(
                                     builder: (context) =>
-                                        new BillsActivity(users[i], null)),
+                                        new UserActivity(users[i], room)),
                               );
                             },
                           ),
