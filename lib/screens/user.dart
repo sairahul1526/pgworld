@@ -89,7 +89,10 @@ class UserActivityState extends State<UserActivity> {
         fileWidgets.add(new Row(
           children: <Widget>[
             new IconButton(
-              icon: new Image.network(mediaURL + file),
+              icon: FadeInImage.assetNetwork(
+                placeholder: 'assets/image_placeholder.png',
+                image: mediaURL + file,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
