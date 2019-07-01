@@ -27,6 +27,8 @@ class SettingsActivityState extends State<SettingsActivity> {
 
   List<Widget> hostelWidgets = new List();
 
+  String expiry;
+
   @override
   void initState() {
     super.initState();
@@ -77,10 +79,12 @@ class SettingsActivityState extends State<SettingsActivity> {
                       new DropdownButton(
                         items: hostels.hostels.map((hostel) {
                           return new DropdownMenuItem(
-                              child: new Text(
-                                hostel.name + " " + hostel.address,
-                                softWrap: true,
-                                overflow: TextOverflow.clip,
+                              child: new Container(
+                                constraints: BoxConstraints(maxWidth: 200),
+                                child: new Text(
+                                  hostel.name + " " + hostel.address,
+                                  overflow: TextOverflow.clip,
+                                ),
                               ),
                               value: hostel.id);
                         }).toList(),
@@ -92,6 +96,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                             hostels.hostels.forEach((hostel) {
                               if (hostel.id == value) {
                                 amenities = hostel.amenities.split(",");
+                                expiry = hostel.expiryDateTime;
                               }
                             });
                           });
@@ -101,6 +106,24 @@ class SettingsActivityState extends State<SettingsActivity> {
                     ],
                   )
                 : new Text(""),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  new Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child: new Text("Subscription Expiry"),
+                  ),
+                  new Expanded(
+                    child: new Container(
+                      margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      child: new Text(expiry != null ? expiry : ""),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             new FlatButton(
               child: new Text(
                 "LOGOUT",

@@ -46,9 +46,6 @@ class DashBoardState extends State<DashBoard> {
             crossAxisCount: 2,
             children: <Widget>[
               new Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
                 elevation: 10,
                 child: new MaterialButton(
                   child: new Center(
@@ -59,7 +56,7 @@ class DashBoardState extends State<DashBoard> {
                         new Icon(
                           Icons.supervisor_account,
                           color: Colors.blue,
-                          size: 40,
+                          size: 30,
                         ),
                         new Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5)),
@@ -77,9 +74,6 @@ class DashBoardState extends State<DashBoard> {
                 ),
               ),
               new Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
                 elevation: 10,
                 child: new MaterialButton(
                   child: new Center(
@@ -90,7 +84,7 @@ class DashBoardState extends State<DashBoard> {
                         new Icon(
                           Icons.local_hotel,
                           color: Colors.blue,
-                          size: 40,
+                          size: 30,
                         ),
                         new Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5)),
@@ -108,9 +102,6 @@ class DashBoardState extends State<DashBoard> {
                 ),
               ),
               new Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
                 elevation: 10,
                 child: new MaterialButton(
                   child: new Center(
@@ -121,7 +112,7 @@ class DashBoardState extends State<DashBoard> {
                         new Icon(
                           Icons.attach_money,
                           color: Colors.blue,
-                          size: 40,
+                          size: 30,
                         ),
                         new Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5)),
@@ -139,9 +130,6 @@ class DashBoardState extends State<DashBoard> {
                 ),
               ),
               new Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
                 elevation: 10,
                 child: new MaterialButton(
                   child: new Center(
@@ -152,7 +140,7 @@ class DashBoardState extends State<DashBoard> {
                         new Icon(
                           Icons.format_list_numbered,
                           color: Colors.blue,
-                          size: 40,
+                          size: 30,
                         ),
                         new Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5)),
@@ -170,9 +158,6 @@ class DashBoardState extends State<DashBoard> {
                 ),
               ),
               new Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
                 elevation: 10,
                 child: new MaterialButton(
                   child: new Center(
@@ -183,7 +168,7 @@ class DashBoardState extends State<DashBoard> {
                         new Icon(
                           Icons.account_box,
                           color: Colors.blue,
-                          size: 40,
+                          size: 30,
                         ),
                         new Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5)),
@@ -202,9 +187,6 @@ class DashBoardState extends State<DashBoard> {
                 ),
               ),
               new Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
                 elevation: 10,
                 child: new MaterialButton(
                   child: new Center(
@@ -215,7 +197,7 @@ class DashBoardState extends State<DashBoard> {
                         new Icon(
                           Icons.track_changes,
                           color: Colors.blue,
-                          size: 40,
+                          size: 30,
                         ),
                         new Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5)),
@@ -233,9 +215,6 @@ class DashBoardState extends State<DashBoard> {
                 ),
               ),
               new Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
                 elevation: 10,
                 child: new MaterialButton(
                   child: new Center(
@@ -246,7 +225,7 @@ class DashBoardState extends State<DashBoard> {
                         new Icon(
                           Icons.show_chart,
                           color: Colors.blue,
-                          size: 40,
+                          size: 30,
                         ),
                         new Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5)),

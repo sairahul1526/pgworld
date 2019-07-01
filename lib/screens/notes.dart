@@ -120,10 +120,11 @@ class NotesActivityState extends State<NotesActivity> {
                   return new ListTile(
                     onTap: () {
                       setState(() {
+                        notes[i].status = notes[i].status == "1" ? "0" : "1";
                         update(
                           API.NOTE,
                           Map.from({
-                            "status": notes[i].status == "1" ? "0" : "1",
+                            "status": notes[i].status,
                           }),
                           Map.from({'hostel_id': hostelID, 'id': notes[i].id}),
                         );
@@ -151,7 +152,7 @@ class NotesActivityState extends State<NotesActivity> {
                                   );
                                 });
                               }),
-                          new Flexible(
+                          new Expanded(
                             child: new Column(
                               children: <Widget>[
                                 new Text(

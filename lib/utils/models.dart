@@ -260,6 +260,7 @@ class Hostel {
   final String status;
   final String createdBy;
   final String modifiedBy;
+  final String expiryDateTime;
   final String createdDateTime;
   final String modifiedDateTime;
 
@@ -273,6 +274,7 @@ class Hostel {
       this.status,
       this.createdBy,
       this.modifiedBy,
+      this.expiryDateTime,
       this.createdDateTime,
       this.modifiedDateTime});
 
@@ -287,6 +289,7 @@ class Hostel {
       status: json['status'],
       createdBy: json['created_by'],
       modifiedBy: json['modified_by'],
+      expiryDateTime: json['expiry_date_time'],
       createdDateTime: json['created_date_time'],
       modifiedDateTime: json['modified_date_time'],
     );
@@ -367,7 +370,7 @@ class Notes {
 class Note {
   final String id;
   final String note;
-  final String status;
+  String status;
   final String createdBy;
   final String modifiedBy;
   final String createdDateTime;

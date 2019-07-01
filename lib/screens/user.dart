@@ -7,6 +7,7 @@ import '../utils/utils.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
 import '../utils/models.dart';
+import './photo.dart';
 
 class UserActivity extends StatefulWidget {
   final User user;
@@ -89,7 +90,13 @@ class UserActivityState extends State<UserActivity> {
           children: <Widget>[
             new IconButton(
               icon: new Image.network(mediaURL + file),
-              onPressed: () => getImage(),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new PhotoActivity(mediaURL + file)),
+                );
+              },
             ),
             new Expanded(
               child: new IconButton(

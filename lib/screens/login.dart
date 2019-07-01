@@ -95,20 +95,6 @@ class LoginState extends State<Login> {
           hostelID = response.admins[0].hostels.split(",")[0];
           amenities = response.admins[0].amenities.split(",");
 
-          // get hostel details
-          Future<Hostels> hostelResponse =
-              getHostels(Map.from({'id': response.admins[0].hostels}));
-          hostelResponse.then((hostelresponse) {
-            // List<String> hostels = new List();
-            // hostelresponse.hostels.forEach((hos) {
-            //   print(json.encode(hos));
-            //   hostels.add(json.encode(hos.toString()));
-            // });
-            // print(hostelresponse.hostels[0].amenities.split(","));
-            // print(json.encode(hostelresponse.hostels));
-            amenities = hostelresponse.hostels[0].amenities.split(",");
-          });
-
           Navigator.of(context).pushReplacement(new MaterialPageRoute(
               builder: (BuildContext context) => new DashBoard()));
         }

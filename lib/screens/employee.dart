@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../utils/utils.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
 import '../utils/models.dart';
+import './photo.dart';
 
 class EmployeeActivity extends StatefulWidget {
   final Employee employee;
@@ -31,6 +33,8 @@ class EmployeeActivityState extends State<EmployeeActivity> {
   Employee employee;
 
   bool loading = false;
+  List<String> fileNames = new List();
+  List<Widget> fileWidgets = new List();
 
   EmployeeActivityState(this.employee);
 
@@ -44,9 +48,73 @@ class EmployeeActivityState extends State<EmployeeActivity> {
       email.text = employee.email;
       address.text = employee.address;
       salary.text = employee.salary;
+      if (employee.document != null) {
+        fileNames = employee.document.split(",");
+      }
+      loadDocuments();
     } else {
       joiningDate = dateFormat.format(new DateTime.now());
     }
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      Future<String> uploadResponse = upload(image);
+      uploadResponse.then((fileName) {
+        if (fileName.isNotEmpty) {
+          setState(() {
+            fileNames.add(fileName);
+            loadDocuments();
+          });
+        }
+      });
+    }
+  }
+
+  void loadDocuments() {
+    print(fileNames);
+    fileWidgets.clear();
+    fileNames.forEach((file) {
+      if (file.length > 0) {
+        fileWidgets.add(new Row(
+          children: <Widget>[
+            new IconButton(
+              icon: new Image.network(mediaURL + file),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new PhotoActivity(mediaURL + file)),
+                );
+              },
+            ),
+            new Expanded(
+              child: new IconButton(
+                onPressed: () {
+                  setState(() {
+                    fileNames.remove(file);
+                    loadDocuments();
+                  });
+                },
+                icon: new Icon(Icons.delete),
+              ),
+            )
+          ],
+        ));
+      }
+    });
+    fileWidgets.add(new Row(
+      children: <Widget>[
+        new Expanded(
+          child: new FlatButton(
+            onPressed: () => getImage(),
+            child: new Text("Add Document"),
+          ),
+        )
+      ],
+    ));
   }
 
   Future _selectDate(BuildContext context) async {
@@ -82,7 +150,8 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                     'phone': phone.text,
                     'email': email.text,
                     'address': address.text,
-                    'salary': salary.text
+                    'salary': salary.text,
+                    'document': fileNames.join(","),
                   }),
                   Map.from({'hostel_id': hostelID, 'id': employee.id}),
                 );
@@ -97,7 +166,8 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                     'email': email.text,
                     'address': address.text,
                     'salary': salary.text,
-                    'joining_date_time': joiningDate
+                    'joining_date_time': joiningDate,
+                    'document': fileNames.join(","),
                   }),
                 );
               }
@@ -257,6 +327,25 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                           onSubmitted: (String value) {},
                         ),
                       ),
+                    ),
+                  ],
+                ),
+              ),
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: new Text("Document"),
+                    ),
+                    new Expanded(
+                      child: new Container(
+                          margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: new Column(
+                            children: fileWidgets,
+                          )),
                     ),
                   ],
                 ),
