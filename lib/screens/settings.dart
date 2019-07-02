@@ -45,6 +45,11 @@ class SettingsActivityState extends State<SettingsActivity> {
     request.then((response) {
       setState(() {
         hostels = response;
+        hostels.hostels.forEach((hostel) {
+          if (hostel.id == selectedHostelID) {
+            expiry = hostel.expiryDateTime;
+          }
+        });
       });
     });
   }
