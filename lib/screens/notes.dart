@@ -57,7 +57,7 @@ class NotesActivityState extends State<NotesActivity> {
     filter["offset"] = offset;
     Future<Notes> data = getNotes(filter);
     data.then((response) {
-      if (response.notes.length > 0) {
+      if (response.notes != null && response.notes.length > 0) {
         offset = (int.parse(response.pagination.offset) + response.notes.length)
             .toString();
         notes.addAll(response.notes);

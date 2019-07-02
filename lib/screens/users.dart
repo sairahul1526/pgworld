@@ -73,7 +73,7 @@ class UsersActivityState extends State<UsersActivity> {
     filter["offset"] = offset;
     Future<Users> data = getUsers(filter);
     data.then((response) {
-      if (response.users.length > 0) {
+      if (response.users != null && response.users.length > 0) {
         offset = (int.parse(response.pagination.offset) + response.users.length)
             .toString();
         users.addAll(response.users);

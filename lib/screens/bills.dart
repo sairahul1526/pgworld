@@ -74,7 +74,7 @@ class BillsActivityState extends State<BillsActivity> {
     filter["offset"] = offset;
     Future<Bills> data = getBills(filter);
     data.then((response) {
-      if (response.bills.length > 0) {
+      if (response.bills != null && response.bills.length > 0) {
         offset = (int.parse(response.pagination.offset) + response.bills.length)
             .toString();
         bills.addAll(response.bills);

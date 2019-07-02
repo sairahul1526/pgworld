@@ -62,7 +62,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
     filter["offset"] = offset;
     Future<Employees> data = getEmployees(filter);
     data.then((response) {
-      if (response.employees.length > 0) {
+      if (response.employees != null && response.employees.length > 0) {
         offset =
             (int.parse(response.pagination.offset) + response.employees.length)
                 .toString();

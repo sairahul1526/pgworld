@@ -60,7 +60,7 @@ class RoomsActivityState extends State<RoomsActivity> {
     filter["offset"] = offset;
     Future<Rooms> data = getRooms(filter);
     data.then((response) {
-      if (response.rooms.length > 0) {
+      if (response.rooms != null && response.rooms.length > 0) {
         offset = (int.parse(response.pagination.offset) + response.rooms.length)
             .toString();
         rooms.addAll(response.rooms);
