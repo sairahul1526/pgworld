@@ -61,6 +61,9 @@ class EmployeeActivityState extends State<EmployeeActivity> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
+      setState(() {
+        loading = true;
+      });
       Future<String> uploadResponse = upload(image);
       uploadResponse.then((fileName) {
         if (fileName.isNotEmpty) {
@@ -69,6 +72,9 @@ class EmployeeActivityState extends State<EmployeeActivity> {
             loadDocuments();
           });
         }
+        setState(() {
+          loading = false;
+        });
       });
     }
   }

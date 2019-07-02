@@ -69,6 +69,9 @@ class UserActivityState extends State<UserActivity> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
+      setState(() {
+        loading = true;
+      });
       Future<String> uploadResponse = upload(image);
       uploadResponse.then((fileName) {
         if (fileName.isNotEmpty) {
@@ -77,6 +80,9 @@ class UserActivityState extends State<UserActivity> {
             loadDocuments();
           });
         }
+        setState(() {
+          loading = false;
+        });
       });
     }
   }
