@@ -597,3 +597,104 @@ class Pagination {
     );
   }
 }
+
+// reports
+class Charts {
+  final List<Pie> pies;
+  final List<Bar> bars;
+  final Meta meta;
+
+  Charts({this.pies, this.bars, this.meta});
+
+  factory Charts.fromJson(Map<String, dynamic> json) {
+    return Charts(
+      pies: json['pies'] != null
+          ? List<Pie>.from(json['pies'].map((i) => Pie.fromJson(i)))
+          : new List<Pie>(),
+      bars: json['bars'] != null
+          ? List<Bar>.from(json['bars'].map((i) => Bar.fromJson(i)))
+          : new List<Bar>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Pie {
+  final List<PieData> pieData;
+
+  Pie({this.pieData});
+
+  factory Pie.fromJson(Map<String, dynamic> json) {
+    return Pie(
+      pieData: json['piedata'] != null
+          ? List<PieData>.from(json['piedata'].map((i) => PieData.fromJson(i)))
+          : new List<PieData>(),
+    );
+  }
+}
+
+class PieData {
+  final String value;
+  final String title;
+
+  PieData({this.value, this.title});
+
+  factory PieData.fromJson(Map<String, dynamic> json) {
+    return PieData(
+      value: json['value'],
+      title: json['title'],
+    );
+  }
+}
+
+class Bar {
+  final List<BarData> barData;
+  final List<BarAxis> xaxis;
+  final List<BarAxis> yaxis;
+
+  Bar({this.barData, this.xaxis, this.yaxis});
+
+  factory Bar.fromJson(Map<String, dynamic> json) {
+    return Bar(
+      barData: json['barData'] != null
+          ? List<BarData>.from(json['barData'].map((i) => BarData.fromJson(i)))
+          : new List<BarData>(),
+      xaxis: json['xaxis'] != null
+          ? List<BarAxis>.from(json['xaxis'].map((i) => BarAxis.fromJson(i)))
+          : new List<BarAxis>(),
+      yaxis: json['yaxis'] != null
+          ? List<BarAxis>.from(json['yaxis'].map((i) => BarAxis.fromJson(i)))
+          : new List<BarAxis>(),
+    );
+  }
+}
+
+class BarData {
+  final String x;
+  final String y1;
+  final String y2;
+
+  BarData({this.x, this.y1, this.y2});
+
+  factory BarData.fromJson(Map<String, dynamic> json) {
+    return BarData(
+      x: json['x'],
+      y1: json['y1'],
+      y2: json['y2'],
+    );
+  }
+}
+
+class BarAxis {
+  final String key;
+  final String value;
+
+  BarAxis({this.key, this.value});
+
+  factory BarAxis.fromJson(Map<String, dynamic> json) {
+    return BarAxis(
+      key: json['key'],
+      value: json['value'],
+    );
+  }
+}

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pgworld/screens/report.dart';
 
 import './rooms.dart';
 import './logs.dart';
@@ -233,7 +234,13 @@ class DashBoardState extends State<DashBoard> {
                       ],
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new ReportActivity()),
+                    );
+                  },
                 ),
               )
             ],
