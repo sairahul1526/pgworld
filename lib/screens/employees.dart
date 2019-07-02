@@ -70,6 +70,10 @@ class EmployeesActivityState extends State<EmployeesActivity> {
       } else {
         end = true;
       }
+      if (response.meta != null && response.meta.messageType == "1") {
+        oneButtonDialog(context, "", response.meta.message,
+            !(response.meta.status == STATUS_403));
+      }
       setState(() {
         ongoing = false;
         loading = false;

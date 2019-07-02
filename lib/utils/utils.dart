@@ -167,3 +167,27 @@ Future<bool> twoButtonDialog(
   );
   return returned;
 }
+
+void oneButtonDialog(
+    BuildContext context, String title, String content, bool dismiss) {
+  showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: new Text(title),
+        content: new Text(content),
+        actions: <Widget>[
+          new FlatButton(
+            child: new Text("ok"),
+            onPressed: () {
+              if (dismiss) {
+                Navigator.of(context).pop();
+              }
+            },
+          ),
+        ],
+      );
+    },
+  );
+}

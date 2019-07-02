@@ -37,3 +37,8 @@ const timeout = 10;
 
 const defaultLimit = "10";
 const defaultOffset = "0";
+
+// status
+const STATUS_400 = "400";
+const STATUS_403 = "403"; // forbidden
+const STATUS_500 = "500";

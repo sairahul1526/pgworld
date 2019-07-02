@@ -29,7 +29,9 @@ class Admins {
           ? List<Admin>.from(json['data'].map((i) => Admin.fromJson(i)))
           : new List<Admin>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }
@@ -89,7 +91,9 @@ class Bills {
           ? List<Bill>.from(json['data'].map((i) => Bill.fromJson(i)))
           : new List<Bill>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }
@@ -158,7 +162,9 @@ class Employees {
           ? List<Employee>.from(json['data'].map((i) => Employee.fromJson(i)))
           : new List<Employee>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }
@@ -245,7 +251,9 @@ class Hostels {
           ? List<Hostel>.from(json['data'].map((i) => Hostel.fromJson(i)))
           : new List<Hostel>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }
@@ -311,7 +319,9 @@ class Logs {
           ? List<Log>.from(json['data'].map((i) => Log.fromJson(i)))
           : new List<Log>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }
@@ -362,7 +372,9 @@ class Notes {
           ? List<Note>.from(json['data'].map((i) => Note.fromJson(i)))
           : new List<Note>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }
@@ -413,7 +425,9 @@ class Rooms {
           ? List<Room>.from(json['data'].map((i) => Room.fromJson(i)))
           : new List<Room>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }
@@ -482,7 +496,9 @@ class Users {
           ? List<User>.from(json['data'].map((i) => User.fromJson(i)))
           : new List<User>(),
       meta: Meta.fromJson(json['meta']),
-      pagination: Pagination.fromJson(json['pagination']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
     );
   }
 }

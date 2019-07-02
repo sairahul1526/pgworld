@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:pgworld/utils/utils.dart';
 
 import './bill.dart';
 import './billFilter.dart';
@@ -80,6 +81,10 @@ class BillsActivityState extends State<BillsActivity> {
         bills.addAll(response.bills);
       } else {
         end = true;
+      }
+      if (response.meta != null && response.meta.messageType == "1") {
+        oneButtonDialog(context, "", response.meta.message,
+            !(response.meta.status == STATUS_403));
       }
       setState(() {
         ongoing = false;

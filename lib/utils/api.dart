@@ -22,12 +22,7 @@ Future<Admins> getAdmins(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.ADMIN, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  print(response.body);
-  if (response.statusCode == 200) {
-    return Admins.fromJson(json.decode(response.body));
-  } else {
-    return new Admins();
-  }
+  return Admins.fromJson(json.decode(response.body));
 }
 
 // bill
@@ -42,12 +37,7 @@ Future<Bills> getBills(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.BILL, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  print(response.body);
-  if (response.statusCode == 200) {
-    return Bills.fromJson(json.decode(response.body));
-  } else {
-    return new Bills();
-  }
+  return Bills.fromJson(json.decode(response.body));
 }
 
 // employee
@@ -62,12 +52,7 @@ Future<Employees> getEmployees(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.EMPLOYEE, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  if (response.statusCode == 200) {
-    print(response.body);
-    return Employees.fromJson(json.decode(response.body));
-  } else {
-    return Employees();
-  }
+  return Employees.fromJson(json.decode(response.body));
 }
 
 // log
@@ -82,11 +67,7 @@ Future<Logs> getLogs(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.LOG, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  if (response.statusCode == 200) {
-    return Logs.fromJson(json.decode(response.body));
-  } else {
-    return Logs();
-  }
+  return Logs.fromJson(json.decode(response.body));
 }
 
 // note
@@ -101,11 +82,7 @@ Future<Notes> getNotes(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.NOTE, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  if (response.statusCode == 200) {
-    return Notes.fromJson(json.decode(response.body));
-  } else {
-    return Notes();
-  }
+  return Notes.fromJson(json.decode(response.body));
 }
 
 // room
@@ -120,11 +97,7 @@ Future<Rooms> getRooms(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.ROOM, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  if (response.statusCode == 200) {
-    return Rooms.fromJson(json.decode(response.body));
-  } else {
-    return Rooms();
-  }
+  return Rooms.fromJson(json.decode(response.body));
 }
 
 // user
@@ -139,11 +112,7 @@ Future<Users> getUsers(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.USER, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  if (response.statusCode == 200) {
-    return Users.fromJson(json.decode(response.body));
-  } else {
-    return Users();
-  }
+  return Users.fromJson(json.decode(response.body));
 }
 
 // hostels
@@ -158,11 +127,7 @@ Future<Hostels> getHostels(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.HOSTEL, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
-  if (response.statusCode == 200) {
-    return Hostels.fromJson(json.decode(response.body));
-  } else {
-    return Hostels();
-  }
+  return Hostels.fromJson(json.decode(response.body));
 }
 
 // add and update

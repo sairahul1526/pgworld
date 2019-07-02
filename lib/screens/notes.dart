@@ -6,6 +6,7 @@ import './note.dart';
 import '../utils/models.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
+import '../utils/utils.dart';
 
 class NotesActivity extends StatefulWidget {
   @override
@@ -63,6 +64,10 @@ class NotesActivityState extends State<NotesActivity> {
         notes.addAll(response.notes);
       } else {
         end = true;
+      }
+      if (response.meta != null && response.meta.messageType == "1") {
+        oneButtonDialog(context, "", response.meta.message,
+            !(response.meta.status == STATUS_403));
       }
       setState(() {
         ongoing = false;
