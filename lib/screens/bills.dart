@@ -102,8 +102,9 @@ class BillsActivityState extends State<BillsActivity> {
       }
       data["status"] = "1";
       data["hostel_id"] = hostelID;
-      filter["limit"] = defaultLimit;
-      filter["offset"] = defaultOffset;
+      data["limit"] = defaultLimit;
+      data["offset"] = defaultOffset;
+      offset = defaultOffset;
       print(data);
       setState(() {
         filter = data;

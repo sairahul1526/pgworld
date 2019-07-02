@@ -99,8 +99,9 @@ class UsersActivityState extends State<UsersActivity> {
       }
       data["hostel_id"] = hostelID;
       data["status"] = "1";
-      filter["limit"] = defaultLimit;
-      filter["offset"] = defaultOffset;
+      data["limit"] = defaultLimit;
+      data["offset"] = defaultOffset;
+      offset = defaultOffset;
       print(data);
       setState(() {
         filter = data;
