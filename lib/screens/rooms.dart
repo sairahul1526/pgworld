@@ -103,13 +103,23 @@ class RoomsActivityState extends State<RoomsActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Rooms"),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
+          title: new Text(
+            "Rooms",
+            style: TextStyle(color: Colors.black),
+          ),
           actions: <Widget>[
             new IconButton(
               onPressed: () {
                 filterPage(context, new RoomFilterActivity());
               },
-              icon: new Icon(Icons.filter_list),
+              icon: new Icon(
+                Icons.filter_list,
+                color: Colors.black,
+              ),
             ),
             new IconButton(
               onPressed: () {
@@ -119,7 +129,10 @@ class RoomsActivityState extends State<RoomsActivity> {
                       builder: (context) => new RoomActivity(null)),
                 );
               },
-              icon: new Icon(Icons.add),
+              icon: new Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
             ),
           ],
         ),
@@ -149,46 +162,57 @@ class RoomsActivityState extends State<RoomsActivity> {
                           child: new Column(
                             children: <Widget>[
                               new Container(
-                                margin: new EdgeInsets.all(13),
                                 child: new Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
-                                    new Text(
-                                      rooms[i].roomno,
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    new Container(
+                                      margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                                      height: 50,
+                                      width: 3,
+                                      color:
+                                          rooms[i].filled == rooms[i].capacity
+                                              ? Colors.red
+                                              : Colors.green,
                                     ),
-                                    new Column(
-                                      children: <Widget>[
-                                        new Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                          child: new Text(
-                                            rooms[i].filled +
-                                                "/" +
-                                                rooms[i].capacity,
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w100),
+                                    new Expanded(
+                                      child: new Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          new Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: <Widget>[
+                                              new Text(
+                                                rooms[i].roomno,
+                                                style: TextStyle(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              new Text(
+                                                rooms[i].filled +
+                                                    "/" +
+                                                    rooms[i].capacity,
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    fontWeight:
+                                                        FontWeight.w100),
+                                              ),
+                                              new Text(
+                                                "₹" + rooms[i].rent,
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    color: Colors.black),
+                                              )
+                                            ],
                                           ),
-                                        ),
-                                        new Text(getAmenitiesNames(
-                                            rooms[i].amenities)),
-                                      ],
-                                    ),
-                                    new Column(
-                                      children: <Widget>[
-                                        new Text(
-                                          "₹" + rooms[i].rent,
-                                          style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.green),
-                                        )
-                                      ],
+                                          new Text(getAmenitiesNames(
+                                              rooms[i].amenities))
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
