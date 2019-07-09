@@ -106,7 +106,14 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Login"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          "Login",
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 4.0,
       ),
       body: loggedIn
@@ -148,10 +155,10 @@ class LoginState extends State<Login> {
                   new Container(
                     margin: new EdgeInsets.fromLTRB(0, 50, 0, 0),
                     child: new MaterialButton(
-                      color: Colors.lightBlue,
-                      textColor: Colors.white,
                       height: 40,
-                      child: new Text("          Login          "),
+                      child: new Text(
+                        "          Login          ",
+                      ),
                       onPressed: () {
                         login();
                       },

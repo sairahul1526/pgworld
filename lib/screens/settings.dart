@@ -65,7 +65,14 @@ class SettingsActivityState extends State<SettingsActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(prefs.getString('username').toUpperCase()),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          prefs.getString('username').toUpperCase(),
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 4.0,
       ),
       body: new Container(

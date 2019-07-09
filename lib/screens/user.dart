@@ -147,12 +147,32 @@ class UserActivityState extends State<UserActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: room != null ? new Text(room.roomno) : new Text("User"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: room != null
+            ? new Text(
+                room.roomno,
+                style: TextStyle(color: Colors.black),
+              )
+            : new Text(
+                "User",
+                style: TextStyle(color: Colors.black),
+              ),
         elevation: 4.0,
         actions: <Widget>[
           new MaterialButton(
             textColor: Colors.white,
-            child: user != null ? new Text("SAVE") : new Text("ADD"),
+            child: user != null
+                ? new Text(
+                    "SAVE",
+                    style: TextStyle(color: Colors.black),
+                  )
+                : new Text(
+                    "ADD",
+                    style: TextStyle(color: Colors.black),
+                  ),
             onPressed: () {
               setState(() {
                 loading = true;

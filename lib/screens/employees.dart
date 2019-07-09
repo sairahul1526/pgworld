@@ -177,8 +177,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                                       color:
                                                           HexColor("#AED6F1"),
                                                       label: new Text(
-                                                        employees[i].phone +
-                                                            "12344",
+                                                        employees[i].phone,
                                                         style: TextStyle(
                                                             fontSize: 10),
                                                       ),
@@ -200,7 +199,6 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                                   )
                                                 : new Container(),
                                             new Flexible(
-                                              // fit: FlexFit.loose,
                                               child: employees[i].email != ""
                                                   ? new ButtonTheme(
                                                       height: 25,
@@ -215,9 +213,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                                             HexColor("#AED6F1"),
                                                         label: new Flexible(
                                                           child: new Text(
-                                                            "sameerbabu.sha.sameerbabu.sha." +
-                                                                employees[i]
-                                                                    .email,
+                                                            employees[i].email,
                                                             softWrap: false,
                                                             overflow:
                                                                 TextOverflow
