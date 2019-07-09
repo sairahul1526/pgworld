@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
+DateFormat headingDateFormat = new DateFormat("EEE, MMM d, ''yy");
 
 SharedPreferences prefs;
 Future<bool> initSharedPreference() async {

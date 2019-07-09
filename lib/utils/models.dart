@@ -98,7 +98,15 @@ class Bills {
   }
 }
 
-class Bill {
+abstract class ListItem {}
+
+class HeadingItem implements ListItem {
+  final String heading;
+
+  HeadingItem(this.heading);
+}
+
+class Bill implements ListItem {
   final String id;
   final String hostelID;
   final String title;

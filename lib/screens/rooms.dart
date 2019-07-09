@@ -118,7 +118,6 @@ class RoomsActivityState extends State<RoomsActivity> {
               },
               icon: new Icon(
                 Icons.filter_list,
-                color: Colors.black,
               ),
             ),
             new IconButton(
@@ -131,7 +130,6 @@ class RoomsActivityState extends State<RoomsActivity> {
               },
               icon: new Icon(
                 Icons.add,
-                color: Colors.black,
               ),
             ),
           ],

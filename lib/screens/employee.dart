@@ -136,12 +136,27 @@ class EmployeeActivityState extends State<EmployeeActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Employee"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          "Employee",
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 4.0,
         actions: <Widget>[
           new MaterialButton(
             textColor: Colors.white,
-            child: employee != null ? new Text("SAVE") : new Text("ADD"),
+            child: employee != null
+                ? new Text(
+                    "SAVE",
+                    style: TextStyle(color: Colors.black),
+                  )
+                : new Text(
+                    "ADD",
+                    style: TextStyle(color: Colors.black),
+                  ),
             onPressed: () {
               setState(() {
                 loading = true;

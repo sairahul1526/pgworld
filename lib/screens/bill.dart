@@ -89,17 +89,26 @@ class BillActivityState extends State<BillActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
         title: new Text(
-            user != null ? "Rent" : (employee != null ? "Salary" : "Bill")),
+          user != null ? "Rent" : (employee != null ? "Salary" : "Bill"),
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 4.0,
         actions: <Widget>[
           new MaterialButton(
             textColor: Colors.white,
-            child: new Text(bill != null
-                ? "SAVE"
-                : (user != null
-                    ? "RECEIVE"
-                    : (employee != null ? "PAY" : "ADD"))),
+            child: new Text(
+              bill != null
+                  ? "SAVE"
+                  : (user != null
+                      ? "RECEIVE"
+                      : (employee != null ? "PAY" : "ADD")),
+              style: TextStyle(color: Colors.black),
+            ),
             onPressed: () {
               setState(() {
                 loading = true;

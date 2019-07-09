@@ -28,7 +28,7 @@ class BillsActivityState extends State<BillsActivity> {
 
   Map<String, String> filter = new Map();
 
-  List<Bill> bills = new List();
+  List<ListItem> bills = new List();
   bool end = false;
   bool ongoing = false;
 
@@ -38,6 +38,8 @@ class BillsActivityState extends State<BillsActivity> {
   bool loading = true;
 
   ScrollController _controller;
+
+  String previousDate = "";
 
   @override
   void initState() {
@@ -78,7 +80,15 @@ class BillsActivityState extends State<BillsActivity> {
       if (response.bills != null && response.bills.length > 0) {
         offset = (int.parse(response.pagination.offset) + response.bills.length)
             .toString();
-        bills.addAll(response.bills);
+        response.bills.forEach((bill) {
+          if (bill is Bill) {
+            if (previousDate.compareTo(bill.paidDateTime.split(" ")[0]) != 0) {
+              previousDate = bill.paidDateTime.split(" ")[0];
+              bills.add(HeadingItem(previousDate));
+            }
+          }
+          bills.add(bill);
+        });
       } else {
         end = true;
       }
@@ -125,8 +135,14 @@ class BillsActivityState extends State<BillsActivity> {
 
     return new Scaffold(
       appBar: new AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
         title: new Text(
-            user != null ? "Rents" : (employee != null ? "Salary" : "Bills")),
+          user != null ? "Rents" : (employee != null ? "Salary" : "Bills"),
+          style: TextStyle(color: Colors.black),
+        ),
         actions: <Widget>[
           new IconButton(
             onPressed: () {
@@ -160,76 +176,89 @@ class BillsActivityState extends State<BillsActivity> {
                 itemCount: bills.length,
                 separatorBuilder: (context, index) => Divider(),
                 itemBuilder: (context, i) {
-                  return new ListTile(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) =>
-                                new BillActivity(bills[i], null, null)),
-                      );
-                    },
-                    title: new Container(
-                      margin: new EdgeInsets.all(13),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new Flexible(
-                            child: new Column(
-                              children: <Widget>[
-                                new Text(
-                                  bills[i].title,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                bills[i].description.length > 0
-                                    ? new Container(
-                                        margin:
-                                            EdgeInsets.fromLTRB(0, 0, 0, 20),
-                                        child: new Text(
-                                          bills[i].description,
-                                          overflow: TextOverflow.clip,
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w100),
-                                        ),
-                                      )
-                                    : new Text(""),
-                              ],
-                            ),
-                          ),
-                          new Container(
-                            margin: EdgeInsets.only(left: 10),
-                            width: width * 0.4,
-                            child: new Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                new Text(
-                                  "₹" + bills[i].amount,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w100,
-                                      color: bills[i].paid == "0"
-                                          ? Colors.green
-                                          : Colors.red),
-                                ),
-                                new Text(
-                                  bills[i].paidDateTime.split(" ")[0],
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w100),
-                                )
-                              ],
-                            ),
-                          ),
-                        ],
+                  final item = bills[i];
+                  if (item is HeadingItem) {
+                    return new Container(
+                      margin: EdgeInsets.all(10),
+                      child: new Text(
+                        headingDateFormat.format(DateTime.parse(item.heading)),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
                       ),
-                    ),
-                  );
+                    );
+                  } else if (item is Bill) {
+                    return new ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          new MaterialPageRoute(
+                              builder: (context) =>
+                                  new BillActivity(bills[i], null, null)),
+                        );
+                      },
+                      title: new Container(
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Container(
+                              margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                              height: 50,
+                              width: 3,
+                              color:
+                                  item.paid == "0" ? Colors.green : Colors.red,
+                            ),
+                            new Expanded(
+                              child: new Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  new Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      new Text(
+                                        item.title,
+                                        style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      // new Text(
+                                      //   item.paidDateTime.split(" ")[0],
+                                      //   overflow: TextOverflow.ellipsis,
+                                      //   style: TextStyle(
+                                      //       fontSize: 15,
+                                      //       fontWeight: FontWeight.w100),
+                                      // ),
+                                      new Text(
+                                        "₹" + item.amount,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.normal,
+                                            color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                  item.description.length > 0
+                                      ? new Container(
+                                          width: width * 0.7,
+                                          child: new Text(
+                                            item.description,
+                                            overflow: TextOverflow.clip,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w100),
+                                          ),
+                                        )
+                                      : new Text(""),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
                 },
               ),
         inAsyncCall: loading,
