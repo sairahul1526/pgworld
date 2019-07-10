@@ -41,6 +41,8 @@ class BillsActivityState extends State<BillsActivity> {
 
   String previousDate = "";
 
+  int total = 0;
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +56,8 @@ class BillsActivityState extends State<BillsActivity> {
     filter["hostel_id"] = hostelID;
     filter["limit"] = defaultLimit;
     filter["offset"] = offset;
+    filter["orderby"] = "created_date_time";
+    filter["sortby"] = "desc";
 
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
@@ -86,6 +90,11 @@ class BillsActivityState extends State<BillsActivity> {
               previousDate = bill.paidDateTime.split(" ")[0];
               bills.add(HeadingItem(previousDate));
             }
+          }
+          if (bill.paid == "0") {
+            total += int.parse(bill.amount);
+          } else {
+            total -= int.parse(bill.amount);
           }
           bills.add(bill);
         });
@@ -134,6 +143,34 @@ class BillsActivityState extends State<BillsActivity> {
     width = MediaQuery.of(context).size.width;
 
     return new Scaffold(
+      bottomNavigationBar: new Card(
+        child: new Container(
+          padding: EdgeInsets.fromLTRB(30, 0, 10, 0),
+          height: 50,
+          child: new Row(
+            children: <Widget>[
+              new Expanded(
+                child: new Text(
+                  "Total",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              new Text(
+                (total > 0 ? "" : "- ") + "₹" + total.toString(),
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.normal,
+                  color: total > 0 ? Colors.green : Colors.red,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: new AppBar(
         iconTheme: IconThemeData(
           color: Colors.black,
@@ -174,20 +211,38 @@ class BillsActivityState extends State<BillsActivity> {
             : new ListView.separated(
                 controller: _controller,
                 itemCount: bills.length,
-                separatorBuilder: (context, index) => Divider(),
+                separatorBuilder: (context, index) {
+                  if (bills[index] is HeadingItem) {
+                    return Container();
+                  } else {
+                    return Container();
+                  }
+                },
                 itemBuilder: (context, i) {
                   final item = bills[i];
                   if (item is HeadingItem) {
                     return new Container(
-                      margin: EdgeInsets.all(10),
+                      decoration: i != 0
+                          ? new BoxDecoration(
+                              border: new Border(
+                              top: BorderSide(
+                                color: HexColor("#dedfe0"),
+                              ),
+                            ))
+                          : null,
+                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsets.fromLTRB(0, i != 0 ? 10 : 0, 0, 0),
                       child: new Text(
                         headingDateFormat.format(DateTime.parse(item.heading)),
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 30),
+                            // fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                            color: Colors.grey),
                       ),
                     );
                   } else if (item is Bill) {
                     return new ListTile(
+                      dense: true,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -201,15 +256,20 @@ class BillsActivityState extends State<BillsActivity> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             new Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
-                              height: 50,
-                              width: 3,
-                              color:
-                                  item.paid == "0" ? Colors.green : Colors.red,
-                            ),
+                                margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
+                                padding: EdgeInsets.all(7),
+                                color: item.paid == "0"
+                                    ? HexColor("#A2D9CE")
+                                    : HexColor("#F5CBA7"),
+                                child: new Icon(item.userID != ""
+                                    ? Icons.local_hotel
+                                    : (item.employeeID != ""
+                                        ? Icons.account_box
+                                        : Icons.receipt))),
                             new Expanded(
                               child: new Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   new Row(
                                     mainAxisAlignment:
@@ -218,24 +278,22 @@ class BillsActivityState extends State<BillsActivity> {
                                       new Text(
                                         item.title,
                                         style: TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          // fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      // new Text(
-                                      //   item.paidDateTime.split(" ")[0],
-                                      //   overflow: TextOverflow.ellipsis,
-                                      //   style: TextStyle(
-                                      //       fontSize: 15,
-                                      //       fontWeight: FontWeight.w100),
-                                      // ),
                                       new Text(
-                                        "₹" + item.amount,
+                                        (item.paid == "0" ? "" : "- ") +
+                                            "₹" +
+                                            item.amount,
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.normal,
-                                            color: Colors.black),
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.normal,
+                                          color: item.paid == "0"
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -246,11 +304,12 @@ class BillsActivityState extends State<BillsActivity> {
                                             item.description,
                                             overflow: TextOverflow.clip,
                                             style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w100),
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w100,
+                                                color: Colors.grey),
                                           ),
                                         )
-                                      : new Text(""),
+                                      : new Container(),
                                 ],
                               ),
                             ),

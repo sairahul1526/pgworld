@@ -110,6 +110,8 @@ class Bill implements ListItem {
   final String id;
   final String hostelID;
   final String title;
+  final String userID;
+  final String employeeID;
   final String description;
   final String type;
   final String amount;
@@ -125,6 +127,8 @@ class Bill implements ListItem {
       {this.id,
       this.hostelID,
       this.title,
+      this.userID,
+      this.employeeID,
       this.description,
       this.type,
       this.amount,
@@ -141,6 +145,8 @@ class Bill implements ListItem {
       id: json['id'],
       hostelID: json['hostel_id'],
       title: json['title'],
+      userID: json['user_id'],
+      employeeID: json['employee_id'],
       description: json['description'],
       type: json['type'],
       amount: json['amount'],

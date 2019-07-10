@@ -153,7 +153,14 @@ class ReportActivityState extends State<ReportActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("REPORTS"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          "REPORTS",
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 4.0,
       ),
       body: new Container(

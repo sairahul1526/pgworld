@@ -36,12 +36,22 @@ class UserFilterActivityState extends State<UserFilterActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("User"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          "User",
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 4.0,
         actions: <Widget>[
           new MaterialButton(
             textColor: Colors.white,
-            child: new Text("FILTER"),
+            child: new Text(
+              "FILTER",
+              style: TextStyle(color: Colors.black),
+            ),
             onPressed: () {
               Map<String, String> filter = new Map();
               if (name.text != "") {
@@ -241,7 +251,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                   ),
                   new Text("All"),
                   new Radio(
-                    value: 0,
+                    value: 1,
                     groupValue: food,
                     onChanged: (value) {
                       setState(() {
@@ -251,7 +261,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                   ),
                   new Text("Veg"),
                   new Radio(
-                    value: 1,
+                    value: 0,
                     groupValue: food,
                     onChanged: (value) {
                       setState(() {

@@ -59,12 +59,22 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Room"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          "Room",
+          style: TextStyle(color: Colors.black),
+        ),
         elevation: 4.0,
         actions: <Widget>[
           new MaterialButton(
             textColor: Colors.white,
-            child: new Text("FILTER"),
+            child: new Text(
+              "FILTER",
+              style: TextStyle(color: Colors.black),
+            ),
             onPressed: () {
               Map<String, String> filter = new Map();
               if (roomno.text != "") {

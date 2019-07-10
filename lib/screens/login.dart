@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:easy_json/easy_json.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';

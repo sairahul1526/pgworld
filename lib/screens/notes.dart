@@ -80,7 +80,14 @@ class NotesActivityState extends State<NotesActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Notes"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          "Notes",
+          style: TextStyle(color: Colors.black),
+        ),
         actions: <Widget>[
           new Checkbox(
             value: checked,
@@ -137,40 +144,15 @@ class NotesActivityState extends State<NotesActivity> {
                     },
                     title: new Container(
                       margin: new EdgeInsets.all(13),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new Checkbox(
-                              value: notes[i].status == "0" ? true : false,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  update(
-                                    API.NOTE,
-                                    Map.from({
-                                      "status":
-                                          notes[i].status == "1" ? "0" : "1",
-                                    }),
-                                    Map.from({
-                                      'hostel_id': hostelID,
-                                      'id': notes[i].id
-                                    }),
-                                  );
-                                });
-                              }),
-                          new Expanded(
-                            child: new Column(
-                              children: <Widget>[
-                                new Text(
-                                  notes[i].note,
-                                  overflow: TextOverflow.clip,
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w100),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      child: new Text(
+                        notes[i].note,
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w100,
+                            decoration: notes[i].status == "0"
+                                ? TextDecoration.lineThrough
+                                : TextDecoration.none),
                       ),
                     ),
                   );

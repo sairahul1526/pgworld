@@ -58,7 +58,14 @@ class LogsActivityState extends State<LogsActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Logs"),
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
+        title: new Text(
+          "Logs",
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: new SingleChildScrollView(
         scrollDirection: Axis.horizontal,

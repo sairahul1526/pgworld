@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pgworld/screens/report.dart';
+import 'package:outline_material_icons/outline_material_icons.dart';
 
 import './rooms.dart';
 import './logs.dart';
@@ -8,6 +8,7 @@ import './bills.dart';
 import './notes.dart';
 import './employees.dart';
 import './settings.dart';
+import './report.dart';
 import '../utils/utils.dart';
 
 class DashBoard extends StatefulWidget {
@@ -55,209 +56,236 @@ class DashBoardState extends State<DashBoard> {
                 mainAxisSpacing: 15.0,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  new Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    color: HexColor("#D7BDE2"),
-                    child: new MaterialButton(
-                      child: new Center(
+                  new GestureDetector(
+                    child: new Card(
+                      child: new Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            // new Icon(
-                            //   Icons.supervisor_account,
-                            //   color: Colors.white,
-                            //   size: 35,
-                            // ),
+                            new Expanded(
+                              child: new Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: new BoxDecoration(
+                                  color: HexColor("#D7BDE2"),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: new Icon(
+                                  Icons.supervisor_account,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                             new Text(
                               "1987",
                               style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 25,
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             new Text("Users",
                                 style: new TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
+                                  fontSize: 17,
+                                  color: Colors.grey,
                                 )),
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new UsersActivity(null)),
-                        );
-                      },
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new UsersActivity(null)),
+                      );
+                    },
                   ),
-                  new Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    color: HexColor("#F5CBA7"),
-                    child: new MaterialButton(
-                      child: new Center(
+                  new GestureDetector(
+                    child: new Card(
+                      child: new Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            // new Icon(
-                            //   Icons.local_hotel,
-                            //   color: Colors.white,
-                            //   size: 35,
-                            // ),
+                            new Expanded(
+                              child: new Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: new BoxDecoration(
+                                  color: HexColor("#F5CBA7"),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: new Icon(
+                                  Icons.local_hotel,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                             new Text(
                               "107",
                               style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 25,
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             new Text("Rooms",
                                 style: new TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
+                                  fontSize: 17,
+                                  color: Colors.grey,
                                 )),
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new RoomsActivity()),
-                        );
-                      },
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new RoomsActivity()),
+                      );
+                    },
                   ),
-                  new Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    color: HexColor("#F9E79F"),
-                    child: new MaterialButton(
-                      child: new Center(
+                  new GestureDetector(
+                    child: new Card(
+                      child: new Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            // new Icon(
-                            //   Icons.attach_money,
-                            //   color: Colors.white,
-                            //   size: 35,
-                            // ),
+                            new Expanded(
+                              child: new Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: new BoxDecoration(
+                                  color: HexColor("#F9E79F"),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: new Icon(
+                                  Icons.attach_money,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                             new Text(
                               "4123",
                               style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 25,
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             new Text("Bills",
                                 style: new TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
+                                  fontSize: 17,
+                                  color: Colors.grey,
                                 )),
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) =>
-                                  new BillsActivity(null, null)),
-                        );
-                      },
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) =>
+                                new BillsActivity(null, null)),
+                      );
+                    },
                   ),
-                  new Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    color: HexColor("#A2D9CE"),
-                    child: new MaterialButton(
-                      child: new Center(
+                  new GestureDetector(
+                    child: new Card(
+                      child: new Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            // new Icon(
-                            //   Icons.format_list_numbered,
-                            //   color: Colors.white,
-                            //   size: 35,
-                            // ),
+                            new Expanded(
+                              child: new Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: new BoxDecoration(
+                                  color: HexColor("#A2D9CE"),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: new Icon(
+                                  Icons.format_list_numbered,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                             new Text(
                               "44",
                               style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 25,
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             new Text("Notes",
                                 style: new TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black,
+                                  fontSize: 17,
+                                  color: Colors.grey,
                                 )),
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new NotesActivity()),
-                        );
-                      },
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new NotesActivity()),
+                      );
+                    },
                   ),
-                  new Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    color: HexColor("#AED6F1"),
-                    child: new MaterialButton(
-                      child: new Center(
+                  new GestureDetector(
+                    child: new Card(
+                      child: new Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: new Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            // new Icon(
-                            //   Icons.account_box,
-                            //   color: Colors.white,
-                            //   size: 35,
-                            // ),
+                            new Expanded(
+                              child: new Container(
+                                padding: EdgeInsets.all(10),
+                                decoration: new BoxDecoration(
+                                  color: HexColor("#AED6F1"),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: new Icon(
+                                  Icons.account_box,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                             new Text(
                               "12",
                               style: TextStyle(
-                                fontSize: 40,
+                                fontSize: 25,
                                 color: Colors.black,
-                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             new Text("Employees",
                                 style: new TextStyle(
-                                    fontSize: 20, color: Colors.black)),
+                                  fontSize: 17,
+                                  color: Colors.grey,
+                                )),
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new EmployeesActivity()),
-                        );
-                      },
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new EmployeesActivity()),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -276,74 +304,82 @@ class DashBoardState extends State<DashBoard> {
                 mainAxisSpacing: 15.0,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  new Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    color: HexColor("#F5B7B1"),
-                    child: new MaterialButton(
-                      child: new Center(
+                  new GestureDetector(
+                    child: new Card(
+                      child: new Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: new Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            new Icon(
-                              Icons.track_changes,
-                              color: Colors.white,
-                              size: 35,
+                            new Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              padding: EdgeInsets.all(10),
+                              decoration: new BoxDecoration(
+                                color: HexColor("#F5B7B1"),
+                                shape: BoxShape.circle,
+                              ),
+                              child: new Icon(
+                                Icons.track_changes,
+                                size: 25,
+                                color: Colors.white,
+                              ),
                             ),
-                            new Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5)),
                             new Text("Logs",
                                 style: new TextStyle(
-                                    fontSize: 20, color: Colors.black)),
+                                  fontSize: 17,
+                                  color: Colors.grey,
+                                )),
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new LogsActivity()),
-                        );
-                      },
                     ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new LogsActivity()),
+                      );
+                    },
                   ),
-                  new Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    color: HexColor("#ABB2B9"),
-                    child: new MaterialButton(
-                      child: new Center(
+                  new GestureDetector(
+                    child: new Card(
+                      child: new Container(
+                        margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: new Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            new Icon(
-                              Icons.show_chart,
-                              color: Colors.white,
-                              size: 35,
+                            new Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              padding: EdgeInsets.all(10),
+                              decoration: new BoxDecoration(
+                                color: HexColor("#ABB2B9"),
+                                shape: BoxShape.circle,
+                              ),
+                              child: new Icon(
+                                Icons.show_chart,
+                                size: 25,
+                                color: Colors.white,
+                              ),
                             ),
-                            new Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5)),
                             new Text("Reports",
                                 style: new TextStyle(
-                                    fontSize: 20, color: Colors.black)),
+                                  fontSize: 17,
+                                  color: Colors.grey,
+                                )),
                           ],
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) => new ReportActivity()),
-                        );
-                      },
                     ),
-                  )
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) => new ReportActivity()),
+                      );
+                    },
+                  ),
                 ],
               ),
             )
