@@ -4,9 +4,22 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:intl/intl.dart';
+import "dart:math";
 
 DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
 DateFormat headingDateFormat = new DateFormat("EEE, MMM d, ''yy");
+
+List<String> colors = [
+  "#D7BDE2",
+  "#F5CBA7",
+  "#F9E79F",
+  "#A2D9CE",
+  "#AED6F1",
+  "#F5B7B1",
+  "#ABB2B9"
+];
+
+final random = new Random();
 
 SharedPreferences prefs;
 Future<bool> initSharedPreference() async {

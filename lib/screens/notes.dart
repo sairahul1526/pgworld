@@ -150,6 +150,9 @@ class NotesActivityState extends State<NotesActivity> {
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w100,
+                            color: notes[i].status == "0"
+                                ? Colors.grey
+                                : Colors.black,
                             decoration: notes[i].status == "0"
                                 ? TextDecoration.lineThrough
                                 : TextDecoration.none),
