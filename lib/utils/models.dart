@@ -393,7 +393,7 @@ class Notes {
   }
 }
 
-class Note {
+class Note implements ListItem {
   final String id;
   final String note;
   String status;

@@ -147,7 +147,6 @@ class UsersActivityState extends State<UsersActivity> {
             : new Container(
                 color: Colors.black,
                 child: new ListView.separated(
-                  shrinkWrap: true,
                   padding: EdgeInsets.all(0),
                   controller: _controller,
                   itemCount: users.length,

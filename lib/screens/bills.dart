@@ -212,11 +212,7 @@ class BillsActivityState extends State<BillsActivity> {
                 controller: _controller,
                 itemCount: bills.length,
                 separatorBuilder: (context, index) {
-                  if (bills[index] is HeadingItem) {
-                    return Container();
-                  } else {
-                    return Container();
-                  }
+                  return Container();
                 },
                 itemBuilder: (context, i) {
                   final item = bills[i];
@@ -234,10 +230,7 @@ class BillsActivityState extends State<BillsActivity> {
                       margin: EdgeInsets.fromLTRB(0, i != 0 ? 10 : 0, 0, 0),
                       child: new Text(
                         headingDateFormat.format(DateTime.parse(item.heading)),
-                        style: TextStyle(
-                            // fontWeight: FontWeight.bold,
-                            fontSize: 15,
-                            color: Colors.grey),
+                        style: TextStyle(fontSize: 15, color: Colors.grey),
                       ),
                     );
                   } else if (item is Bill) {
