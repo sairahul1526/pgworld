@@ -208,12 +208,9 @@ class BillsActivityState extends State<BillsActivity> {
             ? new Center(
                 child: new Text("No bills"),
               )
-            : new ListView.separated(
+            : new ListView.builder(
                 controller: _controller,
                 itemCount: bills.length,
-                separatorBuilder: (context, index) {
-                  return Container();
-                },
                 itemBuilder: (context, i) {
                   final item = bills[i];
                   if (item is HeadingItem) {
@@ -272,7 +269,6 @@ class BillsActivityState extends State<BillsActivity> {
                                         item.title,
                                         style: TextStyle(
                                           fontSize: 20,
-                                          // fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                       new Text(

@@ -117,9 +117,6 @@ class UsersActivityState extends State<UsersActivity> {
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
-    final theme = Theme.of(context).copyWith(
-      dividerColor: Colors.transparent,
-    );
     return new Scaffold(
       appBar: new AppBar(
         iconTheme: IconThemeData(
@@ -144,262 +141,208 @@ class UsersActivityState extends State<UsersActivity> {
             ? new Center(
                 child: new Text("No users"),
               )
-            : new Container(
-                color: Colors.black,
-                child: new ListView.separated(
-                  padding: EdgeInsets.all(0),
-                  controller: _controller,
-                  itemCount: users.length,
-                  separatorBuilder: (context, index) => Divider(),
-                  itemBuilder: (itemContext, i) {
-                    return new Container(
-                      child: new ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) =>
-                                    new BillsActivity(users[i], null)),
-                          );
-                        },
-                        title: Theme(
-                          data: theme,
-                          child: new ExpansionTile(
-                            backgroundColor: Colors.yellow,
-                            initiallyExpanded: i == 0,
-                            title: new Container(
-                              color: Colors.red,
-                              child: new Slidable(
-                                actionPane: new SlidableDrawerActionPane(),
-                                actionExtentRatio: 0.25,
-                                child: new Column(
-                                  children: <Widget>[
-                                    new Container(
-                                      child: new Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          new Container(
-                                            margin: EdgeInsets.only(right: 10),
-                                            padding: EdgeInsets.all(15),
-                                            decoration: new BoxDecoration(
-                                              color: HexColor(
-                                                colors[random
-                                                    .nextInt(colors.length)],
-                                              ),
-                                              shape: BoxShape.circle,
-                                            ),
-                                            child: new Text(
-                                              users[i].name[0].toUpperCase(),
-                                              style: TextStyle(
-                                                fontSize: 25,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                          new Expanded(
-                                            child: new Column(
-                                              children: <Widget>[
-                                                new Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    i % 2 == 0
-                                                        ? new Container(
-                                                            margin:
-                                                                EdgeInsets.only(
-                                                              right: 10,
-                                                            ),
-                                                            child: new Icon(
-                                                              Icons.label,
-                                                              size: 15,
-                                                              color: Colors.red,
-                                                            ),
-                                                          )
-                                                        : new Container(),
-                                                    new Text(
-                                                      users[i]
-                                                              .name[0]
-                                                              .toUpperCase() +
-                                                          users[i]
-                                                              .name
-                                                              .substring(1),
-                                                      style: TextStyle(
-                                                        fontSize: 19,
-                                                        // fontWeight: FontWeight.bold,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                new Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    new Icon(
-                                                      Icons.local_hotel,
-                                                      size: 20,
-                                                    ),
-                                                    new Text(
-                                                      "  " +
-                                                          users[i].roomID +
-                                                          ",  ",
-                                                      style: TextStyle(
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.w100,
-                                                      ),
-                                                    ),
-                                                    new Icon(
-                                                      Icons.center_focus_strong,
-                                                      size: 20,
-                                                      color:
-                                                          users[i].food == "1"
-                                                              ? Colors.green
-                                                              : Colors.red,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          )
-                                        ],
+            : new ListView.builder(
+                controller: _controller,
+                itemCount: users.length,
+                itemBuilder: (itemContext, i) {
+                  return new GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        new MaterialPageRoute(
+                            builder: (context) =>
+                                new BillsActivity(users[i], null)),
+                      );
+                    },
+                    child: new Container(
+                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: new Slidable(
+                        actionPane: new SlidableDrawerActionPane(),
+                        actionExtentRatio: 0.25,
+                        child: new Column(
+                          children: <Widget>[
+                            new Container(
+                              child: new Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  new Container(
+                                    margin: EdgeInsets.only(right: 10),
+                                    padding: EdgeInsets.all(15),
+                                    decoration: new BoxDecoration(
+                                      color: HexColor(
+                                        colors[random.nextInt(colors.length)],
+                                      ),
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: new Text(
+                                      users[i].name[0].toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.white,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                secondaryActions: <Widget>[
-                                  new IconSlideAction(
-                                    caption: 'EDIT',
-                                    icon: Icons.edit,
-                                    color: Colors.blue,
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        new MaterialPageRoute(
-                                            builder: (context) =>
-                                                new UserActivity(
-                                                    users[i], room)),
-                                      );
-                                    },
                                   ),
+                                  new Expanded(
+                                      child: new Container(
+                                    margin: EdgeInsets.only(top: 10),
+                                    child: new Column(
+                                      children: <Widget>[
+                                        new Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            new Flexible(
+                                              child: new Text(
+                                                users[i].name[0].toUpperCase() +
+                                                    users[i].name.substring(1),
+                                                style: TextStyle(
+                                                  fontSize: 20,
+                                                ),
+                                              ),
+                                            ),
+                                            new Text(
+                                              "₹" + users[i].rent,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.green),
+                                            )
+                                          ],
+                                        ),
+                                        new Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            new Icon(Icons.local_hotel),
+                                            new Text(
+                                              "   " + users[i].roomID + ",  ",
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w100,
+                                                  color: Colors.grey),
+                                            ),
+                                            new Icon(
+                                              Icons.center_focus_strong,
+                                              size: 20,
+                                              color: users[i].food == "1"
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                            // new Text(
+                                            //     users[i].food == "1"
+                                            //         ? "Veg"
+                                            //         : "Non",
+                                            //     style: TextStyle(
+                                            //         fontSize: 12,
+                                            //         fontWeight: FontWeight.w100,
+                                            //         color: Colors.grey))
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ))
                                 ],
                               ),
                             ),
-                            children: <Widget>[
-                              new SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                child: new Row(
-                                  children: <Widget>[
-                                    new ButtonTheme(
-                                      height: 25,
-                                      child: new RaisedButton.icon(
-                                        color: Colors.white,
-                                        label: new Text(
-                                          users[i].rent,
-                                          style: TextStyle(fontSize: 10),
+                            new Row(
+                              children: <Widget>[
+                                users[i].phone != ""
+                                    ? new ButtonTheme(
+                                        materialTapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap,
+                                        height: 25,
+                                        child: new FlatButton.icon(
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          // shape: new RoundedRectangleBorder(
+                                          //     borderRadius:
+                                          //         new BorderRadius.circular(
+                                          //             15.0)),
+                                          // color:
+                                          //     HexColor("#AED6F1"),
+                                          label: new Text(
+                                            users[i].phone,
+                                            style: TextStyle(fontSize: 10),
+                                          ),
+                                          icon: new Icon(
+                                            Icons.phone,
+                                            size: 15,
+                                          ),
+                                          onPressed: () {
+                                            makePhone(users[i].phone);
+                                          },
                                         ),
-                                        icon: new Icon(
-                                          Icons.attach_money,
-                                          size: 15,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder: (context) =>
-                                                    new BillsActivity(
-                                                        users[i], null)),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    new Container(
-                                      height: 50,
-                                      width: 10,
-                                    ),
-                                    new ButtonTheme(
-                                      height: 25,
-                                      child: new RaisedButton.icon(
-                                        color: Colors.white,
-                                        label: new Text(
-                                          "EDIT",
-                                          style: TextStyle(fontSize: 10),
-                                        ),
-                                        icon: new Icon(
-                                          Icons.edit,
-                                          size: 15,
-                                        ),
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            new MaterialPageRoute(
-                                                builder: (context) =>
-                                                    new UserActivity(
-                                                        users[i], room)),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    new Container(
-                                      height: 50,
-                                      width: 10,
-                                    ),
-                                    users[i].phone != ""
-                                        ? new ButtonTheme(
-                                            height: 25,
-                                            child: new RaisedButton.icon(
-                                              color: Colors.white,
-                                              label: new Text(
-                                                "PHONE",
+                                      )
+                                    : new Container(),
+                                users[i].phone != ""
+                                    ? new Container(
+                                        height: 0,
+                                        width: 10,
+                                      )
+                                    : new Container(),
+                                new Flexible(
+                                  child: users[i].email != ""
+                                      ? new ButtonTheme(
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                          height: 25,
+                                          child: new FlatButton.icon(
+                                            materialTapTargetSize:
+                                                MaterialTapTargetSize
+                                                    .shrinkWrap,
+                                            // shape: new RoundedRectangleBorder(
+                                            //     borderRadius:
+                                            //         new BorderRadius
+                                            //                 .circular(
+                                            //             15.0)),
+                                            // color:
+                                            //     HexColor("#AED6F1"),
+                                            label: new Flexible(
+                                              child: new Text(
+                                                users[i].email,
+                                                softWrap: false,
+                                                overflow: TextOverflow.fade,
                                                 style: TextStyle(fontSize: 10),
                                               ),
-                                              icon: new Icon(
-                                                Icons.phone,
-                                                size: 15,
-                                              ),
-                                              onPressed: () {
-                                                makePhone(users[i].phone);
-                                              },
                                             ),
-                                          )
-                                        : new Container(),
-                                    users[i].phone != ""
-                                        ? new Container(
-                                            height: 50,
-                                            width: 10,
-                                          )
-                                        : new Container(),
-                                    users[i].email != ""
-                                        ? new ButtonTheme(
-                                            height: 25,
-                                            child: new RaisedButton.icon(
-                                              color: Colors.white,
-                                              label: new Text(
-                                                "EMAIL",
-                                                style: TextStyle(fontSize: 10),
-                                              ),
-                                              icon: new Icon(
-                                                Icons.mail,
-                                                size: 15,
-                                              ),
-                                              onPressed: () {
-                                                sendMail(users[i].email);
-                                              },
+                                            icon: new Icon(
+                                              Icons.email,
+                                              size: 15,
                                             ),
-                                          )
-                                        : new Container(),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                            onPressed: () {
+                                              sendMail(users[i].email);
+                                            },
+                                          ),
+                                        )
+                                      : new Container(),
+                                )
+                              ],
+                            ),
+                            new Divider(
+                              height: 5,
+                            )
+                          ],
                         ),
+                        secondaryActions: <Widget>[
+                          new IconSlideAction(
+                            caption: 'EDIT',
+                            icon: Icons.edit,
+                            color: Colors.blue,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) =>
+                                        new UserActivity(users[i], room)),
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
         inAsyncCall: loading,
       ),
