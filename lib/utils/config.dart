@@ -6,6 +6,7 @@ class API {
   static const EMPLOYEE = "employee";
   static const LOG = "log";
   static const NOTE = "note";
+  static const REPORT = "report";
   static const ROOM = "room";
   static const USER = "user";
   static const HOSTEL = "hostel";
@@ -17,8 +18,8 @@ class API {
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "1";
-  static const IOS = "1";
+  static const ANDROID = "1.1";
+  static const IOS = "1.1";
 }
 
 class APIKEY {

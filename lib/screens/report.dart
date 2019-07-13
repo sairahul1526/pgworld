@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:pgworld/utils/models.dart';
 
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+import '../utils/config.dart';
+import '../utils/api.dart';
+
 class ReportActivity extends StatefulWidget {
   ReportActivity();
   @override
@@ -13,21 +18,38 @@ class ReportActivity extends StatefulWidget {
 class ReportActivityState extends State<ReportActivity> {
   final Color leftBarColor = Color(0xff53fdd7);
   final Color rightBarColor = Color(0xffff5182);
-  final double width = 7;
+  double width = 7;
 
   Charts charts = new Charts();
 
   List<Widget> widgets = new List();
 
+  bool loading = true;
+
   @override
   void initState() {
     super.initState();
+    fillData();
+  }
 
+  void fillData() {
+    Map<String, String> filter = new Map();
+    filter["hostel_id"] = hostelID;
+    Future<Charts> data = getReports(filter);
+    data.then((response) {
+      setState(() {
+        charts = response;
+      });
+      updateCharts();
+    });
+  }
+
+  void updateCharts() {
     // pies
     if (charts.pies != null) {
       charts.pies.forEach((pie) {
         List<PieChartSectionData> sections = [];
-        pie.pieData.forEach((data) {
+        pie.forEach((data) {
           sections.add(PieChartSectionData(
             color: Color(0xff0293ee),
             value: double.parse(data.value),
@@ -98,7 +120,7 @@ class ReportActivityState extends State<ReportActivity> {
                       verticalTitlesReservedWidth: 14,
                       getVerticalTitles: (value) {
                         bar.yaxis.forEach((y) {
-                          if (value.toString() == y.key) {
+                          if (value.toString() == y.title) {
                             return y.value;
                           }
                         });
@@ -111,7 +133,7 @@ class ReportActivityState extends State<ReportActivity> {
                       horizontalTitleMargin: 20,
                       getHorizontalTitles: (double value) {
                         bar.xaxis.forEach((x) {
-                          if (value.toInt().toString() == x.key) {
+                          if (value.toInt().toString() == x.title) {
                             return x.value;
                           }
                         });
@@ -130,6 +152,9 @@ class ReportActivityState extends State<ReportActivity> {
         ));
       });
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   BarChartGroupData makeGroupData(int x, double y1, double y2) {
@@ -163,10 +188,16 @@ class ReportActivityState extends State<ReportActivity> {
         ),
         elevation: 4.0,
       ),
-      body: new Container(
-        margin: new EdgeInsets.fromLTRB(MediaQuery.of(context).size.width * 0.1,
-            25, MediaQuery.of(context).size.width * 0.1, 0),
-        child: new ListView(children: widgets),
+      body: ModalProgressHUD(
+        child: new Container(
+          margin: new EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.1,
+              25,
+              MediaQuery.of(context).size.width * 0.1,
+              0),
+          child: new Column(children: widgets),
+        ),
+        inAsyncCall: loading,
       ),
     );
   }

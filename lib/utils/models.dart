@@ -678,7 +678,7 @@ class Pagination {
 
 // reports
 class Charts {
-  final List<Pie> pies;
+  final List<List<ChartData>> pies;
   final List<Bar> bars;
   final Meta meta;
 
@@ -687,48 +687,21 @@ class Charts {
   factory Charts.fromJson(Map<String, dynamic> json) {
     return Charts(
       pies: json['pies'] != null
-          ? List<Pie>.from(json['pies'].map((i) => Pie.fromJson(i)))
-          : new List<Pie>(),
+          ? new List<List<ChartData>>.from(json["pies"].map((x) =>
+              new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
+          : new List<ChartData>(),
       bars: json['bars'] != null
-          ? List<Bar>.from(json['bars'].map((i) => Bar.fromJson(i)))
+          ? new List<Bar>.from(json["bars"].map((x) => Bar.fromJson(x)))
           : new List<Bar>(),
       meta: Meta.fromJson(json['meta']),
     );
   }
 }
 
-class Pie {
-  final List<PieData> pieData;
-
-  Pie({this.pieData});
-
-  factory Pie.fromJson(Map<String, dynamic> json) {
-    return Pie(
-      pieData: json['piedata'] != null
-          ? List<PieData>.from(json['piedata'].map((i) => PieData.fromJson(i)))
-          : new List<PieData>(),
-    );
-  }
-}
-
-class PieData {
-  final String value;
-  final String title;
-
-  PieData({this.value, this.title});
-
-  factory PieData.fromJson(Map<String, dynamic> json) {
-    return PieData(
-      value: json['value'],
-      title: json['title'],
-    );
-  }
-}
-
 class Bar {
   final List<BarData> barData;
-  final List<BarAxis> xaxis;
-  final List<BarAxis> yaxis;
+  final List<ChartData> xaxis;
+  final List<ChartData> yaxis;
 
   Bar({this.barData, this.xaxis, this.yaxis});
 
@@ -738,11 +711,13 @@ class Bar {
           ? List<BarData>.from(json['barData'].map((i) => BarData.fromJson(i)))
           : new List<BarData>(),
       xaxis: json['xaxis'] != null
-          ? List<BarAxis>.from(json['xaxis'].map((i) => BarAxis.fromJson(i)))
-          : new List<BarAxis>(),
+          ? List<ChartData>.from(
+              json['xaxis'].map((i) => ChartData.fromJson(i)))
+          : new List<ChartData>(),
       yaxis: json['yaxis'] != null
-          ? List<BarAxis>.from(json['yaxis'].map((i) => BarAxis.fromJson(i)))
-          : new List<BarAxis>(),
+          ? List<ChartData>.from(
+              json['yaxis'].map((i) => ChartData.fromJson(i)))
+          : new List<ChartData>(),
     );
   }
 }
@@ -763,16 +738,22 @@ class BarData {
   }
 }
 
-class BarAxis {
-  final String key;
-  final String value;
+class ChartData {
+  String title;
+  String value;
 
-  BarAxis({this.key, this.value});
+  ChartData({
+    this.title,
+    this.value,
+  });
 
-  factory BarAxis.fromJson(Map<String, dynamic> json) {
-    return BarAxis(
-      key: json['key'],
-      value: json['value'],
-    );
-  }
+  factory ChartData.fromJson(Map<String, dynamic> json) => new ChartData(
+        title: json["title"],
+        value: json["value"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "title": title,
+        "value": value,
+      };
 }

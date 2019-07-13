@@ -100,6 +100,21 @@ Future<Notes> getNotes(Map<String, String> query) async {
   return Notes.fromJson(json.decode(response.body));
 }
 
+// report
+
+Future<Charts> getReports(Map<String, String> query) async {
+  checkInternet().then((internet) {
+    if (internet == null || !internet) {
+      return new Charts();
+    }
+  });
+  final response = await http
+      .get(Uri.http(API.URL, API.REPORT, query), headers: headers)
+      .timeout(Duration(seconds: timeout));
+
+  return Charts.fromJson(json.decode(response.body));
+}
+
 // room
 
 Future<Rooms> getRooms(Map<String, String> query) async {

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pgworld/utils/api.dart';
 import 'package:pgworld/utils/models.dart';
 
+import 'package:rate_my_app/rate_my_app.dart';
+
 import './rooms.dart';
 import './logs.dart';
 import './users.dart';
@@ -29,6 +31,27 @@ class DashBoardState extends State<DashBoard> {
   void initState() {
     super.initState();
     fillData();
+
+    RateMyApp rateMyApp = RateMyApp(
+      minDays: 7,
+      minLaunches: 10,
+      remindDays: 7,
+      remindLaunches: 10,
+    );
+
+    rateMyApp.init().then((_) {
+      if (rateMyApp.shouldOpenDialog) {
+        rateMyApp.showRateDialog(
+          context,
+          title: 'Rate this app',
+          message:
+              'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.',
+          rateButton: 'RATE',
+          noButton: 'NO THANKS',
+          laterButton: 'MAYBE LATER',
+        );
+      }
+    });
   }
 
   void fillData() {
