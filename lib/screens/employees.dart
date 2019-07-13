@@ -109,7 +109,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
       body: ModalProgressHUD(
         child: employees.length == 0
             ? new Center(
-                child: new Text("No employees"),
+                child: new Text(loading ? "" : "No employees"),
               )
             : new ListView.separated(
                 controller: _controller,

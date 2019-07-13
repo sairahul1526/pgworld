@@ -137,7 +137,7 @@ class LogsActivityState extends State<LogsActivity> {
       body: ModalProgressHUD(
         child: logs.length == 0
             ? new Center(
-                child: new Text("No activity"),
+                child: new Text(loading ? "" : "No activity"),
               )
             : new ListView.builder(
                 controller: _controller,
@@ -182,37 +182,39 @@ class LogsActivityState extends State<LogsActivity> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
                                   new Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: <Widget>[
-                                      new Text(
-                                        item.by + " ",
-                                        style: TextStyle(
-                                          fontSize: 20,
+                                      new Flexible(
+                                        child: new Text(
+                                          item.by + " ",
+                                          maxLines: 1,
+                                          overflow: TextOverflow.clip,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
                                         ),
                                       ),
                                       new Text(
-                                        item.log,
+                                        timeFormat.format(
+                                            DateTime.parse(item.createdDateTime)
+                                                .add(new Duration(
+                                                    hours: 5, minutes: 30))),
                                         style: TextStyle(
-                                          fontSize: 15,
-                                        ),
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w100,
+                                            color: Colors.grey),
                                       ),
                                     ],
                                   ),
-                                  new Container(
-                                    width: width * 0.7,
-                                    child: new Text(
-                                      timeFormat.format(
-                                          DateTime.parse(item.createdDateTime)
-                                              .add(new Duration(
-                                                  hours: 5, minutes: 30))),
-                                      overflow: TextOverflow.clip,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w100,
-                                          color: Colors.grey),
-                                    ),
+                                  new Text(
+                                    item.log,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.grey),
                                   )
                                 ],
                               ),

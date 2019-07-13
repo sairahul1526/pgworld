@@ -108,7 +108,8 @@ class SettingsActivityState extends State<SettingsActivity> {
                             hostels.hostels.forEach((hostel) {
                               if (hostel.id == value) {
                                 amenities = hostel.amenities.split(",");
-                                expiry = hostel.expiryDateTime;
+                                expiry = headingDateFormat.format(
+                                    DateTime.parse(hostel.expiryDateTime));
                               }
                             });
                           });
@@ -138,7 +139,7 @@ class SettingsActivityState extends State<SettingsActivity> {
             ),
             new FlatButton(
               child: new Text(
-                "LOGOUT",
+                "Log Out",
                 style: TextStyle(color: Colors.red),
               ),
               onPressed: () {

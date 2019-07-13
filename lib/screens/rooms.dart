@@ -137,7 +137,7 @@ class RoomsActivityState extends State<RoomsActivity> {
         body: ModalProgressHUD(
           child: rooms.length == 0
               ? new Center(
-                  child: new Text("No rooms"),
+                  child: new Text(loading ? "" : "No rooms"),
                 )
               : new ListView.separated(
                   controller: _controller,

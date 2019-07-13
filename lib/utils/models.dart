@@ -231,8 +231,6 @@ class Employees {
 
 class Employee {
   final String id;
-  final String username;
-  final String password;
   final String name;
   final String designation;
   final String phone;
@@ -252,8 +250,6 @@ class Employee {
 
   Employee(
       {this.id,
-      this.username,
-      this.password,
       this.name,
       this.designation,
       this.phone,
@@ -274,8 +270,6 @@ class Employee {
   factory Employee.fromJson(Map<String, dynamic> json) {
     return Employee(
       id: json['id'],
-      username: json['username'],
-      password: json['password'],
       name: json['name'],
       designation: json['designation'],
       phone: json['phone'],

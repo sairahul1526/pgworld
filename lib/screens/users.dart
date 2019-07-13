@@ -139,7 +139,7 @@ class UsersActivityState extends State<UsersActivity> {
       body: ModalProgressHUD(
         child: users.length == 0
             ? new Center(
-                child: new Text("No users"),
+                child: new Text(loading ? "" : "No users"),
               )
             : new ListView.builder(
                 controller: _controller,

@@ -211,7 +211,7 @@ class BillsActivityState extends State<BillsActivity> {
       body: ModalProgressHUD(
         child: bills.length == 0
             ? new Center(
-                child: new Text("No bills"),
+                child: new Text(loading ? "" : "No bills"),
               )
             : new ListView.builder(
                 controller: _controller,

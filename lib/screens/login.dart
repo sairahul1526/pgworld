@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
@@ -110,70 +111,71 @@ class LoginState extends State<Login> {
         ),
         backgroundColor: Colors.white,
         title: new Text(
-          "Login",
+          "Log in",
           style: TextStyle(color: Colors.black),
         ),
         elevation: 4.0,
       ),
-      body: loggedIn
-          ? new Center(child: showProgress("Logging in..."))
-          : new Container(
-              margin: new EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width * 0.1,
-                  100,
-                  MediaQuery.of(context).size.width * 0.1,
-                  0),
-              child: new ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  new TextField(
-                    controller: username,
-                    autocorrect: false,
-                    autofocus: true,
-                    textInputAction: TextInputAction.next,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(hintText: 'Username'),
-                    onSubmitted: (String value) {
-                      FocusScope.of(context).requestFocus(textSecondFocusNode);
-                    },
-                  ),
-                  new Container(
-                    margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                    child: new TextField(
-                      controller: password,
-                      focusNode: textSecondFocusNode,
-                      obscureText: true,
-                      textInputAction: TextInputAction.go,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(hintText: 'Password'),
-                      onSubmitted: (s) {
-                        login();
-                      },
-                    ),
-                  ),
-                  new Container(
-                    margin: new EdgeInsets.fromLTRB(0, 50, 0, 0),
-                    child: new MaterialButton(
-                      height: 40,
-                      child: new Text(
-                        "          Login          ",
-                      ),
-                      onPressed: () {
-                        login();
-                      },
-                    ),
-                  ),
-                  new Container(
-                      margin: new EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: new Center(
-                        child: new Text(
-                          wrongCreds ? "Incorrect Username/Password" : "",
-                          style: new TextStyle(color: Colors.red),
-                        ),
-                      )),
-                ],
+      body: ModalProgressHUD(
+        child: new Container(
+          margin: new EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.1,
+              100,
+              MediaQuery.of(context).size.width * 0.1,
+              0),
+          child: new ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              new TextField(
+                controller: username,
+                autocorrect: false,
+                autofocus: true,
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(hintText: 'Username'),
+                onSubmitted: (String value) {
+                  FocusScope.of(context).requestFocus(textSecondFocusNode);
+                },
               ),
-            ),
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new TextField(
+                  controller: password,
+                  focusNode: textSecondFocusNode,
+                  obscureText: true,
+                  textInputAction: TextInputAction.go,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(hintText: 'Password'),
+                  onSubmitted: (s) {
+                    login();
+                  },
+                ),
+              ),
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 50, 0, 0),
+                child: new MaterialButton(
+                  height: 40,
+                  child: new Text(
+                    "          Log in          ",
+                  ),
+                  onPressed: () {
+                    login();
+                  },
+                ),
+              ),
+              new Container(
+                  margin: new EdgeInsets.fromLTRB(0, 20, 0, 0),
+                  child: new Center(
+                    child: new Text(
+                      wrongCreds ? "Incorrect Username/Password" : "",
+                      style: new TextStyle(color: Colors.red),
+                    ),
+                  )),
+            ],
+          ),
+        ),
+        inAsyncCall: loggedIn,
+      ),
     );
   }
 }

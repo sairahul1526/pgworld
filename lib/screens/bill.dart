@@ -134,6 +134,7 @@ class BillActivityState extends State<BillActivity> {
                     'paid_date_time': pickedPaidDate,
                     'amount': amount.text,
                     'title': 'Rent',
+                    'name': user.name,
                     'description':
                         user.name + ' paid rent for room ' + user.roomID,
                     'hostel_id': hostelID,
@@ -149,6 +150,7 @@ class BillActivityState extends State<BillActivity> {
                     'paid_date_time': pickedPaidDate,
                     'amount': amount.text,
                     'title': 'Salary',
+                    'name': employee.name,
                     'description': employee.name + ' salary paid',
                     'hostel_id': hostelID,
                     'employee_id': employee.id,
@@ -309,9 +311,7 @@ class BillActivityState extends State<BillActivity> {
                   ],
                 ),
               ),
-              (bill == null
-                      ? (user != null || employee != null)
-                      : (bill.userID != "" || bill.employeeID != ""))
+              (bill == null && (user != null || employee != null))
                   ? new Container(
                       margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: new Row(

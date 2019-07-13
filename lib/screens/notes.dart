@@ -138,7 +138,7 @@ class NotesActivityState extends State<NotesActivity> {
       body: ModalProgressHUD(
         child: notes.length == 0
             ? new Center(
-                child: new Text("No notes"),
+                child: new Text(loading ? "" : "No notes"),
               )
             : new ListView.separated(
                 controller: _controller,
