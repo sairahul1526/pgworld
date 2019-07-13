@@ -40,6 +40,21 @@ Future<Bills> getBills(Map<String, String> query) async {
   return Bills.fromJson(json.decode(response.body));
 }
 
+// dashboard
+
+Future<Dashboards> getDashboards(Map<String, String> query) async {
+  checkInternet().then((internet) {
+    if (internet == null || !internet) {
+      return new Dashboards();
+    }
+  });
+  final response = await http
+      .get(Uri.http(API.URL, API.DASHBOARD, query), headers: headers)
+      .timeout(Duration(seconds: timeout));
+
+  return Dashboards.fromJson(json.decode(response.body));
+}
+
 // employee
 
 Future<Employees> getEmployees(Map<String, String> query) async {

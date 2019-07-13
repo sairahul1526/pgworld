@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pgworld/utils/api.dart';
+import 'package:pgworld/utils/models.dart';
 
 import './rooms.dart';
 import './logs.dart';
@@ -9,6 +11,7 @@ import './employees.dart';
 import './settings.dart';
 import './report.dart';
 import '../utils/utils.dart';
+import '../utils/config.dart';
 
 class DashBoard extends StatefulWidget {
   @override
@@ -19,6 +22,27 @@ class DashBoard extends StatefulWidget {
 
 class DashBoardState extends State<DashBoard> {
   FocusNode textSecondFocusNode = new FocusNode();
+
+  Dashboard dashboard;
+
+  @override
+  void initState() {
+    super.initState();
+    fillData();
+  }
+
+  void fillData() {
+    Map<String, String> filter = new Map();
+    filter["hostel_id"] = hostelID;
+    Future<Dashboards> data = getDashboards(filter);
+    data.then((response) {
+      if (response.dashboards != null && response.dashboards.length > 0) {
+        setState(() {
+          dashboard = response.dashboards[0];
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +102,7 @@ class DashBoardState extends State<DashBoard> {
                               ),
                             ),
                             new Text(
-                              "1987",
+                              (dashboard != null ? dashboard.user : ""),
                               style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -124,7 +148,7 @@ class DashBoardState extends State<DashBoard> {
                               ),
                             ),
                             new Text(
-                              "107",
+                              (dashboard != null ? dashboard.room : ""),
                               style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -170,7 +194,7 @@ class DashBoardState extends State<DashBoard> {
                               ),
                             ),
                             new Text(
-                              "4123",
+                              (dashboard != null ? dashboard.bill : ""),
                               style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -217,7 +241,7 @@ class DashBoardState extends State<DashBoard> {
                               ),
                             ),
                             new Text(
-                              "44",
+                              (dashboard != null ? dashboard.note : ""),
                               style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -263,7 +287,7 @@ class DashBoardState extends State<DashBoard> {
                               ),
                             ),
                             new Text(
-                              "12",
+                              (dashboard != null ? dashboard.employee : ""),
                               style: TextStyle(
                                 fontSize: 25,
                                 color: Colors.black,
@@ -324,7 +348,7 @@ class DashBoardState extends State<DashBoard> {
                                 color: Colors.white,
                               ),
                             ),
-                            new Text("Logs",
+                            new Text("Activity",
                                 style: new TextStyle(
                                   fontSize: 17,
                                   color: Colors.grey,

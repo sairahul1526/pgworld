@@ -1,5 +1,7 @@
 // post
 
+import 'package:flutter/material.dart';
+
 class Post {
   final String id;
   final Meta meta;
@@ -157,6 +159,50 @@ class Bill implements ListItem {
       modifiedBy: json['modified_by'],
       createdDateTime: json['created_date_time'],
       modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// dashboard
+
+class Dashboards {
+  final List<Dashboard> dashboards;
+  final Meta meta;
+
+  Dashboards({this.dashboards, this.meta});
+
+  factory Dashboards.fromJson(Map<String, dynamic> json) {
+    return Dashboards(
+      dashboards: json['data'] != null
+          ? List<Dashboard>.from(json['data'].map((i) => Dashboard.fromJson(i)))
+          : new List<Dashboard>(),
+      meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Dashboard {
+  final String user;
+  final String room;
+  final String bill;
+  final String note;
+  final String employee;
+
+  Dashboard({
+    this.user,
+    this.room,
+    this.bill,
+    this.note,
+    this.employee,
+  });
+
+  factory Dashboard.fromJson(Map<String, dynamic> json) {
+    return Dashboard(
+      user: json['user'],
+      room: json['room'],
+      bill: json['bill'],
+      note: json['note'],
+      employee: json['employee'],
     );
   }
 }
@@ -340,9 +386,13 @@ class Logs {
   }
 }
 
-class Log {
+class Log implements ListItem {
   final String id;
   final String log;
+  final String by;
+  final String type;
+  String color;
+  IconData icon;
   final String status;
   final String createdBy;
   final String modifiedBy;
@@ -352,6 +402,8 @@ class Log {
   Log(
       {this.id,
       this.log,
+      this.by,
+      this.type,
       this.status,
       this.createdBy,
       this.modifiedBy,
@@ -362,6 +414,8 @@ class Log {
     return Log(
       id: json['id'],
       log: json['log'],
+      by: json['by'],
+      type: json['type'],
       status: json['status'],
       createdBy: json['created_by'],
       modifiedBy: json['modified_by'],

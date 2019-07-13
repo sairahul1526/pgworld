@@ -56,7 +56,7 @@ class BillsActivityState extends State<BillsActivity> {
     filter["hostel_id"] = hostelID;
     filter["limit"] = defaultLimit;
     filter["offset"] = offset;
-    filter["orderby"] = "created_date_time";
+    filter["orderby"] = "paid_date_time";
     filter["sortby"] = "desc";
 
     _controller = ScrollController();
@@ -128,7 +128,10 @@ class BillsActivityState extends State<BillsActivity> {
       data["hostel_id"] = hostelID;
       data["limit"] = defaultLimit;
       data["offset"] = defaultOffset;
+      data["orderby"] = "paid_date_time";
+      data["sortby"] = "desc";
       offset = defaultOffset;
+      total = 0;
       print(data);
       setState(() {
         filter = data;
@@ -159,7 +162,9 @@ class BillsActivityState extends State<BillsActivity> {
                 ),
               ),
               new Text(
-                (total > 0 ? "" : "- ") + "₹" + total.toString(),
+                (total > 0 ? "" : "- ") +
+                    "₹" +
+                    total.toString().replaceAll("-", ""),
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 18,
@@ -251,11 +256,14 @@ class BillsActivityState extends State<BillsActivity> {
                                 color: item.paid == "0"
                                     ? HexColor("#A2D9CE")
                                     : HexColor("#F5CBA7"),
-                                child: new Icon(item.userID != ""
-                                    ? Icons.local_hotel
-                                    : (item.employeeID != ""
-                                        ? Icons.account_box
-                                        : Icons.receipt))),
+                                child: new Icon(
+                                  item.userID != ""
+                                      ? Icons.local_hotel
+                                      : (item.employeeID != ""
+                                          ? Icons.account_box
+                                          : Icons.receipt),
+                                  color: Colors.white,
+                                )),
                             new Expanded(
                               child: new Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,

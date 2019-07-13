@@ -2,6 +2,7 @@ class API {
   static const URL = "test-pgworld.ap-south-1.elasticbeanstalk.com";
   static const ADMIN = "admin";
   static const BILL = "bill";
+  static const DASHBOARD = "dashboard";
   static const EMPLOYEE = "employee";
   static const LOG = "log";
   static const NOTE = "note";
@@ -31,7 +32,7 @@ String adminName;
 String hostelID;
 List<String> amenities = new List();
 
-Map<String, String> headers = {};
+Map<String, String> headers = {"Accept-Encoding": "application/gzip"};
 
 const timeout = 10;
 

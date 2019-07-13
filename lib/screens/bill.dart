@@ -28,7 +28,9 @@ class BillActivityState extends State<BillActivity> {
   TextEditingController amount = new TextEditingController();
 
   String paidDate = '';
+  String pickedPaidDate = '';
   String expiryDate = '';
+  String pickedExpiryDate = '';
 
   Bill bill;
   User user;
@@ -41,31 +43,39 @@ class BillActivityState extends State<BillActivity> {
   @override
   void initState() {
     super.initState();
+    expiryDate = headingDateFormat
+        .format(new DateTime.now().add(new Duration(days: 30)));
+    pickedExpiryDate =
+        dateFormat.format(new DateTime.now().add(new Duration(days: 30)));
     if (user != null) {
       amount.text = user.rent;
-      paidDate = dateFormat.format(new DateTime.now());
-      expiryDate =
-          dateFormat.format(new DateTime.now().add(new Duration(days: 30)));
+      paidDate = headingDateFormat.format(new DateTime.now());
+      pickedPaidDate = dateFormat.format(new DateTime.now());
       if (bill != null) {
         amount.text = bill.amount;
-        paidDate = bill.paidDateTime;
-        expiryDate = user.expiryDateTime;
+        paidDate = headingDateFormat.format(DateTime.parse(bill.paidDateTime));
+        pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
       }
     } else if (employee != null) {
       amount.text = employee.salary;
+      paidDate = headingDateFormat.format(new DateTime.now());
+      pickedPaidDate = dateFormat.format(new DateTime.now());
+      dateFormat.format(new DateTime.now());
       if (bill != null) {
         amount.text = bill.amount;
-        paidDate = bill.paidDateTime;
-        expiryDate = employee.expiryDateTime;
+        paidDate = headingDateFormat.format(DateTime.parse(bill.paidDateTime));
+        pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
       }
     } else if (bill != null) {
       item.text = bill.title;
-      paidDate = bill.paidDateTime;
+      paidDate = headingDateFormat.format(DateTime.parse(bill.paidDateTime));
+      pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
       description.text = bill.description;
       amount.text = bill.amount;
       paid = int.parse(bill.paid);
     } else {
       paidDate = dateFormat.format(new DateTime.now());
+      pickedPaidDate = dateFormat.format(new DateTime.now());
     }
   }
 
@@ -78,9 +88,11 @@ class BillActivityState extends State<BillActivity> {
     if (picked != null)
       setState(() {
         if (type == '1') {
-          paidDate = dateFormat.format(picked);
+          paidDate = headingDateFormat.format(picked);
+          pickedPaidDate = dateFormat.format(picked);
         } else {
-          expiryDate = dateFormat.format(picked);
+          expiryDate = headingDateFormat.format(picked);
+          pickedExpiryDate = dateFormat.format(picked);
         }
       });
   }
@@ -114,15 +126,12 @@ class BillActivityState extends State<BillActivity> {
                 loading = true;
               });
 
-              print("recieve clicked");
-
               Future<bool> load;
               if (user != null) {
-                print("user not null");
                 load = add(
                   API.RENT,
                   Map.from({
-                    'paid_date_time': paidDate,
+                    'paid_date_time': pickedPaidDate,
                     'amount': amount.text,
                     'title': 'Rent',
                     'description':
@@ -137,7 +146,7 @@ class BillActivityState extends State<BillActivity> {
                 load = add(
                   API.SALARY,
                   Map.from({
-                    'paid_date_time': paidDate,
+                    'paid_date_time': pickedPaidDate,
                     'amount': amount.text,
                     'title': 'Salary',
                     'description': employee.name + ' salary paid',
@@ -151,7 +160,7 @@ class BillActivityState extends State<BillActivity> {
                 load = update(
                   API.BILL,
                   Map.from({
-                    'paid_date_time': paidDate,
+                    'paid_date_time': pickedPaidDate,
                     "title": item.text,
                     "description": description.text,
                     "amount": amount.text,
@@ -165,7 +174,7 @@ class BillActivityState extends State<BillActivity> {
                   Map.from({
                     'hostel_id': hostelID,
                     'title': item.text,
-                    'paid_date_time': paidDate,
+                    'paid_date_time': pickedPaidDate,
                     'description': description.text,
                     'amount': amount.text,
                     'paid': paid.toString()
@@ -192,7 +201,9 @@ class BillActivityState extends State<BillActivity> {
           child: new ListView(
             shrinkWrap: true,
             children: <Widget>[
-              (user == null && employee == null)
+              (bill == null
+                      ? (user == null && employee == null)
+                      : (bill.userID == "" && bill.employeeID == ""))
                   ? new Row(
                       children: <Widget>[
                         new Container(
@@ -213,7 +224,9 @@ class BillActivityState extends State<BillActivity> {
                       ],
                     )
                   : new Text(""),
-              (user == null && employee == null)
+              (bill == null
+                      ? (user == null && employee == null)
+                      : (bill.userID == "" && bill.employeeID == ""))
                   ? new Container(
                       margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: new Row(
@@ -296,7 +309,9 @@ class BillActivityState extends State<BillActivity> {
                   ],
                 ),
               ),
-              (user != null || employee != null)
+              (bill == null
+                      ? (user != null || employee != null)
+                      : (bill.userID != "" || bill.employeeID != ""))
                   ? new Container(
                       margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: new Row(
@@ -331,7 +346,9 @@ class BillActivityState extends State<BillActivity> {
                       ),
                     )
                   : new Text(""),
-              (user == null && employee == null)
+              (bill == null
+                      ? (user == null && employee == null)
+                      : (bill.userID == "" && bill.employeeID == ""))
                   ? new Container(
                       margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
                       child: new Row(

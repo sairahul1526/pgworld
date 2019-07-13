@@ -8,6 +8,7 @@ import "dart:math";
 
 DateFormat dateFormat = new DateFormat('yyyy-MM-dd');
 DateFormat headingDateFormat = new DateFormat("EEE, MMM d, ''yy");
+DateFormat timeFormat = new DateFormat("h:mm a");
 
 List<String> colors = [
   "#D7BDE2",

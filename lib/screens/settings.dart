@@ -47,7 +47,8 @@ class SettingsActivityState extends State<SettingsActivity> {
         hostels = response;
         hostels.hostels.forEach((hostel) {
           if (hostel.id == selectedHostelID) {
-            expiry = hostel.expiryDateTime;
+            expiry =
+                headingDateFormat.format(DateTime.parse(hostel.expiryDateTime));
           }
         });
       });
