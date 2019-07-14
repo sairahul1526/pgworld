@@ -38,8 +38,14 @@ void makePhone(String phone) async {
   }
 }
 
-void sendMail(String mail) async {
-  var url = 'mailto:' + mail;
+void sendMail(String mail, String subject, String body) async {
+  var url = 'mailto:' +
+      mail +
+      "?subject=" +
+      subject +
+      "&body=" +
+      Uri.encodeComponent(body);
+  print(url);
   if (await canLaunch(url)) {
     await launch(url);
   }

@@ -227,8 +227,11 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                                           size: 15,
                                                         ),
                                                         onPressed: () {
-                                                          sendMail(employees[i]
-                                                              .email);
+                                                          sendMail(
+                                                              employees[i]
+                                                                  .email,
+                                                              "",
+                                                              "");
                                                         },
                                                       ),
                                                     )

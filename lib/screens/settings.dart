@@ -92,7 +92,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                     25,
                     MediaQuery.of(context).size.width * 0.1,
                     0),
-                child: new Column(
+                child: new ListView(
                   children: <Widget>[
                     hostels != null
                         ? new Row(
@@ -157,8 +157,23 @@ class SettingsActivityState extends State<SettingsActivity> {
                     ),
                     new Divider(),
                     new GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        sendMail(
+                            "support@pgworld.com",
+                            "Feedback%20and%20Support",
+                            "User - " +
+                                adminName +
+                                "\nHostel ID - " +
+                                hostelID +
+                                "\nOS - " +
+                                (Platform.isAndroid ? "Android" : "iOS") +
+                                "\nApp Version - " +
+                                (Platform.isAndroid
+                                    ? APPVERSION.ANDROID
+                                    : APPVERSION.IOS));
+                      },
                       child: new Container(
+                        color: Colors.transparent,
                         height: 40,
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -173,29 +188,28 @@ class SettingsActivityState extends State<SettingsActivity> {
                       ),
                     ),
                     new Divider(),
-                    new Container(
-                      color: Colors.red,
-                      height: 40,
-                      child: new GestureDetector(
-                        onTap: () {
-                          print("tapped");
-                          RateMyApp rateMyApp = RateMyApp(
-                            minDays: 0,
-                            minLaunches: 0,
-                            remindDays: 0,
-                            remindLaunches: 0,
-                          );
+                    new GestureDetector(
+                      onTap: () {
+                        RateMyApp rateMyApp = RateMyApp(
+                          minDays: 0,
+                          minLaunches: 0,
+                          remindDays: 0,
+                          remindLaunches: 0,
+                        );
 
-                          rateMyApp.showRateDialog(
-                            context,
-                            title: 'Rate this app',
-                            message:
-                                'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.',
-                            rateButton: 'RATE',
-                            noButton: 'NO THANKS',
-                            laterButton: 'MAYBE LATER',
-                          );
-                        },
+                        rateMyApp.showRateDialog(
+                          context,
+                          title: 'Rate this app',
+                          message:
+                              'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.',
+                          rateButton: 'RATE',
+                          noButton: 'NO THANKS',
+                          laterButton: 'MAYBE LATER',
+                        );
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 40,
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[

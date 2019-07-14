@@ -311,7 +311,7 @@ class UsersActivityState extends State<UsersActivity> {
                                               size: 15,
                                             ),
                                             onPressed: () {
-                                              sendMail(users[i].email);
+                                              sendMail(users[i].email, "", "");
                                             },
                                           ),
                                         )
