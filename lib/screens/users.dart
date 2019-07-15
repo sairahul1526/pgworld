@@ -141,9 +141,12 @@ class UsersActivityState extends State<UsersActivity> {
             ? new Center(
                 child: new Text(loading ? "" : "No users"),
               )
-            : new ListView.builder(
+            : new ListView.separated(
                 controller: _controller,
                 itemCount: users.length,
+                separatorBuilder: (context, i) {
+                  return new Divider();
+                },
                 itemBuilder: (itemContext, i) {
                   return new GestureDetector(
                     onTap: () {
@@ -155,7 +158,7 @@ class UsersActivityState extends State<UsersActivity> {
                       );
                     },
                     child: new Container(
-                      padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      padding: EdgeInsets.fromLTRB(10, i == 0 ? 10 : 0, 10, 0),
                       child: new Slidable(
                         actionPane: new SlidableDrawerActionPane(),
                         actionExtentRatio: 0.25,
@@ -167,13 +170,16 @@ class UsersActivityState extends State<UsersActivity> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   new Container(
-                                    margin: EdgeInsets.only(right: 10),
-                                    padding: EdgeInsets.all(15),
+                                    margin: EdgeInsets.fromLTRB(0, 3, 10, 10),
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                     decoration: new BoxDecoration(
-                                      color: HexColor(
-                                        colors[random.nextInt(colors.length)],
-                                      ),
-                                      shape: BoxShape.circle,
+                                      color: i == 1
+                                          ? Colors.red
+                                          : HexColor(
+                                              colors[random
+                                                  .nextInt(colors.length)],
+                                            ),
+                                      shape: BoxShape.rectangle,
                                     ),
                                     child: new Text(
                                       users[i].name[0].toUpperCase(),
@@ -185,7 +191,7 @@ class UsersActivityState extends State<UsersActivity> {
                                   ),
                                   new Expanded(
                                       child: new Container(
-                                    margin: EdgeInsets.only(top: 10),
+                                    margin: EdgeInsets.only(top: 5),
                                     child: new Column(
                                       children: <Widget>[
                                         new Row(
@@ -197,8 +203,10 @@ class UsersActivityState extends State<UsersActivity> {
                                                 users[i].name[0].toUpperCase() +
                                                     users[i].name.substring(1),
                                                 style: TextStyle(
-                                                  fontSize: 20,
-                                                ),
+                                                    fontSize: 20,
+                                                    color: i == 1
+                                                        ? Colors.red
+                                                        : Colors.black),
                                               ),
                                             ),
                                             new Text(
@@ -206,122 +214,126 @@ class UsersActivityState extends State<UsersActivity> {
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.normal,
-                                                  color: Colors.green),
+                                                  color: i == 1
+                                                      ? Colors.red
+                                                      : Colors.green),
                                             )
                                           ],
                                         ),
+                                        // new Container(
+                                        //   height: 10,
+                                        // ),
                                         new Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           children: <Widget>[
-                                            new Icon(Icons.local_hotel),
                                             new Text(
-                                              "   " + users[i].roomID + ",  ",
+                                              "Room : " +
+                                                  users[i].roomID +
+                                                  "    Meal : " +
+                                                  (users[i].food == "1"
+                                                      ? ""
+                                                      : "Non ") +
+                                                  "Veg",
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w100,
-                                                  color: Colors.grey),
+                                                  color: i == 1
+                                                      ? Colors.red
+                                                      : Colors.grey),
                                             ),
-                                            new Icon(
-                                              Icons.center_focus_strong,
-                                              size: 20,
-                                              color: users[i].food == "1"
-                                                  ? Colors.green
-                                                  : Colors.red,
-                                            ),
-                                            // new Text(
-                                            //     users[i].food == "1"
-                                            //         ? "Veg"
-                                            //         : "Non",
-                                            //     style: TextStyle(
-                                            //         fontSize: 12,
-                                            //         fontWeight: FontWeight.w100,
-                                            //         color: Colors.grey))
                                           ],
                                         ),
+                                        new Container(
+                                          height: 10,
+                                        ),
+                                        new Row(
+                                          children: <Widget>[
+                                            users[i].phone != ""
+                                                ? new GestureDetector(
+                                                    onTap: () {
+                                                      makePhone(users[i].phone);
+                                                    },
+                                                    child: new Container(
+                                                      child: new Row(
+                                                        children: <Widget>[
+                                                          new Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2),
+                                                            child: new Icon(
+                                                                Icons.phone,
+                                                                size: 15,
+                                                                color: i == 1
+                                                                    ? Colors.red
+                                                                    : Colors
+                                                                        .black),
+                                                          ),
+                                                          new Text(
+                                                            "   " +
+                                                                users[i].phone,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: i == 1
+                                                                    ? Colors.red
+                                                                    : Colors
+                                                                        .black),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                : new Container(),
+                                            users[i].phone != ""
+                                                ? new Container(
+                                                    height: 0,
+                                                    width: 10,
+                                                  )
+                                                : new Container(),
+                                            users[i].email != ""
+                                                ? new GestureDetector(
+                                                    onTap: () {
+                                                      sendMail(users[i].email,
+                                                          "", "");
+                                                    },
+                                                    child: new Container(
+                                                      child: new Row(
+                                                        children: <Widget>[
+                                                          new Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2),
+                                                            child: new Icon(
+                                                                Icons.email,
+                                                                size: 15,
+                                                                color: i == 1
+                                                                    ? Colors.red
+                                                                    : Colors
+                                                                        .black),
+                                                          ),
+                                                          new Text(
+                                                            "   " +
+                                                                users[i].email,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: i == 1
+                                                                    ? Colors.red
+                                                                    : Colors
+                                                                        .black),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  )
+                                                : new Container(),
+                                          ],
+                                        )
                                       ],
                                     ),
                                   ))
                                 ],
                               ),
                             ),
-                            new Row(
-                              children: <Widget>[
-                                users[i].phone != ""
-                                    ? new ButtonTheme(
-                                        materialTapTargetSize:
-                                            MaterialTapTargetSize.shrinkWrap,
-                                        height: 25,
-                                        child: new FlatButton.icon(
-                                          materialTapTargetSize:
-                                              MaterialTapTargetSize.shrinkWrap,
-                                          // shape: new RoundedRectangleBorder(
-                                          //     borderRadius:
-                                          //         new BorderRadius.circular(
-                                          //             15.0)),
-                                          // color:
-                                          //     HexColor("#AED6F1"),
-                                          label: new Text(
-                                            users[i].phone,
-                                            style: TextStyle(fontSize: 10),
-                                          ),
-                                          icon: new Icon(
-                                            Icons.phone,
-                                            size: 15,
-                                          ),
-                                          onPressed: () {
-                                            makePhone(users[i].phone);
-                                          },
-                                        ),
-                                      )
-                                    : new Container(),
-                                users[i].phone != ""
-                                    ? new Container(
-                                        height: 0,
-                                        width: 10,
-                                      )
-                                    : new Container(),
-                                new Flexible(
-                                  child: users[i].email != ""
-                                      ? new ButtonTheme(
-                                          materialTapTargetSize:
-                                              MaterialTapTargetSize.shrinkWrap,
-                                          height: 25,
-                                          child: new FlatButton.icon(
-                                            materialTapTargetSize:
-                                                MaterialTapTargetSize
-                                                    .shrinkWrap,
-                                            // shape: new RoundedRectangleBorder(
-                                            //     borderRadius:
-                                            //         new BorderRadius
-                                            //                 .circular(
-                                            //             15.0)),
-                                            // color:
-                                            //     HexColor("#AED6F1"),
-                                            label: new Flexible(
-                                              child: new Text(
-                                                users[i].email,
-                                                softWrap: false,
-                                                overflow: TextOverflow.fade,
-                                                style: TextStyle(fontSize: 10),
-                                              ),
-                                            ),
-                                            icon: new Icon(
-                                              Icons.email,
-                                              size: 15,
-                                            ),
-                                            onPressed: () {
-                                              sendMail(users[i].email, "", "");
-                                            },
-                                          ),
-                                        )
-                                      : new Container(),
-                                )
-                              ],
-                            ),
-                            new Divider(
-                              height: 5,
-                            )
                           ],
                         ),
                         secondaryActions: <Widget>[
