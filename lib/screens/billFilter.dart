@@ -161,13 +161,12 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                                     lastDate: new DateTime.now()
                                         .add(new Duration(days: 10 * 365)));
                             if (picked != null && picked.length == 2) {
-                              print(picked);
                               billDates = picked;
                               setState(() {
                                 billDatesRange =
-                                    dateFormat.format(billDates[0]) +
+                                    headingDateFormat.format(billDates[0]) +
                                         " to " +
-                                        dateFormat.format(billDates[1]);
+                                        headingDateFormat.format(billDates[1]);
                               });
                             }
                           },

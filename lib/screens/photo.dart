@@ -25,6 +25,10 @@ class PhotoActivityState extends State<PhotoActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
+        backgroundColor: Colors.white,
         elevation: 4.0,
       ),
       body: new Image.network(url),

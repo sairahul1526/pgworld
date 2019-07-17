@@ -37,7 +37,7 @@ Map<String, String> headers = {"Accept-Encoding": "application/gzip"};
 
 const timeout = 10;
 
-const defaultLimit = "10";
+const defaultLimit = "25";
 const defaultOffset = "0";
 
 // status

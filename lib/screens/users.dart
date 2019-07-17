@@ -128,12 +128,14 @@ class UsersActivityState extends State<UsersActivity> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
-          new IconButton(
-            onPressed: () {
-              filterPage(context, new UserFilterActivity());
-            },
-            icon: new Icon(Icons.filter_list),
-          ),
+          room == null
+              ? new IconButton(
+                  onPressed: () {
+                    filterPage(context, new UserFilterActivity());
+                  },
+                  icon: new Icon(Icons.filter_list),
+                )
+              : new Container(),
           room != null
               ? new IconButton(
                   onPressed: () {

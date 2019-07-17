@@ -200,7 +200,7 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                 children: <Widget>[
                   new Container(
                     width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Available Only"),
+                    child: new Text("Available"),
                   ),
                   new Flexible(
                     child: new Container(
