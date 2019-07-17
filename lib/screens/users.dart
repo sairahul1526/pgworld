@@ -134,6 +134,14 @@ class UsersActivityState extends State<UsersActivity> {
             },
             icon: new Icon(Icons.filter_list),
           ),
+          room != null
+              ? new IconButton(
+                  onPressed: () {
+                    filterPage(context, new UserActivity(null, room));
+                  },
+                  icon: new Icon(Icons.add),
+                )
+              : new Container(),
         ],
       ),
       body: ModalProgressHUD(
@@ -174,11 +182,8 @@ class UsersActivityState extends State<UsersActivity> {
                                     padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                     decoration: new BoxDecoration(
                                       color: i == 1
-                                          ? Colors.red
-                                          : HexColor(
-                                              colors[random
-                                                  .nextInt(colors.length)],
-                                            ),
+                                          ? HexColor("#F5CBA7")
+                                          : HexColor("#A2D9CE"),
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: new Text(
@@ -204,9 +209,7 @@ class UsersActivityState extends State<UsersActivity> {
                                                     users[i].name.substring(1),
                                                 style: TextStyle(
                                                     fontSize: 20,
-                                                    color: i == 1
-                                                        ? Colors.red
-                                                        : Colors.black),
+                                                    color: Colors.black),
                                               ),
                                             ),
                                             new Text(
@@ -220,9 +223,6 @@ class UsersActivityState extends State<UsersActivity> {
                                             )
                                           ],
                                         ),
-                                        // new Container(
-                                        //   height: 10,
-                                        // ),
                                         new Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -238,9 +238,7 @@ class UsersActivityState extends State<UsersActivity> {
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w100,
-                                                  color: i == 1
-                                                      ? Colors.red
-                                                      : Colors.grey),
+                                                  color: Colors.grey),
                                             ),
                                           ],
                                         ),
@@ -258,26 +256,22 @@ class UsersActivityState extends State<UsersActivity> {
                                                       child: new Row(
                                                         children: <Widget>[
                                                           new Container(
-                                                            padding:
-                                                                EdgeInsets.all(
-                                                                    2),
+                                                            padding: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2, 2, 0, 2),
                                                             child: new Icon(
                                                                 Icons.phone,
                                                                 size: 15,
-                                                                color: i == 1
-                                                                    ? Colors.red
-                                                                    : Colors
-                                                                        .black),
+                                                                color: Colors
+                                                                    .black),
                                                           ),
                                                           new Text(
                                                             "   " +
                                                                 users[i].phone,
                                                             style: TextStyle(
                                                                 fontSize: 10,
-                                                                color: i == 1
-                                                                    ? Colors.red
-                                                                    : Colors
-                                                                        .black),
+                                                                color: Colors
+                                                                    .black),
                                                           )
                                                         ],
                                                       ),
@@ -306,20 +300,16 @@ class UsersActivityState extends State<UsersActivity> {
                                                             child: new Icon(
                                                                 Icons.email,
                                                                 size: 15,
-                                                                color: i == 1
-                                                                    ? Colors.red
-                                                                    : Colors
-                                                                        .black),
+                                                                color: Colors
+                                                                    .black),
                                                           ),
                                                           new Text(
                                                             "   " +
                                                                 users[i].email,
                                                             style: TextStyle(
                                                                 fontSize: 10,
-                                                                color: i == 1
-                                                                    ? Colors.red
-                                                                    : Colors
-                                                                        .black),
+                                                                color: Colors
+                                                                    .black),
                                                           )
                                                         ],
                                                       ),

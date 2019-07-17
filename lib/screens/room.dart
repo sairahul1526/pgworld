@@ -152,40 +152,44 @@ class RoomActivityState extends State<RoomActivity> {
             children: <Widget>[
               new Row(
                 children: <Widget>[
-                  new Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Room No."),
-                  ),
                   new Expanded(
                     child: new Container(
-                      margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      height: 50,
                       child: new TextField(
                           controller: roomno,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(hintText: 'Room No.'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.hotel),
+                            border: OutlineInputBorder(),
+                            hintText: 'Room No.',
+                            labelText: 'Room No.',
+                          ),
                           onSubmitted: (String value) {}),
                     ),
                   ),
                 ],
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Capacity"),
-                    ),
                     new Flexible(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: capacity,
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(hintText: 'Capacity'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.group),
+                            border: OutlineInputBorder(),
+                            hintText: 'Capacity',
+                            labelText: 'Capacity',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -194,22 +198,24 @@ class RoomActivityState extends State<RoomActivity> {
                 ),
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Rent"),
-                    ),
                     new Flexible(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: rent,
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(hintText: 'Rent'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.attach_money),
+                            border: OutlineInputBorder(),
+                            hintText: 'Rent',
+                            labelText: 'Rent',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -218,7 +224,7 @@ class RoomActivityState extends State<RoomActivity> {
                 ),
               ),
               new Container(
-                margin: new EdgeInsets.fromLTRB(0, 30, 0, 0),
+                margin: new EdgeInsets.fromLTRB(0, 10, 0, 0),
               ),
               new Expanded(
                 child: new GridView.count(

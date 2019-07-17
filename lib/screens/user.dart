@@ -31,8 +31,7 @@ class UserActivityState extends State<UserActivity> {
   TextEditingController emergencyName = new TextEditingController();
   TextEditingController emergencyPhone = new TextEditingController();
   TextEditingController rent = new TextEditingController();
-
-  String joiningDate = '';
+  TextEditingController joiningDate = new TextEditingController();
 
   User user;
   Room room;
@@ -58,11 +57,11 @@ class UserActivityState extends State<UserActivity> {
       if (user.document != null) {
         fileNames = user.document.split(",");
       }
-      loadDocuments();
     } else {
       rent.text = room.rent;
-      joiningDate = dateFormat.format(new DateTime.now());
+      joiningDate.text = headingDateFormat.format(new DateTime.now());
     }
+    loadDocuments();
   }
 
   Future getImage() async {
@@ -140,7 +139,10 @@ class UserActivityState extends State<UserActivity> {
         initialDate: new DateTime.now(),
         firstDate: new DateTime.now().subtract(new Duration(days: 365)),
         lastDate: new DateTime.now().add(new Duration(days: 365)));
-    if (picked != null) setState(() => joiningDate = dateFormat.format(picked));
+    if (picked != null)
+      setState(() {
+        joiningDate.text = headingDateFormat.format(picked);
+      });
   }
 
   @override
@@ -210,7 +212,7 @@ class UserActivityState extends State<UserActivity> {
                     'rent': rent.text,
                     'room_id': room.id,
                     'document': fileNames.join(","),
-                    'joining_date_time': joiningDate
+                    'joining_date_time': joiningDate.text
                   }),
                 );
               }
@@ -236,41 +238,44 @@ class UserActivityState extends State<UserActivity> {
             children: <Widget>[
               new Row(
                 children: <Widget>[
-                  new Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Name"),
-                  ),
                   new Expanded(
                     child: new Container(
-                      margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      height: 50,
                       child: new TextField(
                           controller: name,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(hintText: 'Name'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.account_circle),
+                            border: OutlineInputBorder(),
+                            hintText: 'Name',
+                            labelText: 'Name',
+                          ),
                           onSubmitted: (String value) {}),
                     ),
                   ),
                 ],
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Rent"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: rent,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                              hintText: room != null ? room.rent : 'Rent'),
+                            isDense: true,
+                            prefixIcon: Icon(Icons.attach_money),
+                            border: OutlineInputBorder(),
+                            hintText: 'Rent',
+                            labelText: 'Rent',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -279,22 +284,24 @@ class UserActivityState extends State<UserActivity> {
                 ),
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Phone"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: phone,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(hintText: 'Phone'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.phone),
+                            border: OutlineInputBorder(),
+                            hintText: 'Phone',
+                            labelText: 'Phone',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -303,22 +310,24 @@ class UserActivityState extends State<UserActivity> {
                 ),
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Email"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: email,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(hintText: 'Email'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.email),
+                            border: OutlineInputBorder(),
+                            hintText: 'Email',
+                            labelText: 'Email',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -327,48 +336,25 @@ class UserActivityState extends State<UserActivity> {
                 ),
               ),
               new Container(
+                // height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Address"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: address,
                           maxLines: 5,
                           textInputAction: TextInputAction.newline,
                           keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(hintText: 'Address'),
-                          onSubmitted: (String value) {},
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              new Container(
-                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Emergency Contact Name"),
-                    ),
-                    new Expanded(
-                      child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                        child: new TextField(
-                          controller: emergencyName,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              hintText: 'Emergency Contact Name'),
+                            isDense: true,
+                            prefixIcon: Icon(Icons.account_circle),
+                            border: OutlineInputBorder(),
+                            hintText: 'Address',
+                            labelText: 'Address',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -396,23 +382,24 @@ class UserActivityState extends State<UserActivity> {
                 ),
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Emergency Contact Number"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
-                          controller: emergencyPhone,
+                          controller: emergencyName,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
-                              hintText: 'Emergency Contact Number'),
+                            isDense: true,
+                            prefixIcon: Icon(Icons.account_circle),
+                            border: OutlineInputBorder(),
+                            hintText: 'Emergency Contact Name',
+                            labelText: 'Emergency Contact Name',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -420,39 +407,68 @@ class UserActivityState extends State<UserActivity> {
                   ],
                 ),
               ),
-              user != null
-                  ? new Text("")
-                  : new Container(
-                      margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: new Text("Joining Date"),
+              new Container(
+                height: 50,
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Container(
+                        child: new TextField(
+                          controller: emergencyPhone,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.contact_phone),
+                            border: OutlineInputBorder(),
+                            hintText: 'Emergency Contact Number',
+                            labelText: 'Emergency Contact Number',
                           ),
-                          new Expanded(
-                            child: new Container(
-                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: new Row(
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new FlatButton(
-                                      onPressed: () => _selectDate(context),
-                                      child: new Text(joiningDate),
-                                    ),
-                                  ),
-                                  new FlatButton.icon(
-                                      onPressed: () => _selectDate(context),
-                                      icon: new Icon(Icons.date_range),
-                                      label: new Text(""))
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
+                          onSubmitted: (String value) {},
+                        ),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              user == null
+                  ? new GestureDetector(
+                      onTap: () {
+                        print("ontap");
+                        _selectDate(context);
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 50,
+                        margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Container(
+                                child: new TextField(
+                                  enabled: false,
+                                  controller: joiningDate,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    prefixIcon: Icon(Icons.calendar_today),
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Joining Date',
+                                    labelText: 'Joining Date',
+                                  ),
+                                  onSubmitted: (String value) {},
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : new Container(),
               new Container(
                 margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: new Row(

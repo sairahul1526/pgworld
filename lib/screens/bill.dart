@@ -26,10 +26,10 @@ class BillActivityState extends State<BillActivity> {
   TextEditingController item = new TextEditingController();
   TextEditingController description = new TextEditingController();
   TextEditingController amount = new TextEditingController();
+  TextEditingController paidDate = new TextEditingController();
+  TextEditingController expiryDate = new TextEditingController();
 
-  String paidDate = '';
   String pickedPaidDate = '';
-  String expiryDate = '';
   String pickedExpiryDate = '';
 
   Bill bill;
@@ -43,38 +43,41 @@ class BillActivityState extends State<BillActivity> {
   @override
   void initState() {
     super.initState();
-    expiryDate = headingDateFormat
+    expiryDate.text = headingDateFormat
         .format(new DateTime.now().add(new Duration(days: 30)));
     pickedExpiryDate =
         dateFormat.format(new DateTime.now().add(new Duration(days: 30)));
     if (user != null) {
       amount.text = user.rent;
-      paidDate = headingDateFormat.format(new DateTime.now());
+      paidDate.text = headingDateFormat.format(new DateTime.now());
       pickedPaidDate = dateFormat.format(new DateTime.now());
       if (bill != null) {
         amount.text = bill.amount;
-        paidDate = headingDateFormat.format(DateTime.parse(bill.paidDateTime));
+        paidDate.text =
+            headingDateFormat.format(DateTime.parse(bill.paidDateTime));
         pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
       }
     } else if (employee != null) {
       amount.text = employee.salary;
-      paidDate = headingDateFormat.format(new DateTime.now());
+      paidDate.text = headingDateFormat.format(new DateTime.now());
       pickedPaidDate = dateFormat.format(new DateTime.now());
       dateFormat.format(new DateTime.now());
       if (bill != null) {
         amount.text = bill.amount;
-        paidDate = headingDateFormat.format(DateTime.parse(bill.paidDateTime));
+        paidDate.text =
+            headingDateFormat.format(DateTime.parse(bill.paidDateTime));
         pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
       }
     } else if (bill != null) {
       item.text = bill.title;
-      paidDate = headingDateFormat.format(DateTime.parse(bill.paidDateTime));
+      paidDate.text =
+          headingDateFormat.format(DateTime.parse(bill.paidDateTime));
       pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
       description.text = bill.description;
       amount.text = bill.amount;
       paid = int.parse(bill.paid);
     } else {
-      paidDate = dateFormat.format(new DateTime.now());
+      paidDate.text = dateFormat.format(new DateTime.now());
       pickedPaidDate = dateFormat.format(new DateTime.now());
     }
   }
@@ -88,10 +91,10 @@ class BillActivityState extends State<BillActivity> {
     if (picked != null)
       setState(() {
         if (type == '1') {
-          paidDate = headingDateFormat.format(picked);
+          paidDate.text = headingDateFormat.format(picked);
           pickedPaidDate = dateFormat.format(picked);
         } else {
-          expiryDate = headingDateFormat.format(picked);
+          expiryDate.text = headingDateFormat.format(picked);
           pickedExpiryDate = dateFormat.format(picked);
         }
       });
@@ -208,18 +211,20 @@ class BillActivityState extends State<BillActivity> {
                       : (bill.userID == "" && bill.employeeID == ""))
                   ? new Row(
                       children: <Widget>[
-                        new Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          child: new Text("Item"),
-                        ),
                         new Expanded(
                           child: new Container(
-                            margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                            height: 50,
                             child: new TextField(
                                 controller: item,
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.text,
-                                decoration: InputDecoration(hintText: 'Item'),
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  prefixIcon: Icon(Icons.label),
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Title',
+                                  labelText: 'Title',
+                                ),
                                 onSubmitted: (String value) {}),
                           ),
                         ),
@@ -230,24 +235,25 @@ class BillActivityState extends State<BillActivity> {
                       ? (user == null && employee == null)
                       : (bill.userID == "" && bill.employeeID == ""))
                   ? new Container(
+                      height: 50,
                       margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          new Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: new Text("Description"),
-                          ),
                           new Flexible(
                             child: new Container(
-                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                               child: new TextField(
                                 controller: description,
                                 maxLines: 5,
                                 textInputAction: TextInputAction.newline,
                                 keyboardType: TextInputType.multiline,
-                                decoration:
-                                    InputDecoration(hintText: 'Description'),
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  prefixIcon: Icon(Icons.description),
+                                  border: OutlineInputBorder(),
+                                  hintText: 'Description',
+                                  labelText: 'Description',
+                                ),
                                 onSubmitted: (String value) {},
                               ),
                             ),
@@ -257,22 +263,24 @@ class BillActivityState extends State<BillActivity> {
                     )
                   : new Text(""),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Amount"),
-                    ),
                     new Flexible(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: amount,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(hintText: 'Amount'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.attach_money),
+                            border: OutlineInputBorder(),
+                            hintText: 'Amount',
+                            labelText: 'Amount',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -280,72 +288,76 @@ class BillActivityState extends State<BillActivity> {
                   ],
                 ),
               ),
-              new Container(
-                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Payment Date"),
-                    ),
-                    new Expanded(
-                      child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                        child: new Row(
-                          children: <Widget>[
-                            new Expanded(
-                              child: new FlatButton(
-                                onPressed: () => _selectDate(context, '1'),
-                                child: new Text(paidDate),
-                              ),
+              new GestureDetector(
+                onTap: () {
+                  print("ontap");
+                  _selectDate(context, '1');
+                },
+                child: new Container(
+                  color: Colors.transparent,
+                  height: 50,
+                  margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Expanded(
+                        child: new Container(
+                          child: new TextField(
+                            enabled: false,
+                            controller: paidDate,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              prefixIcon: Icon(Icons.calendar_today),
+                              border: OutlineInputBorder(),
+                              hintText: 'Payment Date',
+                              labelText: 'Payment Date',
                             ),
-                            new FlatButton.icon(
-                                onPressed: () => _selectDate(context, '1'),
-                                icon: new Icon(Icons.date_range),
-                                label: new Text(""))
-                          ],
+                            onSubmitted: (String value) {},
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               (bill == null && (user != null || employee != null))
-                  ? new Container(
-                      margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: new Text("Next Payment Date"),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: new Row(
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new FlatButton(
-                                      onPressed: () =>
-                                          _selectDate(context, '2'),
-                                      child: new Text(expiryDate),
-                                    ),
+                  ? new GestureDetector(
+                      onTap: () {
+                        print("ontap");
+                        _selectDate(context, '2');
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 50,
+                        margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Container(
+                                child: new TextField(
+                                  enabled: false,
+                                  controller: expiryDate,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    prefixIcon: Icon(Icons.calendar_today),
+                                    border: OutlineInputBorder(),
+                                    hintText: 'Next Payment Date',
+                                    labelText: 'Next Payment Date',
                                   ),
-                                  new FlatButton.icon(
-                                      onPressed: () =>
-                                          _selectDate(context, '2'),
-                                      icon: new Icon(Icons.date_range),
-                                      label: new Text(""))
-                                ],
+                                  onSubmitted: (String value) {},
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     )
-                  : new Text(""),
+                  : new Container(),
               (bill == null
                       ? (user == null && employee == null)
                       : (bill.userID == "" && bill.employeeID == ""))

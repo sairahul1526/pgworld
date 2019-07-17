@@ -198,23 +198,6 @@ class RoomsActivityState extends State<RoomsActivity> {
                                               //     fontWeight: FontWeight.bold,
                                               //   ),
                                               // ),
-                                              new Text(
-                                                rooms[i].filled +
-                                                    "/" +
-                                                    rooms[i].capacity,
-                                                style: TextStyle(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.w100),
-                                              ),
-                                              new Text(
-                                                "₹" + rooms[i].rent,
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    color: Colors.black),
-                                              )
                                             ],
                                           ),
                                           // new Text(getAmenitiesNames(
@@ -284,13 +267,49 @@ class RoomsActivityState extends State<RoomsActivity> {
                                                 ],
                                               ),
                                               new Container(
-                                                width: 15,
+                                                width: 5,
+                                              ),
+                                              new Column(
+                                                children: <Widget>[
+                                                  new Text(
+                                                    i == 1 ? "+1" : "+2",
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                    ),
+                                                  )
+                                                ],
                                               ),
                                             ],
                                           )
                                         ],
                                       ),
                                     ),
+                                    new Column(
+                                      children: <Widget>[
+                                        new Text(
+                                          i == 3
+                                              ? "10/10"
+                                              : rooms[i].filled +
+                                                  "/" +
+                                                  rooms[i].capacity,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w100,
+                                            color: rooms[i].filled ==
+                                                    rooms[i].capacity
+                                                ? Colors.red
+                                                : Colors.green,
+                                          ),
+                                        ),
+                                        new Text(
+                                          "₹" + rooms[i].rent,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.normal,
+                                              color: Colors.black),
+                                        )
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
