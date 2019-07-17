@@ -249,7 +249,6 @@ class UserActivityState extends State<UserActivity> {
                             isDense: true,
                             prefixIcon: Icon(Icons.account_circle),
                             border: OutlineInputBorder(),
-                            hintText: 'Name',
                             labelText: 'Name',
                           ),
                           onSubmitted: (String value) {}),
@@ -273,7 +272,6 @@ class UserActivityState extends State<UserActivity> {
                             isDense: true,
                             prefixIcon: Icon(Icons.attach_money),
                             border: OutlineInputBorder(),
-                            hintText: 'Rent',
                             labelText: 'Rent',
                           ),
                           onSubmitted: (String value) {},
@@ -299,7 +297,6 @@ class UserActivityState extends State<UserActivity> {
                             isDense: true,
                             prefixIcon: Icon(Icons.phone),
                             border: OutlineInputBorder(),
-                            hintText: 'Phone',
                             labelText: 'Phone',
                           ),
                           onSubmitted: (String value) {},
@@ -325,7 +322,6 @@ class UserActivityState extends State<UserActivity> {
                             isDense: true,
                             prefixIcon: Icon(Icons.email),
                             border: OutlineInputBorder(),
-                            hintText: 'Email',
                             labelText: 'Email',
                           ),
                           onSubmitted: (String value) {},
@@ -350,9 +346,8 @@ class UserActivityState extends State<UserActivity> {
                           keyboardType: TextInputType.multiline,
                           decoration: InputDecoration(
                             isDense: true,
-                            prefixIcon: Icon(Icons.account_circle),
+                            prefixIcon: Icon(Icons.location_on),
                             border: OutlineInputBorder(),
-                            hintText: 'Address',
                             labelText: 'Address',
                           ),
                           onSubmitted: (String value) {},
@@ -397,7 +392,6 @@ class UserActivityState extends State<UserActivity> {
                             isDense: true,
                             prefixIcon: Icon(Icons.account_circle),
                             border: OutlineInputBorder(),
-                            hintText: 'Emergency Contact Name',
                             labelText: 'Emergency Contact Name',
                           ),
                           onSubmitted: (String value) {},
@@ -423,7 +417,6 @@ class UserActivityState extends State<UserActivity> {
                             isDense: true,
                             prefixIcon: Icon(Icons.contact_phone),
                             border: OutlineInputBorder(),
-                            hintText: 'Emergency Contact Number',
                             labelText: 'Emergency Contact Number',
                           ),
                           onSubmitted: (String value) {},
@@ -436,7 +429,6 @@ class UserActivityState extends State<UserActivity> {
               user == null
                   ? new GestureDetector(
                       onTap: () {
-                        print("ontap");
                         _selectDate(context);
                       },
                       child: new Container(
@@ -457,7 +449,6 @@ class UserActivityState extends State<UserActivity> {
                                     isDense: true,
                                     prefixIcon: Icon(Icons.calendar_today),
                                     border: OutlineInputBorder(),
-                                    hintText: 'Joining Date',
                                     labelText: 'Joining Date',
                                   ),
                                   onSubmitted: (String value) {},

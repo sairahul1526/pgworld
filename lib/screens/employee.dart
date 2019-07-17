@@ -27,8 +27,7 @@ class EmployeeActivityState extends State<EmployeeActivity> {
   TextEditingController email = new TextEditingController();
   TextEditingController address = new TextEditingController();
   TextEditingController salary = new TextEditingController();
-
-  String joiningDate = '';
+  TextEditingController joiningDate = new TextEditingController();
 
   Employee employee;
 
@@ -51,10 +50,10 @@ class EmployeeActivityState extends State<EmployeeActivity> {
       if (employee.document != null) {
         fileNames = employee.document.split(",");
       }
-      loadDocuments();
     } else {
-      joiningDate = dateFormat.format(new DateTime.now());
+      joiningDate.text = dateFormat.format(new DateTime.now());
     }
+    loadDocuments();
   }
 
   Future getImage() async {
@@ -129,7 +128,8 @@ class EmployeeActivityState extends State<EmployeeActivity> {
         initialDate: new DateTime.now(),
         firstDate: new DateTime.now().subtract(new Duration(days: 365)),
         lastDate: new DateTime.now().add(new Duration(days: 365)));
-    if (picked != null) setState(() => joiningDate = dateFormat.format(picked));
+    if (picked != null)
+      setState(() => joiningDate.text = dateFormat.format(picked));
   }
 
   @override
@@ -187,7 +187,7 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                     'email': email.text,
                     'address': address.text,
                     'salary': salary.text,
-                    'joining_date_time': joiningDate,
+                    'joining_date_time': joiningDate.text,
                     'document': fileNames.join(","),
                   }),
                 );
@@ -214,40 +214,42 @@ class EmployeeActivityState extends State<EmployeeActivity> {
             children: <Widget>[
               new Row(
                 children: <Widget>[
-                  new Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Name"),
-                  ),
                   new Expanded(
                     child: new Container(
-                      margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      height: 50,
                       child: new TextField(
                           controller: name,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(hintText: 'Name'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.account_circle),
+                            border: OutlineInputBorder(),
+                            labelText: 'Name',
+                          ),
                           onSubmitted: (String value) {}),
                     ),
                   ),
                 ],
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Designation"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: designation,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.text,
-                          decoration: InputDecoration(hintText: 'Designation'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.assignment_ind),
+                            border: OutlineInputBorder(),
+                            labelText: 'Designation',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -256,22 +258,23 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                 ),
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Salary"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: salary,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(hintText: 'Salary'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.money_off),
+                            border: OutlineInputBorder(),
+                            labelText: 'Salary',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -280,22 +283,23 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                 ),
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Phone"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: phone,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(hintText: 'Phone'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.phone),
+                            border: OutlineInputBorder(),
+                            labelText: 'Phone',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -304,22 +308,23 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                 ),
               ),
               new Container(
+                height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Email"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: email,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(hintText: 'Email'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.email),
+                            border: OutlineInputBorder(),
+                            labelText: 'Email',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -332,19 +337,19 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    new Container(
-                      width: MediaQuery.of(context).size.width * 0.2,
-                      child: new Text("Address"),
-                    ),
                     new Expanded(
                       child: new Container(
-                        margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                         child: new TextField(
                           controller: address,
                           maxLines: 5,
                           textInputAction: TextInputAction.newline,
                           keyboardType: TextInputType.multiline,
-                          decoration: InputDecoration(hintText: 'Address'),
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.location_on),
+                            border: OutlineInputBorder(),
+                            labelText: 'Address',
+                          ),
                           onSubmitted: (String value) {},
                         ),
                       ),
@@ -372,36 +377,37 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                 ),
               ),
               employee != null
-                  ? new Text("")
-                  : new Container(
-                      margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          new Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: new Text("Joining Date"),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: new Row(
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new FlatButton(
-                                      onPressed: () => _selectDate(context),
-                                      child: new Text(joiningDate),
-                                    ),
+                  ? new Container()
+                  : new GestureDetector(
+                      onTap: () {
+                        _selectDate(context);
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 50,
+                        margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Container(
+                                child: new TextField(
+                                  enabled: false,
+                                  controller: joiningDate,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    prefixIcon: Icon(Icons.calendar_today),
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Joining Date',
                                   ),
-                                  new FlatButton.icon(
-                                      onPressed: () => _selectDate(context),
-                                      icon: new Icon(Icons.date_range),
-                                      label: new Text(""))
-                                ],
+                                  onSubmitted: (String value) {},
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
               new Container(

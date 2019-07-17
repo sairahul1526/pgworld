@@ -100,25 +100,25 @@ Widget popDialog(BuildContext context, String title, bool pop) {
   );
 }
 
-Widget getAmenityIcon(String id) {
+IconData getAmenityIcon(String id) {
   switch (id) {
     case "1": // wifi
-      return new Icon(Icons.wifi);
+      return Icons.wifi;
       break;
     case "2": // bathroom
-      return new Icon(Icons.smoking_rooms);
+      return Icons.smoking_rooms;
       break;
     case "3": // tv
-      return new Icon(Icons.tv);
+      return Icons.tv;
       break;
     case "4": // ac
-      return new Icon(Icons.ac_unit);
+      return Icons.ac_unit;
       break;
     case "5": // power backup
-      return new Icon(Icons.power);
+      return Icons.power;
       break;
     default:
-      return null;
+      return Icons.plus_one;
   }
 }
 
@@ -144,15 +144,47 @@ String getAmenityName(String id) {
   }
 }
 
-String getAmenitiesNames(String amenities) {
-  List<String> names = new List();
+List<Widget> getAmenitiesNames(String amenities) {
+  List<Widget> widgets = new List();
   amenities.split(",").forEach((amenity) {
     String name = getAmenityName(amenity);
     if (name.length > 0) {
-      names.add(name);
+      widgets.add(new Column(
+        children: <Widget>[
+          new Icon(
+            getAmenityIcon(amenity),
+            size: 15,
+          ),
+          new Text(
+            name,
+            style: TextStyle(fontSize: 10),
+          )
+        ],
+      ));
+      widgets.add(new Container(
+        width: 15,
+      ));
     }
   });
-  return names.join(",");
+
+  // new Column(
+  //   children: <Widget>[
+  //     new Icon(
+  //       Icons.wifi,
+  //       size: 15,
+  //     ),
+  //     new Text(
+  //       "Wifi",
+  //       style: TextStyle(
+  //           fontSize: 10),
+  //     )
+  //   ],
+  // ),
+  // new Container(
+  //   width: 15,
+  // )
+
+  return widgets;
 }
 
 Future<bool> twoButtonDialog(

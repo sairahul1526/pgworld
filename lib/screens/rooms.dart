@@ -166,7 +166,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                                     new Container(
                                       margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
                                       padding:
-                                          EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                          EdgeInsets.fromLTRB(10, 12, 10, 10),
                                       height: 50,
                                       // width: 3,
                                       color:
@@ -174,7 +174,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                                               ? HexColor("#F5B7B1")
                                               : HexColor("#A2D9CE"),
                                       child: new Text(
-                                        rooms[i].roomno,
+                                        rooms[i].roomno + " A",
                                         style: TextStyle(
                                           fontSize: 20,
                                           // fontWeight: FontWeight.bold,
@@ -202,87 +202,18 @@ class RoomsActivityState extends State<RoomsActivity> {
                                           ),
                                           // new Text(getAmenitiesNames(
                                           //     rooms[i].amenities)),
-                                          new Row(
-                                            // scrollDirection: Axis.horizontal,
-                                            children: <Widget>[
-                                              new Column(
-                                                children: <Widget>[
-                                                  new Icon(
-                                                    Icons.wifi,
-                                                    size: 15,
-                                                  ),
-                                                  new Text(
-                                                    "Wifi",
-                                                    style:
-                                                        TextStyle(fontSize: 10),
-                                                  )
-                                                ],
-                                              ),
-                                              new Container(
-                                                width: 15,
-                                              ),
-                                              new Column(
-                                                children: <Widget>[
-                                                  new Icon(
-                                                    Icons.tv,
-                                                    size: 15,
-                                                  ),
-                                                  new Text(
-                                                    "TV",
-                                                    style:
-                                                        TextStyle(fontSize: 10),
-                                                  )
-                                                ],
-                                              ),
-                                              new Container(
-                                                width: 15,
-                                              ),
-                                              new Column(
-                                                children: <Widget>[
-                                                  new Icon(
-                                                    Icons.ac_unit,
-                                                    size: 15,
-                                                  ),
-                                                  new Text(
-                                                    "AC",
-                                                    style:
-                                                        TextStyle(fontSize: 10),
-                                                  )
-                                                ],
-                                              ),
-                                              new Container(
-                                                width: 15,
-                                              ),
-                                              new Column(
-                                                children: <Widget>[
-                                                  new Icon(
-                                                    Icons.power,
-                                                    size: 15,
-                                                  ),
-                                                  new Text(
-                                                    "Power\nBackup",
-                                                    style:
-                                                        TextStyle(fontSize: 10),
-                                                  )
-                                                ],
-                                              ),
-                                              new Container(
-                                                width: 5,
-                                              ),
-                                              new Column(
-                                                children: <Widget>[
-                                                  new Text(
-                                                    i == 1 ? "+1" : "+2",
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ],
+                                          new SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: new Row(
+                                              children: getAmenitiesNames(
+                                                  rooms[i].amenities),
+                                            ),
                                           )
                                         ],
                                       ),
+                                    ),
+                                    new Container(
+                                      width: 10,
                                     ),
                                     new Column(
                                       children: <Widget>[

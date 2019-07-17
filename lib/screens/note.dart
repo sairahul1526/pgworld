@@ -101,29 +101,29 @@ class NoteActivityState extends State<NoteActivity> {
           : new Container(
               margin: new EdgeInsets.fromLTRB(
                   MediaQuery.of(context).size.width * 0.1,
-                  25,
+                  0,
                   MediaQuery.of(context).size.width * 0.1,
                   0),
-              child: new Column(
+              child: new ListView(
                 children: <Widget>[
                   new Container(
-                    margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    height: 200,
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        new Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          child: new Text("Note"),
-                        ),
                         new Flexible(
                           child: new Container(
-                            margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                             child: new TextField(
                               controller: item,
                               maxLines: 5,
                               textInputAction: TextInputAction.newline,
                               keyboardType: TextInputType.multiline,
-                              decoration: InputDecoration(hintText: '...'),
+                              decoration: InputDecoration(
+                                isDense: true,
+                                prefixIcon: Icon(Icons.note),
+                                border: OutlineInputBorder(),
+                                labelText: 'Note',
+                              ),
                               onSubmitted: (String value) {},
                             ),
                           ),

@@ -387,6 +387,7 @@ class Log implements ListItem {
   final String type;
   String color;
   IconData icon;
+  String title;
   final String status;
   final String createdBy;
   final String modifiedBy;

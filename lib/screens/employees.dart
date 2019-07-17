@@ -114,9 +114,11 @@ class EmployeesActivityState extends State<EmployeesActivity> {
             : new ListView.separated(
                 controller: _controller,
                 itemCount: employees.length,
-                separatorBuilder: (context, index) => Divider(),
+                separatorBuilder: (context, i) {
+                  return new Divider();
+                },
                 itemBuilder: (itemContext, i) {
-                  return new ListTile(
+                  return new GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
@@ -125,7 +127,8 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                 new BillsActivity(null, employees[i])),
                       );
                     },
-                    title: new Container(
+                    child: new Container(
+                      padding: EdgeInsets.fromLTRB(10, i == 0 ? 10 : 0, 10, 0),
                       child: new Slidable(
                         actionPane: new SlidableDrawerActionPane(),
                         actionExtentRatio: 0.25,
@@ -133,115 +136,156 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                           children: <Widget>[
                             new Container(
                               child: new Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
+                                  new Container(
+                                    margin: EdgeInsets.fromLTRB(0, 3, 10, 10),
+                                    padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
+                                    decoration: new BoxDecoration(
+                                      color: i == 1
+                                          ? HexColor("#F5CBA7")
+                                          : HexColor("#A2D9CE"),
+                                      shape: BoxShape.rectangle,
+                                    ),
+                                    child: new Text(
+                                      employees[i].name[0].toUpperCase(),
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
                                   new Expanded(
+                                      child: new Container(
+                                    margin: EdgeInsets.only(top: 5),
                                     child: new Column(
                                       children: <Widget>[
                                         new Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            new Text(
-                                              employees[i]
-                                                      .name[0]
-                                                      .toUpperCase() +
-                                                  employees[i]
-                                                      .name
-                                                      .substring(1),
-                                              style: TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
+                                            new Flexible(
+                                              child: new Text(
+                                                employees[i]
+                                                        .name[0]
+                                                        .toUpperCase() +
+                                                    employees[i]
+                                                        .name
+                                                        .substring(1),
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Colors.black),
                                               ),
                                             ),
                                             new Text(
                                               "₹" + employees[i].salary,
                                               style: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 15,
                                                   fontWeight: FontWeight.normal,
-                                                  color: Colors.black),
+                                                  color: i == 1
+                                                      ? Colors.red
+                                                      : Colors.green),
                                             )
                                           ],
                                         ),
                                         new Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            new Text(
+                                              employees[i].designation,
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w100,
+                                                  color: Colors.grey),
+                                            ),
+                                          ],
+                                        ),
+                                        new Container(
+                                          height: 10,
+                                        ),
+                                        new Row(
                                           children: <Widget>[
                                             employees[i].phone != ""
-                                                ? new ButtonTheme(
-                                                    height: 25,
-                                                    child: new FlatButton.icon(
-                                                      shape: new RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              new BorderRadius
-                                                                      .circular(
-                                                                  15.0)),
-                                                      color:
-                                                          HexColor("#AED6F1"),
-                                                      label: new Text(
-                                                        employees[i].phone,
-                                                        style: TextStyle(
-                                                            fontSize: 10),
+                                                ? new GestureDetector(
+                                                    onTap: () {
+                                                      makePhone(
+                                                          employees[i].phone);
+                                                    },
+                                                    child: new Container(
+                                                      child: new Row(
+                                                        children: <Widget>[
+                                                          new Container(
+                                                            padding: EdgeInsets
+                                                                .fromLTRB(
+                                                                    2, 2, 0, 2),
+                                                            child: new Icon(
+                                                                Icons.phone,
+                                                                size: 15,
+                                                                color: Colors
+                                                                    .black),
+                                                          ),
+                                                          new Text(
+                                                            "   " +
+                                                                employees[i]
+                                                                    .phone,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .black),
+                                                          )
+                                                        ],
                                                       ),
-                                                      icon: new Icon(
-                                                        Icons.phone,
-                                                        size: 15,
-                                                      ),
-                                                      onPressed: () {
-                                                        makePhone(
-                                                            employees[i].phone);
-                                                      },
                                                     ),
                                                   )
                                                 : new Container(),
                                             employees[i].phone != ""
                                                 ? new Container(
-                                                    height: 50,
+                                                    height: 0,
                                                     width: 10,
                                                   )
                                                 : new Container(),
-                                            new Flexible(
-                                              child: employees[i].email != ""
-                                                  ? new ButtonTheme(
-                                                      height: 25,
-                                                      child:
-                                                          new FlatButton.icon(
-                                                        shape: new RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                new BorderRadius
-                                                                        .circular(
-                                                                    15.0)),
-                                                        color:
-                                                            HexColor("#AED6F1"),
-                                                        label: new Flexible(
-                                                          child: new Text(
-                                                            employees[i].email,
-                                                            softWrap: false,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .fade,
-                                                            style: TextStyle(
-                                                                fontSize: 10),
+                                            employees[i].email != ""
+                                                ? new GestureDetector(
+                                                    onTap: () {
+                                                      sendMail(
+                                                          employees[i].email,
+                                                          "",
+                                                          "");
+                                                    },
+                                                    child: new Container(
+                                                      child: new Row(
+                                                        children: <Widget>[
+                                                          new Container(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2),
+                                                            child: new Icon(
+                                                                Icons.email,
+                                                                size: 15,
+                                                                color: Colors
+                                                                    .black),
                                                           ),
-                                                        ),
-                                                        icon: new Icon(
-                                                          Icons.email,
-                                                          size: 15,
-                                                        ),
-                                                        onPressed: () {
-                                                          sendMail(
-                                                              employees[i]
-                                                                  .email,
-                                                              "",
-                                                              "");
-                                                        },
+                                                          new Text(
+                                                            "   " +
+                                                                employees[i]
+                                                                    .email,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .black),
+                                                          )
+                                                        ],
                                                       ),
-                                                    )
-                                                  : new Container(),
-                                            )
+                                                    ),
+                                                  )
+                                                : new Container(),
                                           ],
                                         )
                                       ],
                                     ),
-                                  )
+                                  ))
                                 ],
                               ),
                             ),

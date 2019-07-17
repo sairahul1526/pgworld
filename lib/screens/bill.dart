@@ -222,7 +222,6 @@ class BillActivityState extends State<BillActivity> {
                                   isDense: true,
                                   prefixIcon: Icon(Icons.label),
                                   border: OutlineInputBorder(),
-                                  hintText: 'Title',
                                   labelText: 'Title',
                                 ),
                                 onSubmitted: (String value) {}),
@@ -251,7 +250,6 @@ class BillActivityState extends State<BillActivity> {
                                   isDense: true,
                                   prefixIcon: Icon(Icons.description),
                                   border: OutlineInputBorder(),
-                                  hintText: 'Description',
                                   labelText: 'Description',
                                 ),
                                 onSubmitted: (String value) {},
@@ -278,7 +276,6 @@ class BillActivityState extends State<BillActivity> {
                             isDense: true,
                             prefixIcon: Icon(Icons.attach_money),
                             border: OutlineInputBorder(),
-                            hintText: 'Amount',
                             labelText: 'Amount',
                           ),
                           onSubmitted: (String value) {},
@@ -290,7 +287,6 @@ class BillActivityState extends State<BillActivity> {
               ),
               new GestureDetector(
                 onTap: () {
-                  print("ontap");
                   _selectDate(context, '1');
                 },
                 child: new Container(
@@ -311,7 +307,6 @@ class BillActivityState extends State<BillActivity> {
                               isDense: true,
                               prefixIcon: Icon(Icons.calendar_today),
                               border: OutlineInputBorder(),
-                              hintText: 'Payment Date',
                               labelText: 'Payment Date',
                             ),
                             onSubmitted: (String value) {},
@@ -325,7 +320,6 @@ class BillActivityState extends State<BillActivity> {
               (bill == null && (user != null || employee != null))
                   ? new GestureDetector(
                       onTap: () {
-                        print("ontap");
                         _selectDate(context, '2');
                       },
                       child: new Container(
@@ -346,7 +340,6 @@ class BillActivityState extends State<BillActivity> {
                                     isDense: true,
                                     prefixIcon: Icon(Icons.calendar_today),
                                     border: OutlineInputBorder(),
-                                    hintText: 'Next Payment Date',
                                     labelText: 'Next Payment Date',
                                   ),
                                   onSubmitted: (String value) {},

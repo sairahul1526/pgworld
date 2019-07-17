@@ -75,33 +75,41 @@ class LogsActivityState extends State<LogsActivity> {
             // bill
             log.color = "#F9E79F";
             log.icon = Icons.attach_money;
+            log.title = "Bill";
           } else if (log.type == "3") {
             // employee
             log.color = "#AED6F1";
             log.icon = Icons.account_box;
+            log.title = "Employee";
           } else if (log.type == "5") {
             // note
             log.color = "#A2D9CE";
             log.icon = Icons.format_list_numbered;
+            log.title = "Note";
           } else if (log.type == "6") {
             // room
             log.color = "#F5CBA7";
             log.icon = Icons.local_hotel;
+            log.title = "Room";
           } else if (log.type == "7") {
             // rent
             log.color = "#F9E79F";
             log.icon = Icons.attach_money;
+            log.title = "Rent";
           } else if (log.type == "8") {
             // salary
             log.color = "#F9E79F";
             log.icon = Icons.attach_money;
+            log.title = "Salary";
           } else if (log.type == "9") {
             // user
             log.color = "#D7BDE2";
             log.icon = Icons.supervisor_account;
+            log.title = "User";
           } else {
             log.color = "#F5B7B1";
             log.icon = Icons.track_changes;
+            log.title = "";
           }
           logs.add(log);
         });
@@ -189,7 +197,7 @@ class LogsActivityState extends State<LogsActivity> {
                                     children: <Widget>[
                                       new Flexible(
                                         child: new Text(
-                                          item.by + " ",
+                                          item.title + " ",
                                           maxLines: 1,
                                           overflow: TextOverflow.clip,
                                           style: TextStyle(
@@ -210,8 +218,8 @@ class LogsActivityState extends State<LogsActivity> {
                                     ],
                                   ),
                                   new Text(
-                                    item.log,
-                                    maxLines: 1,
+                                    item.by + " " + item.log,
+                                    // maxLines: 2,
                                     overflow: TextOverflow.clip,
                                     style: TextStyle(
                                         fontSize: 15, color: Colors.grey),
