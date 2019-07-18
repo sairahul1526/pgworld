@@ -169,12 +169,12 @@ class RoomsActivityState extends State<RoomsActivity> {
                                           EdgeInsets.fromLTRB(10, 12, 10, 10),
                                       height: 50,
                                       // width: 3,
-                                      color:
-                                          rooms[i].filled == rooms[i].capacity
-                                              ? HexColor("#F5B7B1")
-                                              : HexColor(COLORS.RED),
+                                      color: int.parse(rooms[i].filled) >=
+                                              int.parse(rooms[i].capacity)
+                                          ? HexColor(COLORS.GREEN)
+                                          : HexColor(COLORS.RED),
                                       child: new Text(
-                                        rooms[i].roomno + " A",
+                                        rooms[i].roomno,
                                         style: TextStyle(
                                           fontSize: 20,
                                           // fontWeight: FontWeight.bold,
@@ -205,7 +205,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                                           new SingleChildScrollView(
                                             scrollDirection: Axis.horizontal,
                                             child: new Row(
-                                              children: getAmenitiesNames(
+                                              children: getAmenitiesWidgets(
                                                   rooms[i].amenities),
                                             ),
                                           )
@@ -226,8 +226,8 @@ class RoomsActivityState extends State<RoomsActivity> {
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w100,
-                                            color: rooms[i].filled ==
-                                                    rooms[i].capacity
+                                            color: int.parse(rooms[i].filled) >=
+                                                    int.parse(rooms[i].capacity)
                                                 ? Colors.red
                                                 : Colors.green,
                                           ),

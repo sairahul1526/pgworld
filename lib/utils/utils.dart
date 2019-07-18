@@ -144,7 +144,7 @@ String getAmenityName(String id) {
   }
 }
 
-List<Widget> getAmenitiesNames(String amenities) {
+List<Widget> getAmenitiesWidgets(String amenities) {
   List<Widget> widgets = new List();
   amenities.split(",").forEach((amenity) {
     String name = getAmenityName(amenity);
@@ -166,23 +166,6 @@ List<Widget> getAmenitiesNames(String amenities) {
       ));
     }
   });
-
-  // new Column(
-  //   children: <Widget>[
-  //     new Icon(
-  //       Icons.wifi,
-  //       size: 15,
-  //     ),
-  //     new Text(
-  //       "Wifi",
-  //       style: TextStyle(
-  //           fontSize: 10),
-  //     )
-  //   ],
-  // ),
-  // new Container(
-  //   width: 15,
-  // )
 
   return widgets;
 }

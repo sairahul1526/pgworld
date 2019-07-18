@@ -136,14 +136,12 @@ class UsersActivityState extends State<UsersActivity> {
                   icon: new Icon(Icons.filter_list),
                 )
               : new Container(),
-          room != null
-              ? new IconButton(
-                  onPressed: () {
-                    filterPage(context, new UserActivity(null, room));
-                  },
-                  icon: new Icon(Icons.add),
-                )
-              : new Container(),
+          new IconButton(
+            onPressed: () {
+              filterPage(context, new UserActivity(null, room));
+            },
+            icon: new Icon(Icons.add),
+          )
         ],
       ),
       body: ModalProgressHUD(

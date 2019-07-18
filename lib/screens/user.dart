@@ -32,13 +32,17 @@ class UserActivityState extends State<UserActivity> {
   TextEditingController emergencyPhone = new TextEditingController();
   TextEditingController rent = new TextEditingController();
   TextEditingController joiningDate = new TextEditingController();
+  TextEditingController roomNo = new TextEditingController();
 
   User user;
   Room room;
 
+  String roomID;
+
   bool loading = false;
   List<String> fileNames = new List();
   List<Widget> fileWidgets = new List();
+  List<Room> rooms = new List();
 
   UserActivityState(this.user, this.room);
 
@@ -57,11 +61,47 @@ class UserActivityState extends State<UserActivity> {
       if (user.document != null) {
         fileNames = user.document.split(",");
       }
-    } else {
+      roomID = user.roomID;
+    } else if (room != null) {
+      roomID = room.id;
+      roomNo.text = room.roomno;
       rent.text = room.rent;
+      joiningDate.text = headingDateFormat.format(new DateTime.now());
+    } else {
+      roomID = "";
+      roomNo.text = "";
+      rent.text = "";
       joiningDate.text = headingDateFormat.format(new DateTime.now());
     }
     loadDocuments();
+    getRoomsIDs();
+  }
+
+  void getRoomsIDs() {
+    setState(() {
+      loading = true;
+    });
+    Map<String, String> filter = new Map();
+    filter["limit"] = "10000";
+    filter["hostel_id"] = hostelID;
+    filter["status"] = "1";
+    filter["resp"] = "roomno,id";
+    Future<Rooms> data = getRooms(filter);
+    data.then((response) {
+      if (response.rooms != null) {
+        rooms.addAll(response.rooms);
+      }
+      print(rooms.length);
+      if (response.meta == null) {
+        oneButtonDialog(context, "", "No Internet connection", true);
+      } else if (response.meta != null && response.meta.messageType == "1") {
+        oneButtonDialog(context, "", response.meta.message,
+            !(response.meta.status == STATUS_403));
+      }
+      setState(() {
+        loading = false;
+      });
+    });
   }
 
   Future getImage() async {
@@ -145,6 +185,40 @@ class UserActivityState extends State<UserActivity> {
       });
   }
 
+  Future<String> selectRoom(BuildContext context, List<Room> rooms) async {
+    String returned = "";
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Select room"),
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            height: 300,
+            child: new ListView.builder(
+              shrinkWrap: true,
+              itemCount: rooms.length,
+              itemBuilder: (context, i) {
+                return new FlatButton(
+                  child: new Text(rooms[i].roomno),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    returned = rooms[i].id;
+
+                    roomID = rooms[i].id;
+                    roomNo.text = rooms[i].roomno;
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -193,6 +267,8 @@ class UserActivityState extends State<UserActivity> {
                     'food': eating.toString(),
                     'rent': rent.text,
                     'document': fileNames.join(","),
+                    'room_id': roomID,
+                    'prev_room_id': user.roomID,
                   }),
                   Map.from({'hostel_id': hostelID, 'id': user.id}),
                 );
@@ -208,9 +284,8 @@ class UserActivityState extends State<UserActivity> {
                     'emer_contact': emergencyName.text,
                     'emer_phone': emergencyPhone.text,
                     'food': eating.toString(),
-                    'room_id': room.id,
+                    'room_id': roomID,
                     'rent': rent.text,
-                    'room_id': room.id,
                     'document': fileNames.join(","),
                     'joining_date_time': joiningDate.text
                   }),
@@ -255,6 +330,38 @@ class UserActivityState extends State<UserActivity> {
                     ),
                   ),
                 ],
+              ),
+              new GestureDetector(
+                onTap: () {
+                  selectRoom(context, rooms);
+                },
+                child: new Container(
+                  color: Colors.transparent,
+                  height: 50,
+                  margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Expanded(
+                        child: new Container(
+                          child: new TextField(
+                            enabled: false,
+                            controller: roomNo,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              prefixIcon: Icon(Icons.calendar_today),
+                              border: OutlineInputBorder(),
+                              labelText: 'Room No.',
+                            ),
+                            onSubmitted: (String value) {},
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
               new Container(
                 height: 50,
@@ -488,6 +595,48 @@ class UserActivityState extends State<UserActivity> {
                   ],
                 ),
               ),
+              user != null
+                  ? new Container(
+                      margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          new FlatButton(
+                            child: new Text(
+                              "DELETE",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            onPressed: () {
+                              Future<bool> dialog = twoButtonDialog(
+                                  context,
+                                  "Do you want to remove the user from hostel?",
+                                  "");
+                              dialog.then((onValue) {
+                                if (onValue) {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  Future<bool> deleteResquest = delete(
+                                      API.USER,
+                                      Map.from({
+                                        'hostel_id': hostelID,
+                                        'id': user.id,
+                                        'room_id': user.roomID,
+                                      }));
+                                  deleteResquest.then((response) {
+                                    setState(() {
+                                      loading = false;
+                                    });
+                                    Navigator.pop(context);
+                                  });
+                                }
+                              });
+                            },
+                          )
+                        ],
+                      ),
+                    )
+                  : new Container(),
             ],
           ),
         ),
