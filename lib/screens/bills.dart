@@ -254,8 +254,8 @@ class BillsActivityState extends State<BillsActivity> {
                                 margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
                                 padding: EdgeInsets.all(7),
                                 color: item.paid == "0"
-                                    ? HexColor("#A2D9CE")
-                                    : HexColor("#F5CBA7"),
+                                    ? HexColor(COLORS.RED)
+                                    : HexColor(COLORS.GREEN),
                                 child: new Icon(
                                   item.userID != ""
                                       ? Icons.local_hotel

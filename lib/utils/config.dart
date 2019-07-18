@@ -15,6 +15,11 @@ class API {
   static const SALARY = "salary";
 }
 
+class COLORS {
+  static const RED = "#A2D9CE";
+  static const GREEN = "#F5CBA7";
+}
+
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
@@ -33,7 +38,7 @@ String adminName;
 String hostelID;
 List<String> amenities = new List();
 
-Map<String, String> headers = {"Accept-Encoding": "application/gzip"};
+Map<String, String> headers = {"Accept-Encoding": "gzip"};
 
 const timeout = 10;
 

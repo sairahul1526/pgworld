@@ -184,8 +184,8 @@ class UsersActivityState extends State<UsersActivity> {
                                     padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                     decoration: new BoxDecoration(
                                       color: i == 1
-                                          ? HexColor("#F5CBA7")
-                                          : HexColor("#A2D9CE"),
+                                          ? HexColor(COLORS.GREEN)
+                                          : HexColor(COLORS.RED),
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: new Text(

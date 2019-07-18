@@ -172,7 +172,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                                       color:
                                           rooms[i].filled == rooms[i].capacity
                                               ? HexColor("#F5B7B1")
-                                              : HexColor("#A2D9CE"),
+                                              : HexColor(COLORS.RED),
                                       child: new Text(
                                         rooms[i].roomno + " A",
                                         style: TextStyle(
