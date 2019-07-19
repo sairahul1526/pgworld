@@ -196,7 +196,11 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                 setState(() {
                   loading = false;
                 });
-                Navigator.pop(context);
+                if (employee != null) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context, "");
+                }
               });
             },
           ),

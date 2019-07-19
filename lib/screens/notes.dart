@@ -90,6 +90,26 @@ class NotesActivityState extends State<NotesActivity> {
     });
   }
 
+  addPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = offset;
+      filter["orderby"] = "created_date_time";
+      filter["sortby"] = "desc";
+      offset = defaultOffset;
+
+      notes.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -125,11 +145,7 @@ class NotesActivityState extends State<NotesActivity> {
           ),
           new IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new NoteActivity(null)),
-              );
+              addPage(context, new NoteActivity(null));
             },
             icon: new Icon(Icons.add),
           ),

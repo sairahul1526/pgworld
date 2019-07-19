@@ -114,6 +114,27 @@ class UsersActivityState extends State<UsersActivity> {
     }
   }
 
+  addPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      if (room != null) {
+        filter["room_id"] = room.id;
+      }
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = defaultOffset;
+      offset = defaultOffset;
+
+      users.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -138,7 +159,7 @@ class UsersActivityState extends State<UsersActivity> {
               : new Container(),
           new IconButton(
             onPressed: () {
-              filterPage(context, new UserActivity(null, room));
+              addPage(context, new UserActivity(null, room));
             },
             icon: new Icon(Icons.add),
           )

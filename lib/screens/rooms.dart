@@ -99,6 +99,24 @@ class RoomsActivityState extends State<RoomsActivity> {
     }
   }
 
+  addPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = offset;
+      offset = defaultOffset;
+
+      rooms.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -122,11 +140,7 @@ class RoomsActivityState extends State<RoomsActivity> {
             ),
             new IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  new MaterialPageRoute(
-                      builder: (context) => new RoomActivity(null)),
-                );
+                addPage(context, new RoomActivity(null));
               },
               icon: new Icon(
                 Icons.add,

@@ -141,6 +141,31 @@ class BillsActivityState extends State<BillsActivity> {
     }
   }
 
+  addPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      if (user != null) {
+        filter["user_id"] = user.id;
+      } else if (employee != null) {
+        filter["employee_id"] = employee.id;
+      }
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = offset;
+      filter["orderby"] = "paid_date_time";
+      filter["sortby"] = "desc";
+      offset = defaultOffset;
+
+      bills.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -194,15 +219,13 @@ class BillsActivityState extends State<BillsActivity> {
           ),
           new IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => user != null
-                        ? new BillActivity(null, user, null)
-                        : (employee != null
-                            ? new BillActivity(null, null, employee)
-                            : new BillActivity(null, null, null))),
-              );
+              addPage(
+                  context,
+                  user != null
+                      ? new BillActivity(null, user, null)
+                      : (employee != null
+                          ? new BillActivity(null, null, employee)
+                          : new BillActivity(null, null, null)));
             },
             icon: new Icon(Icons.add),
           ),

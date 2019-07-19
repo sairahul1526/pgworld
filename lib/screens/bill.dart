@@ -190,7 +190,11 @@ class BillActivityState extends State<BillActivity> {
                 setState(() {
                   loading = false;
                 });
-                Navigator.pop(context);
+                if (bill != null) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context, "");
+                }
               });
             },
           ),

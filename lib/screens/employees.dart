@@ -80,6 +80,24 @@ class EmployeesActivityState extends State<EmployeesActivity> {
     });
   }
 
+  addPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = offset;
+      offset = defaultOffset;
+
+      employees.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -96,11 +114,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
         actions: <Widget>[
           new IconButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                new MaterialPageRoute(
-                    builder: (context) => new EmployeeActivity(null)),
-              );
+              addPage(context, new EmployeeActivity(null));
             },
             icon: new Icon(Icons.add),
           ),

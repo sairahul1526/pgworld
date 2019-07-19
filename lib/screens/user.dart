@@ -295,7 +295,11 @@ class UserActivityState extends State<UserActivity> {
                 setState(() {
                   loading = false;
                 });
-                Navigator.pop(context);
+                if (user != null) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pop(context, "");
+                }
               });
             },
           ),
