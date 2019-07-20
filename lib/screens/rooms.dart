@@ -56,25 +56,36 @@ class RoomsActivityState extends State<RoomsActivity> {
   }
 
   void fillData() {
-    ongoing = true;
-    filter["offset"] = offset;
-    Future<Rooms> data = getRooms(filter);
-    data.then((response) {
-      if (response.rooms != null && response.rooms.length > 0) {
-        offset = (int.parse(response.pagination.offset) + response.rooms.length)
-            .toString();
-        rooms.addAll(response.rooms);
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          ongoing = false;
+          loading = false;
+        });
       } else {
-        end = true;
+        ongoing = true;
+        filter["offset"] = offset;
+        Future<Rooms> data = getRooms(filter);
+        data.then((response) {
+          if (response.rooms != null && response.rooms.length > 0) {
+            offset =
+                (int.parse(response.pagination.offset) + response.rooms.length)
+                    .toString();
+            rooms.addAll(response.rooms);
+          } else {
+            end = true;
+          }
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
+          setState(() {
+            ongoing = false;
+            loading = false;
+          });
+        });
       }
-      if (response.meta != null && response.meta.messageType == "1") {
-        oneButtonDialog(context, "", response.meta.message,
-            !(response.meta.status == STATUS_403));
-      }
-      setState(() {
-        ongoing = false;
-        loading = false;
-      });
     });
   }
 

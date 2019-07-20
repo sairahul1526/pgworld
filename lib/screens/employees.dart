@@ -57,26 +57,36 @@ class EmployeesActivityState extends State<EmployeesActivity> {
   }
 
   void fillData() {
-    ongoing = true;
-    filter["offset"] = offset;
-    Future<Employees> data = getEmployees(filter);
-    data.then((response) {
-      if (response.employees != null && response.employees.length > 0) {
-        offset =
-            (int.parse(response.pagination.offset) + response.employees.length)
-                .toString();
-        employees.addAll(response.employees);
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          ongoing = false;
+          loading = false;
+        });
       } else {
-        end = true;
+        ongoing = true;
+        filter["offset"] = offset;
+        Future<Employees> data = getEmployees(filter);
+        data.then((response) {
+          if (response.employees != null && response.employees.length > 0) {
+            offset = (int.parse(response.pagination.offset) +
+                    response.employees.length)
+                .toString();
+            employees.addAll(response.employees);
+          } else {
+            end = true;
+          }
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
+          setState(() {
+            ongoing = false;
+            loading = false;
+          });
+        });
       }
-      if (response.meta != null && response.meta.messageType == "1") {
-        oneButtonDialog(context, "", response.meta.message,
-            !(response.meta.status == STATUS_403));
-      }
-      setState(() {
-        ongoing = false;
-        loading = false;
-      });
     });
   }
 

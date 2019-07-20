@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
 import '../utils/models.dart';
+import '../utils/utils.dart';
 
 class NoteActivity extends StatefulWidget {
   final Note note;
@@ -62,40 +63,45 @@ class NoteActivityState extends State<NoteActivity> {
               setState(() {
                 loading = true;
               });
-              if (note != null) {
-                Future<bool> load = update(
-                  API.NOTE,
-                  Map.from({
-                    "note": item.text,
-                  }),
-                  Map.from({'hostel_id': hostelID, 'id': note.id}),
-                );
-                load.then((onValue) {
+
+              checkInternet().then((internet) {
+                if (internet == null || !internet) {
+                  oneButtonDialog(context, "No Internet connection", "", true);
                   setState(() {
                     loading = false;
                   });
-                  Navigator.pop(context);
-                });
-              } else {
-                Future<bool> load = add(
-                  API.NOTE,
-                  Map.from({
-                    'hostel_id': hostelID,
-                    'note': item.text,
-                    'status': "1"
-                  }),
-                );
-                load.then((onValue) {
-                  setState(() {
-                    loading = false;
-                  });
+                } else {
+                  Future<bool> load;
                   if (note != null) {
-                    Navigator.pop(context);
+                    load = update(
+                      API.NOTE,
+                      Map.from({
+                        "note": item.text,
+                      }),
+                      Map.from({'hostel_id': hostelID, 'id': note.id}),
+                    );
                   } else {
-                    Navigator.pop(context, "");
+                    load = add(
+                      API.NOTE,
+                      Map.from({
+                        'hostel_id': hostelID,
+                        'note': item.text,
+                        'status': "1"
+                      }),
+                    );
                   }
-                });
-              }
+                  load.then((onValue) {
+                    setState(() {
+                      loading = false;
+                    });
+                    if (note != null) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, "");
+                    }
+                  });
+                }
+              });
             },
           ),
         ],

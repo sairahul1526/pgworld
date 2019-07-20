@@ -2,8 +2,8 @@ import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:pgworld/utils/api.dart';
 
-import 'package:rate_my_app/rate_my_app.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:launch_review/launch_review.dart';
 
 import '../utils/utils.dart';
 import '../utils/config.dart';
@@ -46,19 +46,28 @@ class SettingsActivityState extends State<SettingsActivity> {
   }
 
   void getHostelsData() {
-    Future<Hostels> request =
-        getHostels(Map.from({'id': hostelIDs, 'status': '1'}));
-    request.then((response) {
-      setState(() {
-        hostels = response;
-        hostels.hostels.forEach((hostel) {
-          if (hostel.id == selectedHostelID) {
-            expiry =
-                headingDateFormat.format(DateTime.parse(hostel.expiryDateTime));
-          }
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          loading = false;
         });
-        loading = false;
-      });
+      } else {
+        Future<Hostels> request =
+            getHostels(Map.from({'id': hostelIDs, 'status': '1'}));
+        request.then((response) {
+          setState(() {
+            hostels = response;
+            hostels.hostels.forEach((hostel) {
+              if (hostel.id == selectedHostelID) {
+                expiry = headingDateFormat
+                    .format(DateTime.parse(hostel.expiryDateTime));
+              }
+            });
+            loading = false;
+          });
+        });
+      }
     });
   }
 
@@ -78,7 +87,7 @@ class SettingsActivityState extends State<SettingsActivity> {
         ),
         backgroundColor: Colors.white,
         title: new Text(
-          prefs.getString('username').toUpperCase(),
+          "Settings",
           style: TextStyle(color: Colors.black),
         ),
         elevation: 4.0,
@@ -94,6 +103,27 @@ class SettingsActivityState extends State<SettingsActivity> {
                     0),
                 child: new ListView(
                   children: <Widget>[
+                    new Container(
+                      margin: new EdgeInsets.fromLTRB(0, 0, 0, 15),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Container(
+                            width: MediaQuery.of(context).size.width * 0.2,
+                            child: new Text("Name"),
+                          ),
+                          new Expanded(
+                            child: new Container(
+                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                              child: new Text(
+                                prefs.getString('username').toUpperCase(),
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     hostels != null
                         ? new Row(
                             children: <Widget>[
@@ -101,35 +131,39 @@ class SettingsActivityState extends State<SettingsActivity> {
                                 padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
                                 child: new Text("HOSTEL"),
                               ),
-                              new DropdownButton(
-                                items: hostels.hostels.map((hostel) {
-                                  return new DropdownMenuItem(
-                                      child: new Container(
-                                        constraints:
-                                            BoxConstraints(maxWidth: 200),
-                                        child: new Text(
-                                          hostel.name + " " + hostel.address,
-                                          overflow: TextOverflow.clip,
+                              new Expanded(
+                                child: new DropdownButton(
+                                  isExpanded: true,
+                                  items: hostels.hostels.map((hostel) {
+                                    return new DropdownMenuItem(
+                                        child: new Container(
+                                          constraints:
+                                              BoxConstraints(maxWidth: 200),
+                                          child: new Text(
+                                            hostel.name + " " + hostel.address,
+                                            overflow: TextOverflow.clip,
+                                          ),
                                         ),
-                                      ),
-                                      value: hostel.id);
-                                }).toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    selectedHostelID = value;
-                                    prefs.setString('hostelID', value);
-                                    hostelID = value;
-                                    hostels.hostels.forEach((hostel) {
-                                      if (hostel.id == value) {
-                                        amenities = hostel.amenities.split(",");
-                                        expiry = headingDateFormat.format(
-                                            DateTime.parse(
-                                                hostel.expiryDateTime));
-                                      }
+                                        value: hostel.id);
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedHostelID = value;
+                                      prefs.setString('hostelID', value);
+                                      hostelID = value;
+                                      hostels.hostels.forEach((hostel) {
+                                        if (hostel.id == value) {
+                                          amenities =
+                                              hostel.amenities.split(",");
+                                          expiry = headingDateFormat.format(
+                                              DateTime.parse(
+                                                  hostel.expiryDateTime));
+                                        }
+                                      });
                                     });
-                                  });
-                                },
-                                value: selectedHostelID,
+                                  },
+                                  value: selectedHostelID,
+                                ),
                               )
                             ],
                           )
@@ -174,7 +208,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                       },
                       child: new Container(
                         color: Colors.transparent,
-                        height: 40,
+                        height: 30,
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
@@ -190,26 +224,13 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new Divider(),
                     new GestureDetector(
                       onTap: () {
-                        RateMyApp rateMyApp = RateMyApp(
-                          minDays: 0,
-                          minLaunches: 0,
-                          remindDays: 0,
-                          remindLaunches: 0,
-                        );
-
-                        rateMyApp.showRateDialog(
-                          context,
-                          title: 'Rate this app',
-                          message:
-                              'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.',
-                          rateButton: 'RATE',
-                          noButton: 'NO THANKS',
-                          laterButton: 'MAYBE LATER',
-                        );
+                        LaunchReview.launch(
+                            androidAppId: "com.iyaffle.rangoli",
+                            iOSAppId: "585027354");
                       },
                       child: new Container(
                         color: Colors.transparent,
-                        height: 40,
+                        height: 30,
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[

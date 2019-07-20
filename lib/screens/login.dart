@@ -68,36 +68,46 @@ class LoginState extends State<Login> {
   }
 
   void login() {
-    setState(() {
-      loggedIn = true;
-    });
-    Future<Admins> employeeResponse = getAdmins(
-        Map.from({'username': username.text, 'password': password.text}));
-    employeeResponse.then((response) {
-      if (response == null ||
-          response.meta == null ||
-          response.meta.status != "200") {
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
         setState(() {
           loggedIn = false;
         });
       } else {
-        if (response.admins.length == 0) {
-          setState(() {
-            loggedIn = false;
-            wrongCreds = true;
-          });
-        } else {
-          prefs.setString('username', response.admins[0].username);
-          prefs.setString('hostelIDs', response.admins[0].hostels);
-          prefs.setString('hostelID', response.admins[0].hostels.split(",")[0]);
-          prefs.setString('amenities', response.admins[0].amenities);
-          adminName = response.admins[0].username;
-          hostelID = response.admins[0].hostels.split(",")[0];
-          amenities = response.admins[0].amenities.split(",");
+        setState(() {
+          loggedIn = true;
+        });
+        Future<Admins> employeeResponse = getAdmins(
+            Map.from({'username': username.text, 'password': password.text}));
+        employeeResponse.then((response) {
+          if (response == null ||
+              response.meta == null ||
+              response.meta.status != "200") {
+            setState(() {
+              loggedIn = false;
+            });
+          } else {
+            if (response.admins.length == 0) {
+              setState(() {
+                loggedIn = false;
+                wrongCreds = true;
+              });
+            } else {
+              prefs.setString('username', response.admins[0].username);
+              prefs.setString('hostelIDs', response.admins[0].hostels);
+              prefs.setString(
+                  'hostelID', response.admins[0].hostels.split(",")[0]);
+              prefs.setString('amenities', response.admins[0].amenities);
+              adminName = response.admins[0].username;
+              hostelID = response.admins[0].hostels.split(",")[0];
+              amenities = response.admins[0].amenities.split(",");
 
-          Navigator.of(context).pushReplacement(new MaterialPageRoute(
-              builder: (BuildContext context) => new DashBoard()));
-        }
+              Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                  builder: (BuildContext context) => new DashBoard()));
+            }
+          }
+        });
       }
     });
   }

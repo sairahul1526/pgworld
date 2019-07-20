@@ -68,25 +68,36 @@ class UsersActivityState extends State<UsersActivity> {
   }
 
   void fillData() {
-    ongoing = true;
-    filter["offset"] = offset;
-    Future<Users> data = getUsers(filter);
-    data.then((response) {
-      if (response.users != null && response.users.length > 0) {
-        offset = (int.parse(response.pagination.offset) + response.users.length)
-            .toString();
-        users.addAll(response.users);
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          ongoing = false;
+          loading = false;
+        });
       } else {
-        end = true;
+        ongoing = true;
+        filter["offset"] = offset;
+        Future<Users> data = getUsers(filter);
+        data.then((response) {
+          if (response.users != null && response.users.length > 0) {
+            offset =
+                (int.parse(response.pagination.offset) + response.users.length)
+                    .toString();
+            users.addAll(response.users);
+          } else {
+            end = true;
+          }
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
+          setState(() {
+            ongoing = false;
+            loading = false;
+          });
+        });
       }
-      if (response.meta != null && response.meta.messageType == "1") {
-        oneButtonDialog(context, "", response.meta.message,
-            !(response.meta.status == STATUS_403));
-      }
-      setState(() {
-        ongoing = false;
-        loading = false;
-      });
     });
   }
 

@@ -161,45 +161,55 @@ class EmployeeActivityState extends State<EmployeeActivity> {
               setState(() {
                 loading = true;
               });
-              Future<bool> load;
-              if (employee != null) {
-                load = update(
-                  API.EMPLOYEE,
-                  Map.from({
-                    'name': name.text,
-                    'designation': designation.text,
-                    'phone': phone.text,
-                    'email': email.text,
-                    'address': address.text,
-                    'salary': salary.text,
-                    'document': fileNames.join(","),
-                  }),
-                  Map.from({'hostel_id': hostelID, 'id': employee.id}),
-                );
-              } else {
-                load = add(
-                  API.EMPLOYEE,
-                  Map.from({
-                    'hostel_id': hostelID,
-                    'name': name.text,
-                    'designation': designation.text,
-                    'phone': phone.text,
-                    'email': email.text,
-                    'address': address.text,
-                    'salary': salary.text,
-                    'joining_date_time': joiningDate.text,
-                    'document': fileNames.join(","),
-                  }),
-                );
-              }
-              load.then((onValue) {
-                setState(() {
-                  loading = false;
-                });
-                if (employee != null) {
-                  Navigator.pop(context);
+
+              checkInternet().then((internet) {
+                if (internet == null || !internet) {
+                  oneButtonDialog(context, "No Internet connection", "", true);
+                  setState(() {
+                    loading = false;
+                  });
                 } else {
-                  Navigator.pop(context, "");
+                  Future<bool> load;
+                  if (employee != null) {
+                    load = update(
+                      API.EMPLOYEE,
+                      Map.from({
+                        'name': name.text,
+                        'designation': designation.text,
+                        'phone': phone.text,
+                        'email': email.text,
+                        'address': address.text,
+                        'salary': salary.text,
+                        'document': fileNames.join(","),
+                      }),
+                      Map.from({'hostel_id': hostelID, 'id': employee.id}),
+                    );
+                  } else {
+                    load = add(
+                      API.EMPLOYEE,
+                      Map.from({
+                        'hostel_id': hostelID,
+                        'name': name.text,
+                        'designation': designation.text,
+                        'phone': phone.text,
+                        'email': email.text,
+                        'address': address.text,
+                        'salary': salary.text,
+                        'joining_date_time': joiningDate.text,
+                        'document': fileNames.join(","),
+                      }),
+                    );
+                  }
+                  load.then((onValue) {
+                    setState(() {
+                      loading = false;
+                    });
+                    if (employee != null) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, "");
+                    }
+                  });
                 }
               });
             },

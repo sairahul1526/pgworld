@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../utils/utils.dart';
+
 class PhotoActivity extends StatefulWidget {
   final String url;
 
@@ -19,6 +21,12 @@ class PhotoActivityState extends State<PhotoActivity> {
   @override
   void initState() {
     super.initState();
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        return;
+      }
+    });
   }
 
   @override

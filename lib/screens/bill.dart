@@ -129,71 +129,82 @@ class BillActivityState extends State<BillActivity> {
                 loading = true;
               });
 
-              Future<bool> load;
-              if (user != null) {
-                load = add(
-                  API.RENT,
-                  Map.from({
-                    'paid_date_time': pickedPaidDate,
-                    'amount': amount.text,
-                    'title': 'Rent',
-                    'name': user.name,
-                    'description':
-                        user.name + ' paid rent for room ' + user.roomID,
-                    'hostel_id': hostelID,
-                    'user_id': user.id,
-                    'bill_id': bill != null ? bill.id : "",
-                    'paid': '0'
-                  }),
-                );
-              } else if (employee != null) {
-                load = add(
-                  API.SALARY,
-                  Map.from({
-                    'paid_date_time': pickedPaidDate,
-                    'amount': amount.text,
-                    'title': 'Salary',
-                    'name': employee.name,
-                    'description': employee.name + ' salary paid',
-                    'hostel_id': hostelID,
-                    'employee_id': employee.id,
-                    'bill_id': bill != null ? bill.id : "",
-                    'paid': '1'
-                  }),
-                );
-              } else if (bill != null) {
-                load = update(
-                  API.BILL,
-                  Map.from({
-                    'paid_date_time': pickedPaidDate,
-                    "title": item.text,
-                    "description": description.text,
-                    "amount": amount.text,
-                    "paid": paid.toString(),
-                  }),
-                  Map.from({'hostel_id': hostelID, 'id': bill.id}),
-                );
-              } else {
-                load = add(
-                  API.BILL,
-                  Map.from({
-                    'hostel_id': hostelID,
-                    'title': item.text,
-                    'paid_date_time': pickedPaidDate,
-                    'description': description.text,
-                    'amount': amount.text,
-                    'paid': paid.toString()
-                  }),
-                );
-              }
-              load.then((onValue) {
-                setState(() {
-                  loading = false;
-                });
-                if (bill != null) {
-                  Navigator.pop(context);
+              checkInternet().then((internet) {
+                if (internet == null || !internet) {
+                  oneButtonDialog(context, "No Internet connection", "", true);
+                  setState(() {
+                    loading = false;
+                  });
                 } else {
-                  Navigator.pop(context, "");
+                  Future<bool> load;
+                  if (user != null) {
+                    load = add(
+                      API.RENT,
+                      Map.from({
+                        'paid_date_time': pickedPaidDate,
+                        'expiry_date_tine': pickedExpiryDate,
+                        'amount': amount.text,
+                        'title': 'Rent',
+                        'name': user.name,
+                        'description':
+                            user.name + ' paid rent for room ' + user.roomID,
+                        'hostel_id': hostelID,
+                        'user_id': user.id,
+                        'bill_id': bill != null ? bill.id : "",
+                        'paid': '0'
+                      }),
+                    );
+                  } else if (employee != null) {
+                    load = add(
+                      API.SALARY,
+                      Map.from({
+                        'paid_date_time': pickedPaidDate,
+                        'expiry_date_tine': pickedExpiryDate,
+                        'amount': amount.text,
+                        'title': 'Salary',
+                        'name': employee.name,
+                        'description': employee.name + ' salary paid',
+                        'hostel_id': hostelID,
+                        'employee_id': employee.id,
+                        'bill_id': bill != null ? bill.id : "",
+                        'paid': '1'
+                      }),
+                    );
+                  } else if (bill != null) {
+                    load = update(
+                      API.BILL,
+                      Map.from({
+                        'paid_date_time': pickedPaidDate,
+                        "title": item.text,
+                        "description": description.text,
+                        "amount": amount.text,
+                        "paid": paid.toString(),
+                      }),
+                      Map.from({'hostel_id': hostelID, 'id': bill.id}),
+                    );
+                  } else {
+                    load = add(
+                      API.BILL,
+                      Map.from({
+                        'hostel_id': hostelID,
+                        'title': item.text,
+                        'paid_date_time': pickedPaidDate,
+                        'description': description.text,
+                        'amount': amount.text,
+                        'paid': paid.toString()
+                      }),
+                    );
+                  }
+                  load.then((onValue) {
+                    setState(() {
+                      loading = false;
+                    });
+                    if (bill != null) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, "");
+                    }
+                  });
                 }
               });
             },

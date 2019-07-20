@@ -34,6 +34,8 @@ class UserActivityState extends State<UserActivity> {
   TextEditingController joiningDate = new TextEditingController();
   TextEditingController roomNo = new TextEditingController();
 
+  String pickedJoiningDate = '';
+
   User user;
   Room room;
 
@@ -66,41 +68,51 @@ class UserActivityState extends State<UserActivity> {
       roomID = room.id;
       roomNo.text = room.roomno;
       rent.text = room.rent;
-      joiningDate.text = headingDateFormat.format(new DateTime.now());
     } else {
       roomID = "";
       roomNo.text = "";
       rent.text = "";
-      joiningDate.text = headingDateFormat.format(new DateTime.now());
     }
+    joiningDate.text = headingDateFormat.format(new DateTime.now());
+    pickedJoiningDate = dateFormat.format(new DateTime.now());
     loadDocuments();
     getRoomsIDs();
   }
 
   void getRoomsIDs() {
-    setState(() {
-      loading = true;
-    });
-    Map<String, String> filter = new Map();
-    filter["limit"] = "10000";
-    filter["hostel_id"] = hostelID;
-    filter["status"] = "1";
-    filter["resp"] = "roomno,id";
-    Future<Rooms> data = getRooms(filter);
-    data.then((response) {
-      if (response.rooms != null) {
-        rooms.addAll(response.rooms);
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          loading = false;
+        });
+      } else {
+        setState(() {
+          loading = true;
+        });
+        Map<String, String> filter = new Map();
+        filter["limit"] = "10000";
+        filter["hostel_id"] = hostelID;
+        filter["status"] = "1";
+        filter["resp"] = "roomno,id";
+        Future<Rooms> data = getRooms(filter);
+        data.then((response) {
+          if (response.rooms != null) {
+            rooms.addAll(response.rooms);
+          }
+          print(rooms.length);
+          if (response.meta == null) {
+            oneButtonDialog(context, "", "No Internet connection", true);
+          } else if (response.meta != null &&
+              response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
+          setState(() {
+            loading = false;
+          });
+        });
       }
-      print(rooms.length);
-      if (response.meta == null) {
-        oneButtonDialog(context, "", "No Internet connection", true);
-      } else if (response.meta != null && response.meta.messageType == "1") {
-        oneButtonDialog(context, "", response.meta.message,
-            !(response.meta.status == STATUS_403));
-      }
-      setState(() {
-        loading = false;
-      });
     });
   }
 
@@ -182,6 +194,7 @@ class UserActivityState extends State<UserActivity> {
     if (picked != null)
       setState(() {
         joiningDate.text = headingDateFormat.format(picked);
+        pickedJoiningDate = dateFormat.format(picked);
       });
   }
 
@@ -253,52 +266,61 @@ class UserActivityState extends State<UserActivity> {
               setState(() {
                 loading = true;
               });
-              Future<bool> load;
-              if (user != null) {
-                load = update(
-                  API.USER,
-                  Map.from({
-                    'name': name.text,
-                    'phone': phone.text,
-                    'email': email.text,
-                    'address': address.text,
-                    'emer_contact': emergencyName.text,
-                    'emer_phone': emergencyPhone.text,
-                    'food': eating.toString(),
-                    'rent': rent.text,
-                    'document': fileNames.join(","),
-                    'room_id': roomID,
-                    'prev_room_id': user.roomID,
-                  }),
-                  Map.from({'hostel_id': hostelID, 'id': user.id}),
-                );
-              } else {
-                load = add(
-                  API.USER,
-                  Map.from({
-                    'hostel_id': hostelID,
-                    'name': name.text,
-                    'phone': phone.text,
-                    'email': email.text,
-                    'address': address.text,
-                    'emer_contact': emergencyName.text,
-                    'emer_phone': emergencyPhone.text,
-                    'food': eating.toString(),
-                    'room_id': roomID,
-                    'rent': rent.text,
-                    'document': fileNames.join(","),
-                    'joining_date_time': joiningDate.text
-                  }),
-                );
-              }
-              load.then((onValue) {
-                setState(() {
-                  loading = false;
-                });
-                if (user != null) {
-                  Navigator.pop(context);
+              checkInternet().then((internet) {
+                if (internet == null || !internet) {
+                  oneButtonDialog(context, "No Internet connection", "", true);
+                  setState(() {
+                    loading = false;
+                  });
                 } else {
-                  Navigator.pop(context, "");
+                  Future<bool> load;
+                  if (user != null) {
+                    load = update(
+                      API.USER,
+                      Map.from({
+                        'name': name.text,
+                        'phone': phone.text,
+                        'email': email.text,
+                        'address': address.text,
+                        'emer_contact': emergencyName.text,
+                        'emer_phone': emergencyPhone.text,
+                        'food': eating.toString(),
+                        'rent': rent.text,
+                        'document': fileNames.join(","),
+                        'room_id': roomID,
+                        'prev_room_id': user.roomID,
+                      }),
+                      Map.from({'hostel_id': hostelID, 'id': user.id}),
+                    );
+                  } else {
+                    load = add(
+                      API.USER,
+                      Map.from({
+                        'hostel_id': hostelID,
+                        'name': name.text,
+                        'phone': phone.text,
+                        'email': email.text,
+                        'address': address.text,
+                        'emer_contact': emergencyName.text,
+                        'emer_phone': emergencyPhone.text,
+                        'food': eating.toString(),
+                        'room_id': roomID,
+                        'rent': rent.text,
+                        'document': fileNames.join(","),
+                        'joining_date_time': pickedJoiningDate
+                      }),
+                    );
+                  }
+                  load.then((onValue) {
+                    setState(() {
+                      loading = false;
+                    });
+                    if (user != null) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, "");
+                    }
+                  });
                 }
               });
             },

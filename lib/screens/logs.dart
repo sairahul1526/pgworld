@@ -56,74 +56,85 @@ class LogsActivityState extends State<LogsActivity> {
   }
 
   void fillData() {
-    ongoing = true;
-    filter["offset"] = offset;
-    Future<Logs> data = getLogs(filter);
-    data.then((response) {
-      if (response.logs != null && response.logs.length > 0) {
-        offset = (int.parse(response.pagination.offset) + response.logs.length)
-            .toString();
-        response.logs.forEach((log) {
-          if (log is Log) {
-            if (previousDate.compareTo(log.createdDateTime.split(" ")[0]) !=
-                0) {
-              previousDate = log.createdDateTime.split(" ")[0];
-              logs.add(HeadingItem(previousDate));
-            }
-          }
-          if (log.type == "2") {
-            // bill
-            log.color = "#F9E79F";
-            log.icon = Icons.attach_money;
-            log.title = "Bill";
-          } else if (log.type == "3") {
-            // employee
-            log.color = "#AED6F1";
-            log.icon = Icons.account_box;
-            log.title = "Employee";
-          } else if (log.type == "5") {
-            // note
-            log.color = "#A2D9CE";
-            log.icon = Icons.format_list_numbered;
-            log.title = "Note";
-          } else if (log.type == "6") {
-            // room
-            log.color = "#F5CBA7";
-            log.icon = Icons.local_hotel;
-            log.title = "Room";
-          } else if (log.type == "7") {
-            // rent
-            log.color = "#F9E79F";
-            log.icon = Icons.attach_money;
-            log.title = "Rent";
-          } else if (log.type == "8") {
-            // salary
-            log.color = "#F9E79F";
-            log.icon = Icons.attach_money;
-            log.title = "Salary";
-          } else if (log.type == "9") {
-            // user
-            log.color = "#D7BDE2";
-            log.icon = Icons.supervisor_account;
-            log.title = "User";
-          } else {
-            log.color = "#F5B7B1";
-            log.icon = Icons.track_changes;
-            log.title = "";
-          }
-          logs.add(log);
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          ongoing = false;
+          loading = false;
         });
       } else {
-        end = true;
+        ongoing = true;
+        filter["offset"] = offset;
+        Future<Logs> data = getLogs(filter);
+        data.then((response) {
+          if (response.logs != null && response.logs.length > 0) {
+            offset =
+                (int.parse(response.pagination.offset) + response.logs.length)
+                    .toString();
+            response.logs.forEach((log) {
+              if (log is Log) {
+                if (previousDate.compareTo(log.createdDateTime.split(" ")[0]) !=
+                    0) {
+                  previousDate = log.createdDateTime.split(" ")[0];
+                  logs.add(HeadingItem(previousDate));
+                }
+              }
+              if (log.type == "2") {
+                // bill
+                log.color = "#F9E79F";
+                log.icon = Icons.attach_money;
+                log.title = "Bill";
+              } else if (log.type == "3") {
+                // employee
+                log.color = "#AED6F1";
+                log.icon = Icons.account_box;
+                log.title = "Employee";
+              } else if (log.type == "5") {
+                // note
+                log.color = "#A2D9CE";
+                log.icon = Icons.format_list_numbered;
+                log.title = "Note";
+              } else if (log.type == "6") {
+                // room
+                log.color = "#F5CBA7";
+                log.icon = Icons.local_hotel;
+                log.title = "Room";
+              } else if (log.type == "7") {
+                // rent
+                log.color = "#F9E79F";
+                log.icon = Icons.attach_money;
+                log.title = "Rent";
+              } else if (log.type == "8") {
+                // salary
+                log.color = "#F9E79F";
+                log.icon = Icons.attach_money;
+                log.title = "Salary";
+              } else if (log.type == "9") {
+                // user
+                log.color = "#D7BDE2";
+                log.icon = Icons.supervisor_account;
+                log.title = "User";
+              } else {
+                log.color = "#F5B7B1";
+                log.icon = Icons.track_changes;
+                log.title = "";
+              }
+              logs.add(log);
+            });
+          } else {
+            end = true;
+          }
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
+          setState(() {
+            ongoing = false;
+            loading = false;
+          });
+        });
       }
-      if (response.meta != null && response.meta.messageType == "1") {
-        oneButtonDialog(context, "", response.meta.message,
-            !(response.meta.status == STATUS_403));
-      }
-      setState(() {
-        ongoing = false;
-        loading = false;
-      });
     });
   }
 

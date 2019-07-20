@@ -58,35 +58,47 @@ class NotesActivityState extends State<NotesActivity> {
   }
 
   void fillData() {
-    ongoing = true;
-    filter["offset"] = offset;
-    Future<Notes> data = getNotes(filter);
-    data.then((response) {
-      if (response.notes != null && response.notes.length > 0) {
-        offset = (int.parse(response.pagination.offset) + response.notes.length)
-            .toString();
-        response.notes.forEach((note) {
-          if (note is Note) {
-            print(note.createdDateTime);
-            if (createdDateTime.compareTo(note.createdDateTime.split(" ")[0]) !=
-                0) {
-              createdDateTime = note.createdDateTime.split(" ")[0];
-              notes.add(HeadingItem(createdDateTime));
-            }
-          }
-          notes.add(note);
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          ongoing = false;
+          loading = false;
         });
       } else {
-        end = true;
+        ongoing = true;
+        filter["offset"] = offset;
+        Future<Notes> data = getNotes(filter);
+        data.then((response) {
+          if (response.notes != null && response.notes.length > 0) {
+            offset =
+                (int.parse(response.pagination.offset) + response.notes.length)
+                    .toString();
+            response.notes.forEach((note) {
+              if (note is Note) {
+                print(note.createdDateTime);
+                if (createdDateTime
+                        .compareTo(note.createdDateTime.split(" ")[0]) !=
+                    0) {
+                  createdDateTime = note.createdDateTime.split(" ")[0];
+                  notes.add(HeadingItem(createdDateTime));
+                }
+              }
+              notes.add(note);
+            });
+          } else {
+            end = true;
+          }
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
+          setState(() {
+            ongoing = false;
+            loading = false;
+          });
+        });
       }
-      if (response.meta != null && response.meta.messageType == "1") {
-        oneButtonDialog(context, "", response.meta.message,
-            !(response.meta.status == STATUS_403));
-      }
-      setState(() {
-        ongoing = false;
-        loading = false;
-      });
     });
   }
 

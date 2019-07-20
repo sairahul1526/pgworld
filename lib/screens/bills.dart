@@ -77,38 +77,50 @@ class BillsActivityState extends State<BillsActivity> {
   }
 
   void fillData() {
-    ongoing = true;
-    filter["offset"] = offset;
-    Future<Bills> data = getBills(filter);
-    data.then((response) {
-      if (response.bills != null && response.bills.length > 0) {
-        offset = (int.parse(response.pagination.offset) + response.bills.length)
-            .toString();
-        response.bills.forEach((bill) {
-          if (bill is Bill) {
-            if (previousDate.compareTo(bill.paidDateTime.split(" ")[0]) != 0) {
-              previousDate = bill.paidDateTime.split(" ")[0];
-              bills.add(HeadingItem(previousDate));
-            }
-          }
-          if (bill.paid == "0") {
-            total += int.parse(bill.amount);
-          } else {
-            total -= int.parse(bill.amount);
-          }
-          bills.add(bill);
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          ongoing = false;
+          loading = false;
         });
       } else {
-        end = true;
+        ongoing = true;
+        filter["offset"] = offset;
+        Future<Bills> data = getBills(filter);
+        data.then((response) {
+          if (response.bills != null && response.bills.length > 0) {
+            offset =
+                (int.parse(response.pagination.offset) + response.bills.length)
+                    .toString();
+            response.bills.forEach((bill) {
+              if (bill is Bill) {
+                if (previousDate.compareTo(bill.paidDateTime.split(" ")[0]) !=
+                    0) {
+                  previousDate = bill.paidDateTime.split(" ")[0];
+                  bills.add(HeadingItem(previousDate));
+                }
+              }
+              if (bill.paid == "0") {
+                total += int.parse(bill.amount);
+              } else {
+                total -= int.parse(bill.amount);
+              }
+              bills.add(bill);
+            });
+          } else {
+            end = true;
+          }
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
+          setState(() {
+            ongoing = false;
+            loading = false;
+          });
+        });
       }
-      if (response.meta != null && response.meta.messageType == "1") {
-        oneButtonDialog(context, "", response.meta.message,
-            !(response.meta.status == STATUS_403));
-      }
-      setState(() {
-        ongoing = false;
-        loading = false;
-      });
     });
   }
 

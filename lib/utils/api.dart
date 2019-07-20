@@ -5,7 +5,6 @@ import 'package:path/path.dart';
 import 'package:async/async.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:pgworld/utils/utils.dart';
 
 import './models.dart';
 import './config.dart';
@@ -13,11 +12,6 @@ import './config.dart';
 // admin
 
 Future<Admins> getAdmins(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Admins();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.ADMIN, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -28,11 +22,6 @@ Future<Admins> getAdmins(Map<String, String> query) async {
 // bill
 
 Future<Bills> getBills(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Bills();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.BILL, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -43,11 +32,6 @@ Future<Bills> getBills(Map<String, String> query) async {
 // dashboard
 
 Future<Dashboards> getDashboards(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Dashboards();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.DASHBOARD, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -58,11 +42,6 @@ Future<Dashboards> getDashboards(Map<String, String> query) async {
 // employee
 
 Future<Employees> getEmployees(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Employees();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.EMPLOYEE, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -73,11 +52,6 @@ Future<Employees> getEmployees(Map<String, String> query) async {
 // log
 
 Future<Logs> getLogs(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Logs();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.LOG, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -88,11 +62,6 @@ Future<Logs> getLogs(Map<String, String> query) async {
 // note
 
 Future<Notes> getNotes(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Notes();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.NOTE, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -103,11 +72,6 @@ Future<Notes> getNotes(Map<String, String> query) async {
 // report
 
 Future<Charts> getReports(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Charts();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.REPORT, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -118,11 +82,6 @@ Future<Charts> getReports(Map<String, String> query) async {
 // room
 
 Future<Rooms> getRooms(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Rooms();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.ROOM, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -133,11 +92,6 @@ Future<Rooms> getRooms(Map<String, String> query) async {
 // user
 
 Future<Users> getUsers(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Users();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.USER, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -148,11 +102,6 @@ Future<Users> getUsers(Map<String, String> query) async {
 // hostels
 
 Future<Hostels> getHostels(Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return new Hostels();
-    }
-  });
   final response = await http
       .get(Uri.http(API.URL, API.HOSTEL, query), headers: headers)
       .timeout(Duration(seconds: timeout));
@@ -162,11 +111,6 @@ Future<Hostels> getHostels(Map<String, String> query) async {
 
 // add and update
 Future<bool> add(String endpoint, Map<String, String> body) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return false;
-    }
-  });
   if (body["status"] != null) {
     body["status"] = "1";
   }
@@ -190,11 +134,6 @@ Future<bool> add(String endpoint, Map<String, String> body) async {
 
 Future<bool> update(String endpoint, Map<String, String> body,
     Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return false;
-    }
-  });
   var request = new http.MultipartRequest(
     "PUT",
     Uri.http(API.URL, endpoint, query),
@@ -211,11 +150,6 @@ Future<bool> update(String endpoint, Map<String, String> body,
 }
 
 Future<bool> delete(String endpoint, Map<String, String> query) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return false;
-    }
-  });
   var request = new http.MultipartRequest(
     "DELETE",
     Uri.http(API.URL, endpoint, query),
@@ -232,11 +166,6 @@ Future<bool> delete(String endpoint, Map<String, String> query) async {
 }
 
 Future<String> upload(File file) async {
-  checkInternet().then((internet) {
-    if (internet == null || !internet) {
-      return "";
-    }
-  });
   var request = new http.MultipartRequest(
     "POST",
     Uri.http(

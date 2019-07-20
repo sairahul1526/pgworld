@@ -212,7 +212,7 @@ void oneButtonDialog(
     builder: (BuildContext context) {
       return AlertDialog(
         title: new Text(title),
-        content: new Text(content),
+        content: content != "" ? new Text(content) : null,
         actions: <Widget>[
           new FlatButton(
             child: new Text("ok"),

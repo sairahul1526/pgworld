@@ -97,48 +97,57 @@ class RoomActivityState extends State<RoomActivity> {
               setState(() {
                 loading = true;
               });
-              List<String> savedAmenities = new List();
-              avaiableAmenities.forEach((k, v) {
-                if (v) {
-                  savedAmenities.add(k);
-                }
-              });
-              Future<bool> load;
-              if (room != null) {
-                load = update(
-                  API.ROOM,
-                  Map.from({
-                    "rent": rent.text,
-                    "capacity": capacity.text,
-                    "amenities": savedAmenities.length > 0
-                        ? "," + savedAmenities.join(",") + ","
-                        : ""
-                  }),
-                  Map.from({'hostel_id': hostelID, 'id': room.id}),
-                );
-              } else {
-                load = add(
-                  API.ROOM,
-                  Map.from({
-                    'hostel_id': hostelID,
-                    'roomno': roomno.text,
-                    'rent': rent.text,
-                    'capacity': capacity.text,
-                    'filled': "0",
-                    "amenities": savedAmenities.length > 0
-                        ? "," + savedAmenities.join(",") + ","
-                        : ""
-                  }),
-                );
-              }
-              load.then((onValue) {
-                setState(() {
-                  loading = false;
-                });
-                if (room != null) {
-                  Navigator.pop(context);
+              checkInternet().then((internet) {
+                if (internet == null || !internet) {
+                  oneButtonDialog(context, "No Internet connection", "", true);
+                  setState(() {
+                    loading = false;
+                  });
                 } else {
-                  Navigator.pop(context, "");
+                  List<String> savedAmenities = new List();
+                  avaiableAmenities.forEach((k, v) {
+                    if (v) {
+                      savedAmenities.add(k);
+                    }
+                  });
+                  Future<bool> load;
+                  if (room != null) {
+                    load = update(
+                      API.ROOM,
+                      Map.from({
+                        "rent": rent.text,
+                        "capacity": capacity.text,
+                        "amenities": savedAmenities.length > 0
+                            ? "," + savedAmenities.join(",") + ","
+                            : ""
+                      }),
+                      Map.from({'hostel_id': hostelID, 'id': room.id}),
+                    );
+                  } else {
+                    load = add(
+                      API.ROOM,
+                      Map.from({
+                        'hostel_id': hostelID,
+                        'roomno': roomno.text,
+                        'rent': rent.text,
+                        'capacity': capacity.text,
+                        'filled': "0",
+                        "amenities": savedAmenities.length > 0
+                            ? "," + savedAmenities.join(",") + ","
+                            : ""
+                      }),
+                    );
+                  }
+                  load.then((onValue) {
+                    setState(() {
+                      loading = false;
+                    });
+                    if (room != null) {
+                      Navigator.pop(context);
+                    } else {
+                      Navigator.pop(context, "");
+                    }
+                  });
                 }
               });
             },

@@ -6,6 +6,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../utils/config.dart';
 import '../utils/api.dart';
+import '../utils/utils.dart';
 
 class ReportActivity extends StatefulWidget {
   ReportActivity();
@@ -33,14 +34,23 @@ class ReportActivityState extends State<ReportActivity> {
   }
 
   void fillData() {
-    Map<String, String> filter = new Map();
-    filter["hostel_id"] = hostelID;
-    Future<Charts> data = getReports(filter);
-    data.then((response) {
-      setState(() {
-        charts = response;
-      });
-      updateCharts();
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        setState(() {
+          loading = false;
+        });
+      } else {
+        Map<String, String> filter = new Map();
+        filter["hostel_id"] = hostelID;
+        Future<Charts> data = getReports(filter);
+        data.then((response) {
+          setState(() {
+            charts = response;
+          });
+          updateCharts();
+        });
+      }
     });
   }
 
