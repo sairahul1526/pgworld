@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:pgworld/utils/indicator.dart';
 import 'package:pgworld/utils/models.dart';
+import 'package:bezier_chart/bezier_chart.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -26,6 +28,9 @@ class ReportActivityState extends State<ReportActivity> {
   List<Widget> widgets = new List();
 
   bool loading = true;
+
+  final fromDate = DateTime(2018, 11, 22);
+  final toDate = DateTime.now();
 
   @override
   void initState() {
@@ -59,14 +64,27 @@ class ReportActivityState extends State<ReportActivity> {
     if (charts.pies != null) {
       charts.pies.forEach((pie) {
         List<PieChartSectionData> sections = [];
+        List<Widget> titles = [];
         pie.forEach((data) {
           sections.add(PieChartSectionData(
-            color: Color(0xff0293ee),
+            color: HexColor(data.color),
             value: double.parse(data.value),
-            title: data.title,
+            title: data.shown,
             radius: 50,
-            // titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffffffff)),
+            titleStyle: TextStyle(color: Colors.black),
           ));
+          titles.add(
+            new Indicator(
+              color: HexColor(data.color),
+              text: data.title,
+              isSquare: true,
+            ),
+          );
+          titles.add(
+            new SizedBox(
+              height: 4,
+            ),
+          );
         });
         widgets.add(Container(
           child: Row(
@@ -90,6 +108,12 @@ class ReportActivityState extends State<ReportActivity> {
                   ),
                 ),
               ),
+              new Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: titles,
+              ),
             ],
           ),
         ));
@@ -97,67 +121,46 @@ class ReportActivityState extends State<ReportActivity> {
     }
 
     // bars
-    if (charts.bars != null) {
-      charts.bars.forEach((bar) {
-        List<BarChartGroupData> barGroups = new List();
-        bar.barData.forEach((data) {
-          barGroups.add(makeGroupData(
-            int.parse(data.x),
-            double.parse(data.y1),
-            double.parse(data.y2),
-          ));
+    if (charts.bars2 != null) {
+      charts.bars2.forEach((bar) {
+        List<DataPoint<dynamic>> datapoints = new List();
+        bar.forEach((data) {
+          print(DateTime.parse(data.title));
+          datapoints.add(DataPoint<DateTime>(
+              value: double.parse(data.value),
+              xAxis: DateTime.parse(data.title)));
         });
-        widgets.add(Container(
-          child: Row(
-            children: <Widget>[
-              SizedBox(
-                height: 18,
-              ),
-              Expanded(
-                  child: AspectRatio(
-                aspectRatio: 1,
-                child: FlChart(
-                  chart: BarChart(BarChartData(
-                    titlesData: FlTitlesData(
-                      show: true,
-                      showHorizontalTitles: true,
-                      showVerticalTitles: true,
-                      verticalTitlesTextStyle: TextStyle(
-                          color: Color(0xff7589a2),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                      verticalTitleMargin: 32,
-                      verticalTitlesReservedWidth: 14,
-                      getVerticalTitles: (value) {
-                        bar.yaxis.forEach((y) {
-                          if (value.toString() == y.title) {
-                            return y.value;
-                          }
-                        });
-                        return "";
-                      },
-                      horizontalTitlesTextStyle: TextStyle(
-                          color: Color(0xff7589a2),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14),
-                      horizontalTitleMargin: 20,
-                      getHorizontalTitles: (double value) {
-                        bar.xaxis.forEach((x) {
-                          if (value.toInt().toString() == x.title) {
-                            return x.value;
-                          }
-                        });
-                        return "";
-                      },
-                    ),
-                    borderData: FlBorderData(
-                      show: false,
-                    ),
-                    barGroups: barGroups,
-                  )),
+        widgets.add(new Center(
+          child: Container(
+            color: Colors.red,
+            height: MediaQuery.of(context).size.height / 2,
+            width: MediaQuery.of(context).size.width,
+            child: BezierChart(
+              bezierChartScale: BezierChartScale.MONTHLY,
+              fromDate: fromDate,
+              toDate: toDate,
+              selectedDate: toDate,
+              series: [
+                BezierLine(
+                  label: "dasd",
+                  onMissingValue: (dateTime) {
+                    if (dateTime.month.isEven) {
+                      return 10.0;
+                    }
+                    return 5.0;
+                  },
+                  data: datapoints,
                 ),
-              ))
-            ],
+              ],
+              config: BezierChartConfig(
+                verticalIndicatorStrokeWidth: 3.0,
+                verticalIndicatorColor: Colors.black26,
+                showVerticalIndicator: true,
+                verticalIndicatorFixedPosition: true,
+                backgroundColor: Colors.red,
+                footerHeight: 30.0,
+              ),
+            ),
           ),
         ));
       });
@@ -205,7 +208,7 @@ class ReportActivityState extends State<ReportActivity> {
               25,
               MediaQuery.of(context).size.width * 0.1,
               0),
-          child: new Column(children: widgets),
+          child: loading ? new Container() : new ListView(children: widgets),
         ),
         inAsyncCall: loading,
       ),

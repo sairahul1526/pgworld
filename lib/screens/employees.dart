@@ -241,9 +241,9 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                                       child: new Row(
                                                         children: <Widget>[
                                                           new Container(
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(
-                                                                    2, 2, 0, 2),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2),
                                                             child: new Icon(
                                                                 Icons.phone,
                                                                 size: 15,
@@ -251,9 +251,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                                                     .black),
                                                           ),
                                                           new Text(
-                                                            "   " +
-                                                                employees[i]
-                                                                    .phone,
+                                                            employees[i].phone,
                                                             style: TextStyle(
                                                                 fontSize: 10,
                                                                 color: Colors
@@ -292,9 +290,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                                                     .black),
                                                           ),
                                                           new Text(
-                                                            "   " +
-                                                                employees[i]
-                                                                    .email,
+                                                            employees[i].email,
                                                             style: TextStyle(
                                                                 fontSize: 10,
                                                                 color: Colors

@@ -680,15 +680,20 @@ class Pagination {
 // reports
 class Charts {
   final List<List<ChartData>> pies;
+  final List<List<ChartData>> bars2;
   final List<Bar> bars;
   final Meta meta;
 
-  Charts({this.pies, this.bars, this.meta});
+  Charts({this.pies, this.bars2, this.bars, this.meta});
 
   factory Charts.fromJson(Map<String, dynamic> json) {
     return Charts(
       pies: json['pies'] != null
           ? new List<List<ChartData>>.from(json["pies"].map((x) =>
+              new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
+          : new List<ChartData>(),
+      bars2: json['bars2'] != null
+          ? new List<List<ChartData>>.from(json["bars2"].map((x) =>
               new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
           : new List<ChartData>(),
       bars: json['bars'] != null
@@ -742,19 +747,27 @@ class BarData {
 class ChartData {
   String title;
   String value;
+  String color;
+  String shown;
 
   ChartData({
     this.title,
     this.value,
+    this.color,
+    this.shown,
   });
 
   factory ChartData.fromJson(Map<String, dynamic> json) => new ChartData(
         title: json["title"],
         value: json["value"],
+        color: json["color"],
+        shown: json["shown"],
       );
 
   Map<String, dynamic> toJson() => {
         "title": title,
         "value": value,
+        "color": color,
+        "shown": shown,
       };
 }

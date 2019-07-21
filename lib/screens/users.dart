@@ -288,9 +288,9 @@ class UsersActivityState extends State<UsersActivity> {
                                                       child: new Row(
                                                         children: <Widget>[
                                                           new Container(
-                                                            padding: EdgeInsets
-                                                                .fromLTRB(
-                                                                    2, 2, 0, 2),
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    2),
                                                             child: new Icon(
                                                                 Icons.phone,
                                                                 size: 15,
@@ -298,8 +298,7 @@ class UsersActivityState extends State<UsersActivity> {
                                                                     .black),
                                                           ),
                                                           new Text(
-                                                            "   " +
-                                                                users[i].phone,
+                                                            users[i].phone,
                                                             style: TextStyle(
                                                                 fontSize: 10,
                                                                 color: Colors
@@ -336,8 +335,7 @@ class UsersActivityState extends State<UsersActivity> {
                                                                     .black),
                                                           ),
                                                           new Text(
-                                                            "   " +
-                                                                users[i].email,
+                                                            users[i].email,
                                                             style: TextStyle(
                                                                 fontSize: 10,
                                                                 color: Colors

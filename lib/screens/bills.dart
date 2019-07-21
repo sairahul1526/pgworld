@@ -199,14 +199,14 @@ class BillsActivityState extends State<BillsActivity> {
                 ),
               ),
               new Text(
-                (total > 0 ? "" : "- ") +
+                (total >= 0 ? "" : "- ") +
                     "₹" +
                     total.toString().replaceAll("-", ""),
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.normal,
-                  color: total > 0 ? Colors.green : Colors.red,
+                  color: total >= 0 ? Colors.green : Colors.red,
                 ),
               ),
             ],

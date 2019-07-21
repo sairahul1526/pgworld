@@ -2,7 +2,7 @@ PODS:
   - Flutter (1.0.0)
   - image_picker (0.0.1):
     - Flutter
-  - rate_my_app (0.1):
+  - launch_review (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
@@ -12,7 +12,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-  - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
+  - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
@@ -21,8 +21,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/flutter/ios"
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-  rate_my_app:
-    :path: ".symlinks/plugins/rate_my_app/ios"
+  launch_review:
+    :path: ".symlinks/plugins/launch_review/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
@@ -31,7 +31,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: 9d0fac939486c9aba2809b7982dfdbb47a7b0296
   image_picker: 86b84c4fe89267356a1f17297a45b5d317ebd2e7
-  rate_my_app: 765967a4905dc60e7a3b55c685c8f58e01a8d840
+  launch_review: 98c85a4cb86d1376b14958ebe69ddbcc753ff192
   shared_preferences: 5a1d487c427ee18fcd3ea1f2a131569481834b53
   url_launcher: 92b89c1029a0373879933c21642958c874539095
 
