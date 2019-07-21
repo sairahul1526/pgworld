@@ -679,27 +679,49 @@ class Pagination {
 
 // reports
 class Charts {
-  final List<List<ChartData>> pies;
-  final List<List<ChartData>> bars2;
-  final List<Bar> bars;
+  final List<Graph> graphs;
+  // final List<List<ChartData>> pies;
+  // final List<List<ChartData>> bars2;
+  // final List<Bar> bars;
   final Meta meta;
 
-  Charts({this.pies, this.bars2, this.bars, this.meta});
+  Charts({this.graphs, this.meta});
 
   factory Charts.fromJson(Map<String, dynamic> json) {
     return Charts(
-      pies: json['pies'] != null
-          ? new List<List<ChartData>>.from(json["pies"].map((x) =>
-              new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
-          : new List<ChartData>(),
-      bars2: json['bars2'] != null
-          ? new List<List<ChartData>>.from(json["bars2"].map((x) =>
-              new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
-          : new List<ChartData>(),
-      bars: json['bars'] != null
-          ? new List<Bar>.from(json["bars"].map((x) => Bar.fromJson(x)))
-          : new List<Bar>(),
+      graphs: json['graphs'] != null
+          ? List<Graph>.from(json['graphs'].map((i) => Graph.fromJson(i)))
+          : new List<Graph>(),
+      // pies: json['pies'] != null
+      //     ? new List<List<ChartData>>.from(json["pies"].map((x) =>
+      //         new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
+      //     : new List<ChartData>(),
+      // bars2: json['bars2'] != null
+      //     ? new List<List<ChartData>>.from(json["bars2"].map((x) =>
+      //         new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
+      //     : new List<ChartData>(),
+      // bars: json['bars'] != null
+      //     ? new List<Bar>.from(json["bars"].map((x) => Bar.fromJson(x)))
+      //     : new List<Bar>(),
       meta: Meta.fromJson(json['meta']),
+    );
+  }
+}
+
+class Graph {
+  final String title;
+  final String type;
+  final List<ChartData> data;
+
+  Graph({this.title, this.type, this.data});
+
+  factory Graph.fromJson(Map<String, dynamic> json) {
+    return Graph(
+      title: json['title'],
+      type: json['type'],
+      data: json['data'] != null
+          ? List<ChartData>.from(json['data'].map((i) => ChartData.fromJson(i)))
+          : new List<ChartData>(),
     );
   }
 }
