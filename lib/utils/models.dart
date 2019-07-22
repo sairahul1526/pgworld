@@ -710,15 +710,27 @@ class Charts {
 
 class Graph {
   final String title;
+  final String color;
+  final String dataTitle;
   final String type;
+  final String steps;
   final List<ChartData> data;
 
-  Graph({this.title, this.type, this.data});
+  Graph(
+      {this.title,
+      this.color,
+      this.dataTitle,
+      this.type,
+      this.steps,
+      this.data});
 
   factory Graph.fromJson(Map<String, dynamic> json) {
     return Graph(
       title: json['title'],
+      color: json['color'],
+      dataTitle: json['data_title'],
       type: json['type'],
+      steps: json['steps'],
       data: json['data'] != null
           ? List<ChartData>.from(json['data'].map((i) => ChartData.fromJson(i)))
           : new List<ChartData>(),
