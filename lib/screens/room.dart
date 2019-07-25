@@ -35,6 +35,10 @@ class RoomActivityState extends State<RoomActivity> {
 
   RoomActivityState(this.room);
 
+  bool roomnoCheck = false;
+  bool rentCheck = false;
+  bool capacityCheck = false;
+
   @override
   void initState() {
     super.initState();
@@ -104,6 +108,42 @@ class RoomActivityState extends State<RoomActivity> {
                     loading = false;
                   });
                 } else {
+                  if (roomno.text.length == 0) {
+                    setState(() {
+                      roomnoCheck = true;
+                      loading = false;
+                    });
+                    return;
+                  } else {
+                    setState(() {
+                      roomnoCheck = false;
+                    });
+                  }
+
+                  if (capacity.text.length == 0) {
+                    setState(() {
+                      capacityCheck = true;
+                      loading = false;
+                    });
+                    return;
+                  } else {
+                    setState(() {
+                      capacityCheck = false;
+                    });
+                  }
+
+                  if (rent.text.length == 0) {
+                    setState(() {
+                      rentCheck = true;
+                      loading = false;
+                    });
+                    return;
+                  } else {
+                    setState(() {
+                      rentCheck = false;
+                    });
+                  }
+
                   List<String> savedAmenities = new List();
                   avaiableAmenities.forEach((k, v) {
                     if (v) {
@@ -167,24 +207,32 @@ class RoomActivityState extends State<RoomActivity> {
                 children: <Widget>[
                   new Expanded(
                     child: new Container(
-                      height: 50,
+                      height: roomnoCheck ? null : 50,
                       child: new TextField(
-                          controller: roomno,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            prefixIcon: Icon(Icons.hotel),
-                            border: OutlineInputBorder(),
-                            labelText: 'Room No.',
-                          ),
-                          onSubmitted: (String value) {}),
+                        controller: roomno,
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          suffixIcon: roomnoCheck
+                              ? IconButton(
+                                  icon: Icon(Icons.error, color: Colors.red),
+                                  onPressed: () {},
+                                )
+                              : null,
+                          errorText: roomnoCheck ? "Room No. required" : null,
+                          isDense: true,
+                          prefixIcon: Icon(Icons.hotel),
+                          border: OutlineInputBorder(),
+                          labelText: 'Room No.',
+                        ),
+                        onSubmitted: (String value) {},
+                      ),
                     ),
                   ),
                 ],
               ),
               new Container(
-                height: 50,
+                height: capacityCheck ? null : 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -196,6 +244,14 @@ class RoomActivityState extends State<RoomActivity> {
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
+                            suffixIcon: capacityCheck
+                                ? IconButton(
+                                    icon: Icon(Icons.error, color: Colors.red),
+                                    onPressed: () {},
+                                  )
+                                : null,
+                            errorText:
+                                capacityCheck ? "Capacity required" : null,
                             isDense: true,
                             prefixIcon: Icon(Icons.group),
                             border: OutlineInputBorder(),
@@ -209,7 +265,7 @@ class RoomActivityState extends State<RoomActivity> {
                 ),
               ),
               new Container(
-                height: 50,
+                height: rentCheck ? null : 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -221,6 +277,13 @@ class RoomActivityState extends State<RoomActivity> {
                           textInputAction: TextInputAction.done,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
+                            suffixIcon: rentCheck
+                                ? IconButton(
+                                    icon: Icon(Icons.error, color: Colors.red),
+                                    onPressed: () {},
+                                  )
+                                : null,
+                            errorText: rentCheck ? "Rent required" : null,
                             isDense: true,
                             prefixIcon: Icon(Icons.attach_money),
                             border: OutlineInputBorder(),

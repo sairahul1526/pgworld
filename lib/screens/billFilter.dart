@@ -20,7 +20,7 @@ class BillFilterActivityState extends State<BillFilterActivity> {
   TextEditingController amount = new TextEditingController();
 
   double amountLower = 0;
-  double amountUpper = 2000;
+  double amountUpper = 20000;
 
   BillFilterActivityState();
 
@@ -71,7 +71,7 @@ class BillFilterActivityState extends State<BillFilterActivity> {
               }
               filter["amount"] = amountLower.round().toString() +
                   "," +
-                  (amountUpper.round() == 2000
+                  (amountUpper.round() == 20000
                       ? "10000000"
                       : amountUpper.round().toString());
               Navigator.pop(context, filter);
@@ -133,6 +133,12 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                       ),
                     ),
                   ),
+                  new Container(
+                    child: new Text(
+                      "+",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  )
                 ],
               ),
             ),

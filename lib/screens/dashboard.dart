@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pgworld/utils/api.dart';
-import 'package:pgworld/utils/models.dart';
+import '../utils/api.dart';
+import '../utils/models.dart';
 
 import './rooms.dart';
 import './logs.dart';
@@ -20,15 +20,28 @@ class DashBoard extends StatefulWidget {
   }
 }
 
-class DashBoardState extends State<DashBoard> {
+class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
   FocusNode textSecondFocusNode = new FocusNode();
 
   Dashboard dashboard;
 
+  String hostelId;
+
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
+
+    hostelId = hostelID;
+
     fillData();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    print("Current state = $state");
   }
 
   void fillData() {
@@ -45,9 +58,26 @@ class DashBoardState extends State<DashBoard> {
               dashboard = response.dashboards[0];
             });
           }
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
         });
       }
     });
+  }
+
+  filterPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+    if (data != null) {
+      if (hostelId != hostelID) {
+        hostelId = hostelID;
+        fillData();
+      }
+    }
   }
 
   @override
@@ -63,11 +93,7 @@ class DashBoardState extends State<DashBoard> {
           actions: <Widget>[
             new IconButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    new MaterialPageRoute(
-                      builder: (context) => new SettingsActivity(),
-                    ));
+                filterPage(context, new SettingsActivity());
               },
               icon: new Icon(Icons.settings),
               color: Colors.black,

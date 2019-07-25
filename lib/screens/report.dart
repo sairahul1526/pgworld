@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
-import 'package:pgworld/utils/models.dart';
+import '../utils/models.dart';
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:pie_chart/pie_chart.dart';
 
@@ -52,6 +52,10 @@ class ReportActivityState extends State<ReportActivity> {
         filter["to"] = dateFormat.format(toDate);
         Future<Charts> data = getReports(filter);
         data.then((response) {
+          if (response.meta != null && response.meta.messageType == "1") {
+            oneButtonDialog(context, "", response.meta.message,
+                !(response.meta.status == STATUS_403));
+          }
           setState(() {
             charts = response;
           });
@@ -206,11 +210,11 @@ class ReportActivityState extends State<ReportActivity> {
       ),
       body: ModalProgressHUD(
         child: new Container(
-          // margin: new EdgeInsets.fromLTRB(
-          //     MediaQuery.of(context).size.width * 0.1,
-          //     25,
-          //     MediaQuery.of(context).size.width * 0.1,
-          //     0),
+          margin: new EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.1,
+              0,
+              MediaQuery.of(context).size.width * 0.1,
+              0),
           child: loading ? new Container() : new ListView(children: widgets),
         ),
         inAsyncCall: loading,

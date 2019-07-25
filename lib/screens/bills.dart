@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:pgworld/utils/utils.dart';
+import '../utils/utils.dart';
 
 import './bill.dart';
 import './billFilter.dart';
@@ -223,12 +223,14 @@ class BillsActivityState extends State<BillsActivity> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
-          new IconButton(
-            onPressed: () {
-              filterPage(context, new BillFilterActivity());
-            },
-            icon: new Icon(Icons.filter_list),
-          ),
+          (employee == null && user == null)
+              ? new IconButton(
+                  onPressed: () {
+                    filterPage(context, new BillFilterActivity());
+                  },
+                  icon: new Icon(Icons.filter_list),
+                )
+              : new Container(),
           new IconButton(
             onPressed: () {
               addPage(

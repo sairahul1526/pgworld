@@ -48,6 +48,8 @@ class UserActivityState extends State<UserActivity> {
 
   UserActivityState(this.user, this.room);
 
+  bool nameCheck = false;
+
   @override
   void initState() {
     super.initState();
@@ -100,6 +102,11 @@ class UserActivityState extends State<UserActivity> {
           if (response.rooms != null) {
             rooms.addAll(response.rooms);
           }
+          rooms.forEach((room) {
+            if (room.id == roomID) {
+              roomNo.text = room.roomno;
+            }
+          });
           print(rooms.length);
           if (response.meta == null) {
             oneButtonDialog(context, "", "No Internet connection", true);
@@ -273,6 +280,18 @@ class UserActivityState extends State<UserActivity> {
                     loading = false;
                   });
                 } else {
+                  if (name.text.length == 0) {
+                    setState(() {
+                      nameCheck = true;
+                      loading = false;
+                    });
+                    return;
+                  } else {
+                    setState(() {
+                      nameCheck = false;
+                    });
+                  }
+
                   Future<bool> load;
                   if (user != null) {
                     load = update(
@@ -341,12 +360,19 @@ class UserActivityState extends State<UserActivity> {
                 children: <Widget>[
                   new Expanded(
                     child: new Container(
-                      height: 50,
+                      height: nameCheck ? null : 50,
                       child: new TextField(
                           controller: name,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
+                            suffixIcon: nameCheck
+                                ? IconButton(
+                                    icon: Icon(Icons.error, color: Colors.red),
+                                    onPressed: () {},
+                                  )
+                                : null,
+                            errorText: nameCheck ? "Name required" : null,
                             isDense: true,
                             prefixIcon: Icon(Icons.account_circle),
                             border: OutlineInputBorder(),
@@ -357,6 +383,42 @@ class UserActivityState extends State<UserActivity> {
                   ),
                 ],
               ),
+              // rooms.length > 0
+              //     ? new Container(
+              //         color: Colors.transparent,
+              //         height: 50,
+              //         margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+              //         child: new Row(
+              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //           children: <Widget>[
+              //             new Expanded(
+              //               child: new DropdownButton(
+              //                 isExpanded: true,
+              //                 items: rooms.map((room) {
+              //                   return new DropdownMenuItem(
+              //                       child: new Container(
+              //                         constraints:
+              //                             BoxConstraints(maxWidth: 200),
+              //                         child: new Text(
+              //                           room.roomno,
+              //                           overflow: TextOverflow.clip,
+              //                         ),
+              //                       ),
+              //                       value: room.id);
+              //                 }).toList(),
+              //                 onChanged: (value) {
+              //                   setState(() {
+              //                     roomID = room.id;
+              //                     roomNo.text = room.roomno;
+              //                   });
+              //                 },
+              //                 value: room.id,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //       )
+              //     : new Container(),
               new GestureDetector(
                 onTap: () {
                   selectRoom(context, rooms);

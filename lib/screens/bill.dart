@@ -40,6 +40,9 @@ class BillActivityState extends State<BillActivity> {
 
   BillActivityState(this.bill, this.user, this.employee);
 
+  bool titleCheck = false;
+  bool amountCheck = false;
+
   @override
   void initState() {
     super.initState();
@@ -136,6 +139,32 @@ class BillActivityState extends State<BillActivity> {
                     loading = false;
                   });
                 } else {
+                  if (user == null && employee == null) {
+                    if (item.text.length == 0) {
+                      setState(() {
+                        titleCheck = true;
+                        loading = false;
+                      });
+                      return;
+                    } else {
+                      setState(() {
+                        titleCheck = false;
+                      });
+                    }
+                  }
+
+                  if (amount.text.length == 0) {
+                    setState(() {
+                      amountCheck = true;
+                      loading = false;
+                    });
+                    return;
+                  } else {
+                    setState(() {
+                      amountCheck = false;
+                    });
+                  }
+
                   Future<bool> load;
                   if (user != null) {
                     load = add(
@@ -228,12 +257,21 @@ class BillActivityState extends State<BillActivity> {
                       children: <Widget>[
                         new Expanded(
                           child: new Container(
-                            height: 50,
+                            height: titleCheck ? null : 50,
                             child: new TextField(
                                 controller: item,
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
+                                  suffixIcon: titleCheck
+                                      ? IconButton(
+                                          icon: Icon(Icons.error,
+                                              color: Colors.red),
+                                          onPressed: () {},
+                                        )
+                                      : null,
+                                  errorText:
+                                      titleCheck ? "Title required" : null,
                                   isDense: true,
                                   prefixIcon: Icon(Icons.label),
                                   border: OutlineInputBorder(),
@@ -276,7 +314,7 @@ class BillActivityState extends State<BillActivity> {
                     )
                   : new Text(""),
               new Container(
-                height: 50,
+                height: amountCheck ? null : 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
                 child: new Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -288,6 +326,13 @@ class BillActivityState extends State<BillActivity> {
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
+                            suffixIcon: amountCheck
+                                ? IconButton(
+                                    icon: Icon(Icons.error, color: Colors.red),
+                                    onPressed: () {},
+                                  )
+                                : null,
+                            errorText: amountCheck ? "Amount required" : null,
                             isDense: true,
                             prefixIcon: Icon(Icons.attach_money),
                             border: OutlineInputBorder(),

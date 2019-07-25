@@ -26,8 +26,8 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
   double rentLower = 0;
   double rentUpper = 20000;
 
-  double capacityLower = 0;
-  double capacityUpper = 5;
+  double capacityLower = 1;
+  double capacityUpper = 10;
 
   RoomFilterActivityState();
 
@@ -94,10 +94,14 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
               }
               filter["rent"] = rentLower.round().toString() +
                   "," +
-                  rentUpper.round().toString();
+                  (rentUpper.round() == 20000
+                      ? "10000000"
+                      : rentUpper.round().toString());
               filter["capacity"] = capacityLower.round().toString() +
                   "," +
-                  capacityUpper.round().toString();
+                  (capacityUpper.round() == 10
+                      ? "1000"
+                      : capacityUpper.round().toString());
               Navigator.pop(context, filter);
             },
           ),
@@ -157,6 +161,12 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                       ),
                     ),
                   ),
+                  new Container(
+                    child: new Text(
+                      "+",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -174,11 +184,11 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                       child: new RangeSlider(
                         min: 0,
-                        max: 5,
+                        max: 10,
                         lowerValue: capacityLower,
                         upperValue: capacityUpper,
                         showValueIndicator: true,
-                        divisions: 5,
+                        divisions: 10,
                         valueIndicatorMaxDecimals: 0,
                         onChanged:
                             (double newLowerValue, double newUpperValue) {
@@ -190,6 +200,12 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                       ),
                     ),
                   ),
+                  new Container(
+                    child: new Text(
+                      "+",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  )
                 ],
               ),
             ),

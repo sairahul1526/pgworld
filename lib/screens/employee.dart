@@ -37,6 +37,8 @@ class EmployeeActivityState extends State<EmployeeActivity> {
 
   EmployeeActivityState(this.employee);
 
+  bool nameCheck = false;
+
   @override
   void initState() {
     super.initState();
@@ -169,6 +171,18 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                     loading = false;
                   });
                 } else {
+                  if (name.text.length == 0) {
+                    setState(() {
+                      nameCheck = true;
+                      loading = false;
+                    });
+                    return;
+                  } else {
+                    setState(() {
+                      nameCheck = false;
+                    });
+                  }
+
                   Future<bool> load;
                   if (employee != null) {
                     load = update(
@@ -230,12 +244,19 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                 children: <Widget>[
                   new Expanded(
                     child: new Container(
-                      height: 50,
+                      height: nameCheck ? null : 50,
                       child: new TextField(
                           controller: name,
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
+                            suffixIcon: nameCheck
+                                ? IconButton(
+                                    icon: Icon(Icons.error, color: Colors.red),
+                                    onPressed: () {},
+                                  )
+                                : null,
+                            errorText: nameCheck ? "Name required" : null,
                             isDense: true,
                             prefixIcon: Icon(Icons.account_circle),
                             border: OutlineInputBorder(),

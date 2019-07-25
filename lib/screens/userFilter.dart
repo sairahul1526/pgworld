@@ -19,7 +19,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
   TextEditingController email = new TextEditingController();
 
   double rentLower = 0;
-  double rentUpper = 30000;
+  double rentUpper = 20000;
 
   UserFilterActivityState();
 
@@ -73,7 +73,9 @@ class UserFilterActivityState extends State<UserFilterActivity> {
               }
               filter["rent"] = rentLower.round().toString() +
                   "," +
-                  rentUpper.round().toString();
+                  (rentUpper.round() == 20000
+                      ? "10000000"
+                      : rentUpper.round().toString());
               Navigator.pop(context, filter);
             },
           ),
@@ -163,7 +165,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                       child: new RangeSlider(
                         min: 0,
-                        max: 30000,
+                        max: 20000,
                         lowerValue: rentLower,
                         upperValue: rentUpper,
                         divisions: 40,
@@ -179,6 +181,12 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                       ),
                     ),
                   ),
+                  new Container(
+                    child: new Text(
+                      "+",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  )
                 ],
               ),
             ),

@@ -1,6 +1,6 @@
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
-import 'package:pgworld/utils/api.dart';
+import '../utils/api.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:launch_review/launch_review.dart';
@@ -39,8 +39,6 @@ class SettingsActivityState extends State<SettingsActivity> {
     super.initState();
     hostelIDs = prefs.getString('hostelIDs');
     selectedHostelID = prefs.getString('hostelID');
-    print(hostelIDs);
-    print(selectedHostelID);
 
     getHostelsData();
   }
@@ -82,6 +80,11 @@ class SettingsActivityState extends State<SettingsActivity> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              Navigator.pop(context, "");
+            }),
         iconTheme: IconThemeData(
           color: Colors.black,
         ),
@@ -193,7 +196,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new GestureDetector(
                       onTap: () {
                         sendMail(
-                            "support@pgworld.com",
+                            "support@cloudpg.com",
                             "Feedback%20and%20Support",
                             "User - " +
                                 adminName +

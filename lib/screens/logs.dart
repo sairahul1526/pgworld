@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:pgworld/utils/utils.dart';
+import '../utils/utils.dart';
 
 import '../utils/models.dart';
 import '../utils/api.dart';
