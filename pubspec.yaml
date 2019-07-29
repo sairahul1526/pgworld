@@ -40,8 +40,6 @@ dev_dependencies:
   launch_review: ^2.0.0
   bezier_chart: ^1.0.12
   pie_chart: ^1.0.0
-  # easy_json: ^1.0.1
-  # json_serializable: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

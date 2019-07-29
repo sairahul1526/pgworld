@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import '../utils/api.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:launch_review/launch_review.dart';
+import 'dart:io' show Platform;
 
 import '../utils/utils.dart';
 import '../utils/config.dart';
 import '../utils/models.dart';
 import './login.dart';
+import './support.dart';
 
 class SettingsActivity extends StatefulWidget {
   SettingsActivity();
@@ -74,6 +75,20 @@ class SettingsActivityState extends State<SettingsActivity> {
     Navigator.pop(context);
     Navigator.of(context).pushReplacement(
         new MaterialPageRoute(builder: (BuildContext context) => new Login()));
+  }
+
+  addPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      popDialog(
+          context,
+          "Thank for your response. We wil get back to you as soon as possible",
+          true);
+    }
   }
 
   @override
@@ -177,8 +192,10 @@ class SettingsActivityState extends State<SettingsActivity> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           new Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: new Text("Subscription Expiry"),
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: new Text(
+                              "Subscription Expiry",
+                            ),
                           ),
                           new Expanded(
                             child: new Container(
@@ -195,19 +212,22 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new Divider(),
                     new GestureDetector(
                       onTap: () {
-                        sendMail(
-                            "support@cloudpg.com",
-                            "Feedback%20and%20Support",
-                            "User - " +
-                                adminName +
-                                "\nHostel ID - " +
-                                hostelID +
-                                "\nOS - " +
-                                (Platform.isAndroid ? "Android" : "iOS") +
-                                "\nApp Version - " +
-                                (Platform.isAndroid
-                                    ? APPVERSION.ANDROID
-                                    : APPVERSION.IOS));
+                        addPage(context, new SupportActivity(true));
+                        // launchURL(
+                        //     "upi://pay?pa=dravid.rahul1526@okicici&pn=Rahul&tn=test&am=100&cu=INR");
+                        // sendMail(
+                        //     supportMail,
+                        //     "Feedback%20and%20Support",
+                        //     "User - " +
+                        //         adminName +
+                        //         "\nHostel ID - " +
+                        //         hostelID +
+                        //         "\nOS - " +
+                        //         (Platform.isAndroid ? "Android" : "iOS") +
+                        //         "\nApp Version - " +
+                        //         (Platform.isAndroid
+                        //             ? APPVERSION.ANDROID
+                        //             : APPVERSION.IOS));
                       },
                       child: new Container(
                         color: Colors.transparent,
@@ -217,7 +237,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                           children: <Widget>[
                             new Text("Feedback & Support"),
                             new Icon(
-                              Icons.arrow_forward_ios,
+                              Icons.arrow_right,
                               color: Colors.grey,
                             ),
                           ],
@@ -227,9 +247,10 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new Divider(),
                     new GestureDetector(
                       onTap: () {
-                        LaunchReview.launch(
-                            androidAppId: "com.iyaffle.rangoli",
-                            iOSAppId: "585027354");
+                        if (Platform.isAndroid) {
+                          launchURL(
+                              "https://play.google.com/store/apps/details?id=com.saikrishna.cloudpg");
+                        } else {}
                       },
                       child: new Container(
                         color: Colors.transparent,
@@ -239,7 +260,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                           children: <Widget>[
                             new Text("Rate Us"),
                             new Icon(
-                              Icons.arrow_forward_ios,
+                              Icons.arrow_right,
                               color: Colors.grey,
                             ),
                           ],
@@ -258,7 +279,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                     ),
                     new Center(
                       child: new Text(
-                        "\n\nMade with :) in Hyderabad, India\nCopyright © 2019 PGWorld\n\n" +
+                        "\n\nMade with :) in Hyderabad, India\nCopyright © 2019 Cloud PG\n\n" +
                             (Platform.isAndroid
                                 ? APPVERSION.ANDROID
                                 : APPVERSION.IOS),

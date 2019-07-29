@@ -9,15 +9,18 @@ class API {
   static const REPORT = "report";
   static const ROOM = "room";
   static const USER = "user";
+  static const SUPPORT = "support";
   static const HOSTEL = "hostel";
 
   static const RENT = "rent";
   static const SALARY = "salary";
 }
 
+String supportMail = "support@cloudpg.com";
+
 class COLORS {
-  static const RED = "#A2D9CE";
-  static const GREEN = "#F5CBA7";
+  static const RED = "#E1A1AD";
+  static const GREEN = "#9AD7CB";
 }
 
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";

@@ -82,41 +82,41 @@ class LogsActivityState extends State<LogsActivity> {
               }
               if (log.type == "2") {
                 // bill
-                log.color = "#F9E79F";
+                log.color = "#67CCB7";
                 log.icon = Icons.attach_money;
                 log.title = "Bill";
               } else if (log.type == "3") {
                 // employee
-                log.color = "#AED6F1";
+                log.color = "#539ECE";
                 log.icon = Icons.account_box;
                 log.title = "Employee";
               } else if (log.type == "5") {
                 // note
-                log.color = "#A2D9CE";
+                log.color = "#D8B868";
                 log.icon = Icons.format_list_numbered;
                 log.title = "Note";
               } else if (log.type == "6") {
                 // room
-                log.color = "#F5CBA7";
+                log.color = "#DF7B8D";
                 log.icon = Icons.local_hotel;
                 log.title = "Room";
               } else if (log.type == "7") {
                 // rent
-                log.color = "#F9E79F";
+                log.color = "#67CCB7";
                 log.icon = Icons.attach_money;
                 log.title = "Rent";
               } else if (log.type == "8") {
                 // salary
-                log.color = "#F9E79F";
+                log.color = "#67CCB7";
                 log.icon = Icons.attach_money;
                 log.title = "Salary";
               } else if (log.type == "9") {
                 // user
-                log.color = "#D7BDE2";
+                log.color = "#A179E0";
                 log.icon = Icons.supervisor_account;
                 log.title = "User";
               } else {
-                log.color = "#F5B7B1";
+                log.color = "#C36BB4";
                 log.icon = Icons.track_changes;
                 log.title = "";
               }

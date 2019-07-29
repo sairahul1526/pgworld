@@ -123,7 +123,7 @@ class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                               child: new Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: new BoxDecoration(
-                                  color: HexColor("#D7BDE2"),
+                                  color: HexColor("#A179E0"),
                                   shape: BoxShape.circle,
                                 ),
                                 child: new Icon(
@@ -169,7 +169,7 @@ class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                               child: new Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: new BoxDecoration(
-                                  color: HexColor("#F5CBA7"),
+                                  color: HexColor("#DF7B8D"),
                                   shape: BoxShape.circle,
                                 ),
                                 child: new Icon(
@@ -215,7 +215,7 @@ class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                               child: new Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: new BoxDecoration(
-                                  color: HexColor("#F9E79F"),
+                                  color: HexColor("#67CCB7"),
                                   shape: BoxShape.circle,
                                 ),
                                 child: new Icon(
@@ -262,7 +262,7 @@ class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                               child: new Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: new BoxDecoration(
-                                  color: HexColor("#A2D9CE"),
+                                  color: HexColor("#D8B868"),
                                   shape: BoxShape.circle,
                                 ),
                                 child: new Icon(
@@ -308,7 +308,7 @@ class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                               child: new Container(
                                 padding: EdgeInsets.all(10),
                                 decoration: new BoxDecoration(
-                                  color: HexColor("#AED6F1"),
+                                  color: HexColor("#539ECE"),
                                   shape: BoxShape.circle,
                                 ),
                                 child: new Icon(
@@ -371,7 +371,7 @@ class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                               margin: EdgeInsets.only(bottom: 10),
                               padding: EdgeInsets.all(10),
                               decoration: new BoxDecoration(
-                                color: HexColor("#F5B7B1"),
+                                color: HexColor("#C36BB4"),
                                 shape: BoxShape.circle,
                               ),
                               child: new Icon(
@@ -409,7 +409,7 @@ class DashBoardState extends State<DashBoard> with WidgetsBindingObserver {
                               margin: EdgeInsets.only(bottom: 10),
                               padding: EdgeInsets.all(10),
                               decoration: new BoxDecoration(
-                                color: HexColor("#ABB2B9"),
+                                color: HexColor("#78C697"),
                                 shape: BoxShape.circle,
                               ),
                               child: new Icon(

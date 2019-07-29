@@ -1,4 +1,4 @@
-package com.example.pgworld;
+package com.saikrishna.cloudpg;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

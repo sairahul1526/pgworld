@@ -9,6 +9,7 @@ import '../utils/models.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
 import '../utils/utils.dart';
+import './support.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -112,20 +113,34 @@ class LoginState extends State<Login> {
     });
   }
 
+  addPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      popDialog(
+          context,
+          "Thank you for signup. We will get back to you as soon as possible",
+          true);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black,
-        ),
-        backgroundColor: Colors.white,
-        title: new Text(
-          "Log in",
-          style: TextStyle(color: Colors.black),
-        ),
-        elevation: 4.0,
-      ),
+      // appBar: new AppBar(
+      //   iconTheme: IconThemeData(
+      //     color: Colors.black,
+      //   ),
+      //   backgroundColor: Colors.white,
+      //   title: new Text(
+      //     "Log in",
+      //     style: TextStyle(color: Colors.black),
+      //   ),
+      //   elevation: 4.0,
+      // ),
       body: ModalProgressHUD(
         child: new Container(
           margin: new EdgeInsets.fromLTRB(
@@ -136,6 +151,14 @@ class LoginState extends State<Login> {
           child: new ListView(
             shrinkWrap: true,
             children: <Widget>[
+              new SizedBox(
+                width: 100,
+                height: 100,
+                child: new Image.asset('assets/appicon.png'),
+              ),
+              new Container(
+                height: 50,
+              ),
               new TextField(
                 controller: username,
                 autocorrect: false,
@@ -162,14 +185,26 @@ class LoginState extends State<Login> {
                 ),
               ),
               new Container(
-                margin: new EdgeInsets.fromLTRB(0, 50, 0, 0),
+                margin: new EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: new MaterialButton(
                   height: 40,
                   child: new Text(
-                    "          Log in          ",
+                    "Log in",
                   ),
                   onPressed: () {
                     login();
+                  },
+                ),
+              ),
+              new Container(
+                child: new MaterialButton(
+                  height: 40,
+                  child: new Text(
+                    "Don't have an account yet? Sign Up.\nIt's free for first 3 months.",
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () {
+                    addPage(context, new SupportActivity(false));
                   },
                 ),
               ),

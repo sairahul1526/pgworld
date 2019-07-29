@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
+// import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 import '../utils/models.dart';
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:pie_chart/pie_chart.dart';
@@ -69,49 +69,49 @@ class ReportActivityState extends State<ReportActivity> {
     setState(() {
       widgets.clear();
     });
-    widgets.add(new Container(
-      margin: new EdgeInsets.fromLTRB(15, 15, 0, 0),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          new Container(
-            width: MediaQuery.of(context).size.width * 0.2,
-            child: new Text("Bill Date"),
-          ),
-          new Flexible(
-            child: new Container(
-              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-              child: new FlatButton(
-                  onPressed: () async {
-                    final List<DateTime> picked =
-                        await DateRagePicker.showDatePicker(
-                            context: context,
-                            initialFirstDate: new DateTime.now(),
-                            initialLastDate:
-                                (new DateTime.now()).add(new Duration(days: 7)),
-                            firstDate: new DateTime.now()
-                                .subtract(new Duration(days: 10 * 365)),
-                            lastDate: new DateTime.now()
-                                .add(new Duration(days: 10 * 365)));
-                    if (picked != null && picked.length == 2) {
-                      billDates = picked;
-                      setState(() {
-                        fromDate = billDates[0];
-                        toDate = billDates[1];
-                        billDatesRange =
-                            headingDateFormat.format(billDates[0]) +
-                                " to " +
-                                headingDateFormat.format(billDates[1]);
-                        fillData();
-                      });
-                    }
-                  },
-                  child: new Text(billDatesRange)),
-            ),
-          ),
-        ],
-      ),
-    ));
+    // widgets.add(new Container(
+    //   margin: new EdgeInsets.fromLTRB(15, 15, 0, 0),
+    //   child: new Row(
+    //     mainAxisAlignment: MainAxisAlignment.start,
+    //     children: <Widget>[
+    //       new Container(
+    //         width: MediaQuery.of(context).size.width * 0.2,
+    //         child: new Text("Bill Date"),
+    //       ),
+    //       new Flexible(
+    //         child: new Container(
+    //           margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+    //           child: new FlatButton(
+    //               onPressed: () async {
+    //                 final List<DateTime> picked =
+    //                     await DateRagePicker.showDatePicker(
+    //                         context: context,
+    //                         initialFirstDate: new DateTime.now(),
+    //                         initialLastDate:
+    //                             (new DateTime.now()).add(new Duration(days: 7)),
+    //                         firstDate: new DateTime.now()
+    //                             .subtract(new Duration(days: 10 * 365)),
+    //                         lastDate: new DateTime.now()
+    //                             .add(new Duration(days: 10 * 365)));
+    //                 if (picked != null && picked.length == 2) {
+    //                   billDates = picked;
+    //                   setState(() {
+    //                     fromDate = billDates[0];
+    //                     toDate = billDates[1];
+    //                     billDatesRange =
+    //                         headingDateFormat.format(billDates[0]) +
+    //                             " to " +
+    //                             headingDateFormat.format(billDates[1]);
+    //                     fillData();
+    //                   });
+    //                 }
+    //               },
+    //               child: new Text(billDatesRange)),
+    //         ),
+    //       ),
+    //     ],
+    //   ),
+    // ));
     if (charts.graphs != null) {
       charts.graphs.forEach((graph) {
         widgets.add(new Container(
@@ -140,7 +140,7 @@ class ReportActivityState extends State<ReportActivity> {
             animationDuration: Duration(milliseconds: 800),
             chartLegendSpacing: 32.0,
             chartRadius: MediaQuery.of(context).size.width / 2.7,
-            showChartValuesInPercentage: true,
+            showChartValuesInPercentage: false,
             showChartValues: true,
             showChartValuesOutside: true,
             chartValuesColor: Colors.blueGrey[900].withOpacity(0.9),
@@ -148,6 +148,11 @@ class ReportActivityState extends State<ReportActivity> {
             showLegends: true,
           ));
         } else {
+          widgets.add(new Container(
+            child: new Container(
+              height: 20,
+            ),
+          ));
           List<DataPoint<dynamic>> datapoints = new List();
           graph.data.forEach((data) {
             datapoints.add(DataPoint<DateTime>(

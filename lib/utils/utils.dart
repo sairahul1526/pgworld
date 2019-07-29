@@ -31,6 +31,12 @@ Future<bool> initSharedPreference() async {
   return false;
 }
 
+void launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  }
+}
+
 void makePhone(String phone) async {
   var url = 'tel:' + phone;
   if (await canLaunch(url)) {
