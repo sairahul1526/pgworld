@@ -113,20 +113,6 @@ class LoginState extends State<Login> {
     });
   }
 
-  addPage(BuildContext context, Widget page) async {
-    final data = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    ) as String;
-
-    if (data != null) {
-      popDialog(
-          context,
-          "Thank you for signup. We will get back to you as soon as possible",
-          true);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -204,7 +190,10 @@ class LoginState extends State<Login> {
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
-                    addPage(context, new SupportActivity(false));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => new SupportActivity(false)));
                   },
                 ),
               ),

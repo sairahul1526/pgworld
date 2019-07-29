@@ -77,20 +77,6 @@ class SettingsActivityState extends State<SettingsActivity> {
         new MaterialPageRoute(builder: (BuildContext context) => new Login()));
   }
 
-  addPage(BuildContext context, Widget page) async {
-    final data = await Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    ) as String;
-
-    if (data != null) {
-      popDialog(
-          context,
-          "Thank for your response. We wil get back to you as soon as possible",
-          true);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -212,7 +198,10 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new Divider(),
                     new GestureDetector(
                       onTap: () {
-                        addPage(context, new SupportActivity(true));
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => new SupportActivity(true)));
                         // launchURL(
                         //     "upi://pay?pa=dravid.rahul1526@okicici&pn=Rahul&tn=test&am=100&cu=INR");
                         // sendMail(

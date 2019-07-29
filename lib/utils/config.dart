@@ -37,8 +37,8 @@ class APIKEY {
   static const IOS_TEST = "R4n7N8G4m9B4S5n2";
 }
 
-String adminName;
-String hostelID;
+String adminName = "";
+String hostelID = "";
 List<String> amenities = new List();
 
 Map<String, String> headers = {"Accept-Encoding": "gzip"};

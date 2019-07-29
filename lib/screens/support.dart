@@ -155,6 +155,25 @@ class SupportActivityState extends State<SupportActivity> {
                 children: <Widget>[
                   new Expanded(
                     child: new Container(
+                      margin: new EdgeInsets.fromLTRB(0, 0, 0, 15),
+                      child: new Text(
+                        support
+                            ? "Have some feeback? Got any questions? We are happy to help. Fill up the below form. We will contact you."
+                            : "Interested in Cloud PG? Sign up the below form. We will contact you.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              new Row(
+                children: <Widget>[
+                  new Expanded(
+                    child: new Container(
                       height: nameCheck ? null : 50,
                       child: new TextField(
                           controller: name,
