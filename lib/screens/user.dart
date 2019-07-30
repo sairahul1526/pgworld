@@ -146,7 +146,6 @@ class UserActivityState extends State<UserActivity> {
   }
 
   void loadDocuments() {
-    print(fileNames);
     fileWidgets.clear();
     fileNames.forEach((file) {
       if (file.length > 0) {

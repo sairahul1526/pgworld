@@ -199,9 +199,10 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new GestureDetector(
                       onTap: () {
                         Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => new SupportActivity(true)));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    new SupportActivity(true)));
                         // launchURL(
                         //     "upi://pay?pa=dravid.rahul1526@okicici&pn=Rahul&tn=test&am=100&cu=INR");
                         // sendMail(
@@ -224,7 +225,13 @@ class SettingsActivityState extends State<SettingsActivity> {
                         child: new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            new Text("Feedback & Support"),
+                            new Icon(Icons.chat),
+                            new Container(
+                              width: 20,
+                            ),
+                            new Expanded(
+                              child: new Text("Feedback & Support"),
+                            ),
                             new Icon(
                               Icons.arrow_right,
                               color: Colors.grey,
@@ -245,9 +252,93 @@ class SettingsActivityState extends State<SettingsActivity> {
                         color: Colors.transparent,
                         height: 30,
                         child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            new Text("Rate Us"),
+                            new Icon(Icons.star),
+                            new Container(
+                              width: 20,
+                            ),
+                            new Expanded(
+                              child: new Text("Rate Us"),
+                            ),
+                            new Icon(
+                              Icons.arrow_right,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    new Divider(),
+                    new GestureDetector(
+                      onTap: () {
+                        launchURL("http://cloudpg.in/terms");
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 30,
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            new Icon(Icons.featured_play_list),
+                            new Container(
+                              width: 20,
+                            ),
+                            new Expanded(
+                              child: new Text("Terms of Use"),
+                            ),
+                            new Icon(
+                              Icons.arrow_right,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    new Divider(),
+                    new GestureDetector(
+                      onTap: () {
+                        launchURL("http://cloudpg.in/privacy");
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 30,
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            new Icon(Icons.vpn_key),
+                            new Container(
+                              width: 20,
+                            ),
+                            new Expanded(
+                              child: new Text("Privacy Policy"),
+                            ),
+                            new Icon(
+                              Icons.arrow_right,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    new Divider(),
+                    new GestureDetector(
+                      onTap: () {
+                        launchURL("http://cloudpg.in/about");
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 30,
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            new Icon(Icons.info),
+                            new Container(
+                              width: 20,
+                            ),
+                            new Expanded(
+                              child: new Text("About"),
+                            ),
                             new Icon(
                               Icons.arrow_right,
                               color: Colors.grey,

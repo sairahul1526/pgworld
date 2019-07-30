@@ -116,6 +116,7 @@ class Bill implements ListItem {
   final String employeeID;
   final String description;
   final String type;
+  final String document;
   final String amount;
   final String paid;
   final String paidDateTime;
@@ -133,6 +134,7 @@ class Bill implements ListItem {
       this.employeeID,
       this.description,
       this.type,
+      this.document,
       this.amount,
       this.paid,
       this.paidDateTime,
@@ -151,6 +153,7 @@ class Bill implements ListItem {
       employeeID: json['employee_id'],
       description: json['description'],
       type: json['type'],
+      document: json['document'],
       amount: json['amount'],
       paid: json['paid'],
       paidDateTime: json['paid_date_time'],

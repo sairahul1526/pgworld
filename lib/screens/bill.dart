@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../utils/api.dart';
 import '../utils/config.dart';
 import '../utils/models.dart';
 import '../utils/utils.dart';
+import './photo.dart';
 
 class BillActivity extends StatefulWidget {
   final Bill bill;
@@ -37,6 +39,8 @@ class BillActivityState extends State<BillActivity> {
   Employee employee;
 
   bool loading = false;
+  List<String> fileNames = new List();
+  List<Widget> fileWidgets = new List();
 
   BillActivityState(this.bill, this.user, this.employee);
 
@@ -55,6 +59,9 @@ class BillActivityState extends State<BillActivity> {
       paidDate.text = headingDateFormat.format(new DateTime.now());
       pickedPaidDate = dateFormat.format(new DateTime.now());
       if (bill != null) {
+        if (bill.document != null) {
+          fileNames = bill.document.split(",");
+        }
         amount.text = bill.amount;
         paidDate.text =
             headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -66,12 +73,18 @@ class BillActivityState extends State<BillActivity> {
       pickedPaidDate = dateFormat.format(new DateTime.now());
       dateFormat.format(new DateTime.now());
       if (bill != null) {
+        if (bill.document != null) {
+          fileNames = bill.document.split(",");
+        }
         amount.text = bill.amount;
         paidDate.text =
             headingDateFormat.format(DateTime.parse(bill.paidDateTime));
         pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
       }
     } else if (bill != null) {
+      if (bill.document != null) {
+        fileNames = bill.document.split(",");
+      }
       item.text = bill.title;
       paidDate.text =
           headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -83,6 +96,75 @@ class BillActivityState extends State<BillActivity> {
       paidDate.text = dateFormat.format(new DateTime.now());
       pickedPaidDate = dateFormat.format(new DateTime.now());
     }
+    loadDocuments();
+  }
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      setState(() {
+        loading = true;
+      });
+      Future<String> uploadResponse = upload(image);
+      uploadResponse.then((fileName) {
+        if (fileName.isNotEmpty) {
+          setState(() {
+            fileNames.add(fileName);
+            loadDocuments();
+          });
+        }
+        setState(() {
+          loading = false;
+        });
+      });
+    }
+  }
+
+  void loadDocuments() {
+    fileWidgets.clear();
+    fileNames.forEach((file) {
+      if (file.length > 0) {
+        fileWidgets.add(new Row(
+          children: <Widget>[
+            new IconButton(
+              icon: FadeInImage.assetNetwork(
+                placeholder: 'assets/image_placeholder.png',
+                image: mediaURL + file,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  new MaterialPageRoute(
+                      builder: (context) => new PhotoActivity(mediaURL + file)),
+                );
+              },
+            ),
+            new Expanded(
+              child: new IconButton(
+                onPressed: () {
+                  setState(() {
+                    fileNames.remove(file);
+                    loadDocuments();
+                  });
+                },
+                icon: new Icon(Icons.delete),
+              ),
+            )
+          ],
+        ));
+      }
+    });
+    fileWidgets.add(new Row(
+      children: <Widget>[
+        new Expanded(
+          child: new FlatButton(
+            onPressed: () => getImage(),
+            child: new Text("Add Document"),
+          ),
+        )
+      ],
+    ));
   }
 
   Future _selectDate(BuildContext context, String type) async {
@@ -178,6 +260,7 @@ class BillActivityState extends State<BillActivity> {
                         'description':
                             user.name + ' paid rent for room ' + user.roomID,
                         'hostel_id': hostelID,
+                        'document': fileNames.join(","),
                         'user_id': user.id,
                         'bill_id': bill != null ? bill.id : "",
                         'paid': '0'
@@ -194,6 +277,7 @@ class BillActivityState extends State<BillActivity> {
                         'name': employee.name,
                         'description': employee.name + ' salary paid',
                         'hostel_id': hostelID,
+                        'document': fileNames.join(","),
                         'employee_id': employee.id,
                         'bill_id': bill != null ? bill.id : "",
                         'paid': '1'
@@ -207,6 +291,7 @@ class BillActivityState extends State<BillActivity> {
                         "title": item.text,
                         "description": description.text,
                         "amount": amount.text,
+                        'document': fileNames.join(","),
                         "paid": paid.toString(),
                       }),
                       Map.from({'hostel_id': hostelID, 'id': bill.id}),
@@ -220,6 +305,7 @@ class BillActivityState extends State<BillActivity> {
                         'paid_date_time': pickedPaidDate,
                         'description': description.text,
                         'amount': amount.text,
+                        'document': fileNames.join(","),
                         'paid': paid.toString()
                       }),
                     );
@@ -411,6 +497,25 @@ class BillActivityState extends State<BillActivity> {
                       ),
                     )
                   : new Container(),
+              new Container(
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Container(
+                      width: MediaQuery.of(context).size.width * 0.2,
+                      child: new Text("Document"),
+                    ),
+                    new Expanded(
+                      child: new Container(
+                          margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                          child: new Column(
+                            children: fileWidgets,
+                          )),
+                    ),
+                  ],
+                ),
+              ),
               (bill == null
                       ? (user == null && employee == null)
                       : (bill.userID == "" && bill.employeeID == ""))
