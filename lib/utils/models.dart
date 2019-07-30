@@ -169,13 +169,17 @@ class Bill implements ListItem {
 // dashboard
 
 class Dashboards {
+  final List<Graph> graphs;
   final List<Dashboard> dashboards;
   final Meta meta;
 
-  Dashboards({this.dashboards, this.meta});
+  Dashboards({this.graphs, this.dashboards, this.meta});
 
   factory Dashboards.fromJson(Map<String, dynamic> json) {
     return Dashboards(
+      graphs: json['graphs'] != null
+          ? List<Graph>.from(json['graphs'].map((i) => Graph.fromJson(i)))
+          : new List<Graph>(),
       dashboards: json['data'] != null
           ? List<Dashboard>.from(json['data'].map((i) => Dashboard.fromJson(i)))
           : new List<Dashboard>(),
@@ -683,9 +687,6 @@ class Pagination {
 // reports
 class Charts {
   final List<Graph> graphs;
-  // final List<List<ChartData>> pies;
-  // final List<List<ChartData>> bars2;
-  // final List<Bar> bars;
   final Meta meta;
 
   Charts({this.graphs, this.meta});
@@ -695,17 +696,6 @@ class Charts {
       graphs: json['graphs'] != null
           ? List<Graph>.from(json['graphs'].map((i) => Graph.fromJson(i)))
           : new List<Graph>(),
-      // pies: json['pies'] != null
-      //     ? new List<List<ChartData>>.from(json["pies"].map((x) =>
-      //         new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
-      //     : new List<ChartData>(),
-      // bars2: json['bars2'] != null
-      //     ? new List<List<ChartData>>.from(json["bars2"].map((x) =>
-      //         new List<ChartData>.from(x.map((x) => ChartData.fromJson(x)))))
-      //     : new List<ChartData>(),
-      // bars: json['bars'] != null
-      //     ? new List<Bar>.from(json["bars"].map((x) => Bar.fromJson(x)))
-      //     : new List<Bar>(),
       meta: Meta.fromJson(json['meta']),
     );
   }
