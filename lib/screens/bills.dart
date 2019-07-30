@@ -290,7 +290,7 @@ class BillsActivityState extends State<BillsActivity> {
                             new Container(
                                 margin: EdgeInsets.fromLTRB(0, 0, 12, 0),
                                 padding: EdgeInsets.all(7),
-                                color: item.paid == "0"
+                                color: item.paid == "1"
                                     ? HexColor(COLORS.RED)
                                     : HexColor(COLORS.GREEN),
                                 child: new Icon(
@@ -298,7 +298,7 @@ class BillsActivityState extends State<BillsActivity> {
                                       ? Icons.local_hotel
                                       : (item.employeeID != ""
                                           ? Icons.account_box
-                                          : Icons.receipt),
+                                          : getBillIcon(item.type)),
                                   color: Colors.white,
                                 )),
                             new Expanded(

@@ -52,3 +52,14 @@ const defaultOffset = "0";
 const STATUS_400 = "400";
 const STATUS_403 = "403"; // forbidden
 const STATUS_500 = "500";
+
+List<List<String>> billTypes = [
+  ["Cable Bill", "1"],
+  ["Water Bill", "2"],
+  ["Electricity Bill", "3"],
+  ["Food Expense", "4"],
+  ["Internet Bill", "5"],
+  ["Maintainance", "6"],
+  ["Property Rent/Tax", "7"],
+  ["Others", "8"],
+];

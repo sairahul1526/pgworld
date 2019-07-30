@@ -245,3 +245,65 @@ class HexColor extends Color {
 
   HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
+
+String getBillType(String id) {
+  switch (id) {
+    case "1":
+      return "Cable Bill";
+      break;
+    case "2":
+      return "Water Bill";
+      break;
+    case "3":
+      return "Electricity Bill";
+      break;
+    case "4":
+      return "Food Expense";
+      break;
+    case "5":
+      return "Internet Bill";
+      break;
+    case "6":
+      return "Maintainance";
+      break;
+    case "7":
+      return "Property Rent/Tax";
+      break;
+    case "8":
+      return "Others";
+      break;
+    default:
+      return "";
+  }
+}
+
+IconData getBillIcon(String id) {
+  switch (id) {
+    case "1":
+      return Icons.tv;
+      break;
+    case "2":
+      return Icons.hot_tub;
+      break;
+    case "3":
+      return Icons.flash_on;
+      break;
+    case "4":
+      return Icons.local_dining;
+      break;
+    case "5":
+      return Icons.wifi;
+      break;
+    case "6":
+      return Icons.adjust;
+      break;
+    case "7":
+      return Icons.local_parking;
+      break;
+    case "8":
+      return Icons.receipt;
+      break;
+    default:
+      return null;
+  }
+}

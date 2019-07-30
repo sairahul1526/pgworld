@@ -25,7 +25,7 @@ class BillActivity extends StatefulWidget {
 class BillActivityState extends State<BillActivity> {
   int paid = 0;
 
-  TextEditingController item = new TextEditingController();
+  TextEditingController type = new TextEditingController();
   TextEditingController description = new TextEditingController();
   TextEditingController amount = new TextEditingController();
   TextEditingController paidDate = new TextEditingController();
@@ -44,8 +44,9 @@ class BillActivityState extends State<BillActivity> {
 
   BillActivityState(this.bill, this.user, this.employee);
 
-  bool titleCheck = false;
   bool amountCheck = false;
+
+  String selectedType = "0";
 
   @override
   void initState() {
@@ -54,6 +55,8 @@ class BillActivityState extends State<BillActivity> {
         .format(new DateTime.now().add(new Duration(days: 30)));
     pickedExpiryDate =
         dateFormat.format(new DateTime.now().add(new Duration(days: 30)));
+    selectedType = "8";
+    type.text = getBillType(selectedType);
     if (user != null) {
       amount.text = user.rent;
       paidDate.text = headingDateFormat.format(new DateTime.now());
@@ -61,6 +64,10 @@ class BillActivityState extends State<BillActivity> {
       if (bill != null) {
         if (bill.document != null) {
           fileNames = bill.document.split(",");
+        }
+        if (bill.type != null) {
+          selectedType = bill.type;
+          type.text = getBillType(bill.type);
         }
         amount.text = bill.amount;
         paidDate.text =
@@ -76,6 +83,10 @@ class BillActivityState extends State<BillActivity> {
         if (bill.document != null) {
           fileNames = bill.document.split(",");
         }
+        if (bill.type != null) {
+          selectedType = bill.type;
+          type.text = getBillType(bill.type);
+        }
         amount.text = bill.amount;
         paidDate.text =
             headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -85,7 +96,10 @@ class BillActivityState extends State<BillActivity> {
       if (bill.document != null) {
         fileNames = bill.document.split(",");
       }
-      item.text = bill.title;
+      if (bill.type != null) {
+        selectedType = bill.type;
+        type.text = getBillType(bill.type);
+      }
       paidDate.text =
           headingDateFormat.format(DateTime.parse(bill.paidDateTime));
       pickedPaidDate = dateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -185,6 +199,39 @@ class BillActivityState extends State<BillActivity> {
       });
   }
 
+  Future<String> selectTitle(BuildContext context) async {
+    String returned = "";
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Select Expense Type"),
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            height: 300,
+            child: new ListView.builder(
+              shrinkWrap: true,
+              itemCount: billTypes.length,
+              itemBuilder: (context, i) {
+                return new FlatButton(
+                  child: new Text(billTypes[i][0]),
+                  onPressed: () {
+                    returned = billTypes[i][1];
+                    type.text = billTypes[i][0];
+                    selectedType = billTypes[i][1];
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -221,20 +268,6 @@ class BillActivityState extends State<BillActivity> {
                     loading = false;
                   });
                 } else {
-                  if (user == null && employee == null) {
-                    if (item.text.length == 0) {
-                      setState(() {
-                        titleCheck = true;
-                        loading = false;
-                      });
-                      return;
-                    } else {
-                      setState(() {
-                        titleCheck = false;
-                      });
-                    }
-                  }
-
                   if (amount.text.length == 0) {
                     setState(() {
                       amountCheck = true;
@@ -261,6 +294,7 @@ class BillActivityState extends State<BillActivity> {
                             user.name + ' paid rent for room ' + user.roomID,
                         'hostel_id': hostelID,
                         'document': fileNames.join(","),
+                        'type': selectedType,
                         'user_id': user.id,
                         'bill_id': bill != null ? bill.id : "",
                         'paid': '0'
@@ -278,6 +312,7 @@ class BillActivityState extends State<BillActivity> {
                         'description': employee.name + ' salary paid',
                         'hostel_id': hostelID,
                         'document': fileNames.join(","),
+                        'type': selectedType,
                         'employee_id': employee.id,
                         'bill_id': bill != null ? bill.id : "",
                         'paid': '1'
@@ -288,10 +323,11 @@ class BillActivityState extends State<BillActivity> {
                       API.BILL,
                       Map.from({
                         'paid_date_time': pickedPaidDate,
-                        "title": item.text,
+                        "title": type.text,
                         "description": description.text,
                         "amount": amount.text,
                         'document': fileNames.join(","),
+                        'type': selectedType,
                         "paid": paid.toString(),
                       }),
                       Map.from({'hostel_id': hostelID, 'id': bill.id}),
@@ -301,11 +337,12 @@ class BillActivityState extends State<BillActivity> {
                       API.BILL,
                       Map.from({
                         'hostel_id': hostelID,
-                        'title': item.text,
+                        'title': type.text,
                         'paid_date_time': pickedPaidDate,
                         'description': description.text,
                         'amount': amount.text,
                         'document': fileNames.join(","),
+                        'type': selectedType,
                         'paid': paid.toString()
                       }),
                     );
@@ -339,36 +376,39 @@ class BillActivityState extends State<BillActivity> {
               (bill == null
                       ? (user == null && employee == null)
                       : (bill.userID == "" && bill.employeeID == ""))
-                  ? new Row(
-                      children: <Widget>[
-                        new Expanded(
-                          child: new Container(
-                            height: titleCheck ? null : 50,
-                            child: new TextField(
-                                controller: item,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  suffixIcon: titleCheck
-                                      ? IconButton(
-                                          icon: Icon(Icons.error,
-                                              color: Colors.red),
-                                          onPressed: () {},
-                                        )
-                                      : null,
-                                  errorText:
-                                      titleCheck ? "Title required" : null,
-                                  isDense: true,
-                                  prefixIcon: Icon(Icons.label),
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Title',
+                  ? new GestureDetector(
+                      onTap: () {
+                        selectTitle(context);
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 50,
+                        margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Container(
+                                child: new TextField(
+                                  enabled: false,
+                                  controller: type,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    prefixIcon: Icon(Icons.label),
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Expense Type',
+                                  ),
+                                  onSubmitted: (String value) {},
                                 ),
-                                onSubmitted: (String value) {}),
-                          ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     )
-                  : new Text(""),
+                  : new Container(),
               (bill == null
                       ? (user == null && employee == null)
                       : (bill.userID == "" && bill.employeeID == ""))
@@ -398,7 +438,7 @@ class BillActivityState extends State<BillActivity> {
                         ],
                       ),
                     )
-                  : new Text(""),
+                  : new Container(),
               new Container(
                 height: amountCheck ? null : 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -547,7 +587,7 @@ class BillActivityState extends State<BillActivity> {
                         ],
                       ),
                     )
-                  : new Text(""),
+                  : new Container(),
               new Container(
                 margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: new Row(
