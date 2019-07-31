@@ -3,6 +3,7 @@ import 'package:flutter_range_slider/flutter_range_slider.dart';
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 
 import '../utils/utils.dart';
+import '../utils/config.dart';
 
 class BillFilterActivity extends StatefulWidget {
   BillFilterActivity();
@@ -16,6 +17,7 @@ class BillFilterActivityState extends State<BillFilterActivity> {
   int paid = -1;
   int type = -1;
 
+  TextEditingController expenseType = new TextEditingController();
   TextEditingController title = new TextEditingController();
   TextEditingController amount = new TextEditingController();
 
@@ -28,9 +30,51 @@ class BillFilterActivityState extends State<BillFilterActivity> {
 
   String billDatesRange = "Pick date range";
 
+  String selectedType = "";
+
+  List<List<String>> billFilterTypes = [];
+
   @override
   void initState() {
     super.initState();
+    billTypes.forEach((billType) {
+      billFilterTypes.add(billType);
+    });
+    billFilterTypes.add(["Rents", "10"]);
+    billFilterTypes.add(["Salary", "11"]);
+  }
+
+  Future<String> selectTitle(BuildContext context) async {
+    String returned = "";
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Select Expense Type"),
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            height: 300,
+            child: new ListView.builder(
+              shrinkWrap: true,
+              itemCount: billFilterTypes.length,
+              itemBuilder: (context, i) {
+                return new FlatButton(
+                  child: new Text(billFilterTypes[i][0]),
+                  onPressed: () {
+                    returned = billFilterTypes[i][1];
+                    expenseType.text = billFilterTypes[i][0];
+                    selectedType = billFilterTypes[i][1];
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
   }
 
   @override
@@ -55,9 +99,6 @@ class BillFilterActivityState extends State<BillFilterActivity> {
             ),
             onPressed: () {
               Map<String, String> filter = new Map();
-              if (title.text != "") {
-                filter["title"] = title.text;
-              }
               if (billDates.length > 0) {
                 filter["paid_date_time"] = dateFormat.format(billDates[0]) +
                     "," +
@@ -66,8 +107,8 @@ class BillFilterActivityState extends State<BillFilterActivity> {
               if (paid >= 0) {
                 filter["paid"] = paid.toString();
               }
-              if (type >= 0) {
-                filter["type"] = type.toString();
+              if (selectedType.length > 0) {
+                filter["type"] = selectedType;
               }
               filter["amount"] = amountLower.round().toString() +
                   "," +
@@ -84,24 +125,37 @@ class BillFilterActivityState extends State<BillFilterActivity> {
             25, MediaQuery.of(context).size.width * 0.1, 0),
         child: new Column(
           children: <Widget>[
-            new Row(
-              children: <Widget>[
-                new Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  child: new Text("Item"),
+            new GestureDetector(
+              onTap: () {
+                selectTitle(context);
+              },
+              child: new Container(
+                color: Colors.transparent,
+                height: 50,
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Container(
+                        child: new TextField(
+                          enabled: false,
+                          controller: expenseType,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.label),
+                            border: OutlineInputBorder(),
+                            labelText: 'Expense Type',
+                          ),
+                          onSubmitted: (String value) {},
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                new Expanded(
-                  child: new Container(
-                    margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                    child: new TextField(
-                        controller: title,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(hintText: 'Item'),
-                        onSubmitted: (String value) {}),
-                  ),
-                ),
-              ],
+              ),
             ),
             new Container(
               margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -232,56 +286,6 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                 ],
               ),
             ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  new Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Bill Type"),
-                  ),
-                ],
-              ),
-            ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Radio(
-                    value: -1,
-                    groupValue: type,
-                    onChanged: (value) {
-                      setState(() {
-                        type = value;
-                      });
-                    },
-                  ),
-                  new Text("All"),
-                  new Radio(
-                    value: 1,
-                    groupValue: type,
-                    onChanged: (value) {
-                      setState(() {
-                        type = value;
-                      });
-                    },
-                  ),
-                  new Text("Rent"),
-                  new Radio(
-                    value: 0,
-                    groupValue: type,
-                    onChanged: (value) {
-                      setState(() {
-                        type = value;
-                      });
-                    },
-                  ),
-                  new Text("Salary"),
-                ],
-              ),
-            )
           ],
         ),
       ),

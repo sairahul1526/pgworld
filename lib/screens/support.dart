@@ -121,7 +121,7 @@ class SupportActivityState extends State<SupportActivity> {
 
                   Future<bool> load;
                   load = add(
-                    API.SUPPORT,
+                    support ? API.SUPPORT : API.SIGNUP,
                     Map.from({
                       'name': name.text,
                       'phone': phone.text,

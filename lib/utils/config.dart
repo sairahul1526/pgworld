@@ -9,6 +9,7 @@ class API {
   static const REPORT = "report";
   static const ROOM = "room";
   static const USER = "user";
+  static const SIGNUP = "signup";
   static const SUPPORT = "support";
   static const HOSTEL = "hostel";
 
