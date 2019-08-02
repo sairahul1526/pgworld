@@ -51,6 +51,7 @@ class LoginState extends State<Login> {
         if (prefs.getString("username") != null &&
             prefs.getString("username").length > 0) {
           adminName = prefs.getString("username");
+          adminEmailID = prefs.getString("email");
           hostelID = prefs.getString("hostelID");
           amenities = prefs.getString("amenities").split(",");
           Navigator.of(context).pushReplacement(new MaterialPageRoute(
@@ -96,11 +97,13 @@ class LoginState extends State<Login> {
               });
             } else {
               prefs.setString('username', response.admins[0].username);
+              prefs.setString('email', response.admins[0].email);
               prefs.setString('hostelIDs', response.admins[0].hostels);
               prefs.setString(
                   'hostelID', response.admins[0].hostels.split(",")[0]);
               prefs.setString('amenities', response.admins[0].amenities);
               adminName = response.admins[0].username;
+              adminEmailID = response.admins[0].email;
               hostelID = response.admins[0].hostels.split(",")[0];
               amenities = response.admins[0].amenities.split(",");
 
@@ -142,6 +145,12 @@ class LoginState extends State<Login> {
                 height: 100,
                 child: new Image.asset('assets/appicon.png'),
               ),
+              new Center(
+                child: new Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child: new Text("Cloud PG"),
+                ),
+              ),
               new Container(
                 height: 50,
               ),
@@ -151,7 +160,10 @@ class LoginState extends State<Login> {
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 keyboardType: TextInputType.text,
-                decoration: InputDecoration(hintText: 'Username'),
+                decoration: InputDecoration(
+                  hintText: 'Username',
+                  prefixIcon: Icon(Icons.account_circle),
+                ),
                 onSubmitted: (String value) {
                   FocusScope.of(context).requestFocus(textSecondFocusNode);
                 },
@@ -164,7 +176,10 @@ class LoginState extends State<Login> {
                   obscureText: true,
                   textInputAction: TextInputAction.go,
                   keyboardType: TextInputType.text,
-                  decoration: InputDecoration(hintText: 'Password'),
+                  decoration: InputDecoration(
+                    hintText: 'Password',
+                    prefixIcon: Icon(Icons.lock),
+                  ),
                   onSubmitted: (s) {
                     login();
                   },
@@ -186,7 +201,7 @@ class LoginState extends State<Login> {
                 child: new MaterialButton(
                   height: 40,
                   child: new Text(
-                    "Don't have an account yet? Sign Up.\nIt's free for first 3 months.",
+                    "Don't have an account yet?\nSign Up.",
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {

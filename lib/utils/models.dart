@@ -2,6 +2,14 @@
 
 import 'package:flutter/material.dart';
 
+/// Sample ordinal data type.
+class OrdinalSales {
+  final String year;
+  final int sales;
+
+  OrdinalSales(this.year, this.sales);
+}
+
 class Post {
   final String id;
   final Meta meta;
@@ -42,6 +50,7 @@ class Admin {
   final String id;
   final String username;
   final String password;
+  final String email;
   final String hostels;
   final String amenities;
   final String status;
@@ -54,6 +63,7 @@ class Admin {
       {this.id,
       this.username,
       this.password,
+      this.email,
       this.hostels,
       this.amenities,
       this.status,
@@ -67,6 +77,7 @@ class Admin {
       id: json['id'],
       username: json['username'],
       password: json['password'],
+      email: json['email'],
       hostels: json['hostels'],
       amenities: json['amenities'],
       status: json['status'],
@@ -707,7 +718,7 @@ class Graph {
   final String dataTitle;
   final String type;
   final String steps;
-  final List<ChartData> data;
+  final List<ChartType2> data;
 
   Graph(
       {this.title,
@@ -725,48 +736,27 @@ class Graph {
       type: json['type'],
       steps: json['steps'],
       data: json['data'] != null
+          ? List<ChartType2>.from(
+              json['data'].map((i) => ChartType2.fromJson(i)))
+          : new List<ChartType2>(),
+    );
+  }
+}
+
+class ChartType2 {
+  final String title;
+  final String color;
+  final List<ChartData> data;
+
+  ChartType2({this.title, this.color, this.data});
+
+  factory ChartType2.fromJson(Map<String, dynamic> json) {
+    return ChartType2(
+      title: json['title'],
+      color: json['color'],
+      data: json['data'] != null
           ? List<ChartData>.from(json['data'].map((i) => ChartData.fromJson(i)))
           : new List<ChartData>(),
-    );
-  }
-}
-
-class Bar {
-  final List<BarData> barData;
-  final List<ChartData> xaxis;
-  final List<ChartData> yaxis;
-
-  Bar({this.barData, this.xaxis, this.yaxis});
-
-  factory Bar.fromJson(Map<String, dynamic> json) {
-    return Bar(
-      barData: json['barData'] != null
-          ? List<BarData>.from(json['barData'].map((i) => BarData.fromJson(i)))
-          : new List<BarData>(),
-      xaxis: json['xaxis'] != null
-          ? List<ChartData>.from(
-              json['xaxis'].map((i) => ChartData.fromJson(i)))
-          : new List<ChartData>(),
-      yaxis: json['yaxis'] != null
-          ? List<ChartData>.from(
-              json['yaxis'].map((i) => ChartData.fromJson(i)))
-          : new List<ChartData>(),
-    );
-  }
-}
-
-class BarData {
-  final String x;
-  final String y1;
-  final String y2;
-
-  BarData({this.x, this.y1, this.y2});
-
-  factory BarData.fromJson(Map<String, dynamic> json) {
-    return BarData(
-      x: json['x'],
-      y1: json['y1'],
-      y2: json['y2'],
     );
   }
 }

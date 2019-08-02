@@ -143,6 +143,18 @@ class RoomsActivityState extends State<RoomsActivity> {
           actions: <Widget>[
             new IconButton(
               onPressed: () {
+                Map<String, String> roomFilter = filter;
+                roomFilter["offset"] = "0";
+                roomFilter["shouldMail"] = "true";
+                roomFilter["shouldMailID"] = adminEmailID;
+                getRooms(roomFilter);
+                oneButtonDialog(context,
+                    "Rooms data is sent to your registered mail", "", true);
+              },
+              icon: new Icon(Icons.mail),
+            ),
+            new IconButton(
+              onPressed: () {
                 filterPage(context, new RoomFilterActivity());
               },
               icon: new Icon(

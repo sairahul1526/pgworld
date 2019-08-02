@@ -70,31 +70,33 @@ class DashBoardState extends State<DashBoard> {
     if (graphs != null) {
       graphs.forEach((graph) {
         List<Widget> childs = [];
-        graph.data.forEach((child) {
-          childs.add(new Expanded(
-            child: new Container(
-              child: new Card(
-                child: new Container(
-                  height: 60,
-                  padding: EdgeInsets.only(left: 10),
-                  color: HexColor(child.color),
-                  child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      new Text(
-                        child.title,
-                        style: TextStyle(
-                          fontSize: 15,
+        graph.data.forEach((d1) {
+          d1.data.forEach((d2) {
+            childs.add(new Expanded(
+              child: new Container(
+                child: new Card(
+                  child: new Container(
+                    height: 60,
+                    padding: EdgeInsets.only(left: 10),
+                    color: HexColor(d2.color),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        new Text(
+                          d2.title,
+                          style: TextStyle(
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                      new Text(child.value),
-                    ],
+                        new Text(d2.value),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ));
+            ));
+          });
         });
         widgets.add(new Container(
           margin: const EdgeInsets.fromLTRB(8, 4, 8, 0),

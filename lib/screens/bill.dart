@@ -23,7 +23,7 @@ class BillActivity extends StatefulWidget {
 }
 
 class BillActivityState extends State<BillActivity> {
-  int paid = 0;
+  int paid = 1;
 
   TextEditingController type = new TextEditingController();
   TextEditingController description = new TextEditingController();

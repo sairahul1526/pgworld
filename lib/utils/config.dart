@@ -39,6 +39,7 @@ class APIKEY {
 }
 
 String adminName = "";
+String adminEmailID = "";
 String hostelID = "";
 List<String> amenities = new List();
 

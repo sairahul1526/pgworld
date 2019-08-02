@@ -160,6 +160,18 @@ class UsersActivityState extends State<UsersActivity> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
+          new IconButton(
+            onPressed: () {
+              Map<String, String> userFilter = filter;
+              userFilter["offset"] = "0";
+              userFilter["shouldMail"] = "true";
+              userFilter["shouldMailID"] = adminEmailID;
+              getUsers(userFilter);
+              oneButtonDialog(context,
+                  "Users data is sent to your registered mail", "", true);
+            },
+            icon: new Icon(Icons.mail),
+          ),
           room == null
               ? new IconButton(
                   onPressed: () {
@@ -260,13 +272,15 @@ class UsersActivityState extends State<UsersActivity> {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             new Text(
-                                              "Room : " +
-                                                  users[i].roomID +
-                                                  "    Meal : " +
-                                                  (users[i].food == "1"
-                                                      ? ""
-                                                      : "Non ") +
-                                                  "Veg",
+                                              "Room : " + users[i].roomno !=
+                                                      null
+                                                  ? users[i].roomno
+                                                  : "" +
+                                                      "    Meal : " +
+                                                      (users[i].food == "1"
+                                                          ? ""
+                                                          : "Non ") +
+                                                      "Veg",
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w100,

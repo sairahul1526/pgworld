@@ -70,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         if (prefs.getString("username") != null &&
             prefs.getString("username").length > 0) {
           adminName = prefs.getString("username");
+          adminEmailID = prefs.getString("email");
           hostelID = prefs.getString("hostelID");
           amenities = prefs.getString("amenities").split(",");
           Navigator.of(context).pushReplacement(new MaterialPageRoute(
