@@ -355,7 +355,7 @@ class DashBoardState extends State<DashBoard> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  new Text("Notes",
+                                  new Text("Tasks",
                                       style: new TextStyle(
                                         fontSize: 17,
                                         color: Colors.grey,

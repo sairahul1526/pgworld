@@ -94,7 +94,7 @@ class LogsActivityState extends State<LogsActivity> {
                 // note
                 log.color = "#D8B868";
                 log.icon = Icons.format_list_numbered;
-                log.title = "Note";
+                log.title = "Task";
               } else if (log.type == "6") {
                 // room
                 log.color = "#DF7B8D";

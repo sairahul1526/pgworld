@@ -131,7 +131,7 @@ class NotesActivityState extends State<NotesActivity> {
         ),
         backgroundColor: Colors.white,
         title: new Text(
-          "Notes",
+          "Tasks",
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
@@ -166,7 +166,7 @@ class NotesActivityState extends State<NotesActivity> {
       body: ModalProgressHUD(
         child: notes.length == 0
             ? new Center(
-                child: new Text(loading ? "" : "No notes"),
+                child: new Text(loading ? "" : "No tasks"),
               )
             : new ListView.separated(
                 controller: _controller,
