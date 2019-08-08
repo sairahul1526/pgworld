@@ -328,7 +328,7 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                         child: new TextField(
                           controller: phone,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             isDense: true,
                             prefixIcon: Icon(Icons.phone),

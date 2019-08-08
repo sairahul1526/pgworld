@@ -255,18 +255,16 @@ class RoomsActivityState extends State<RoomsActivity> {
                                     new Column(
                                       children: <Widget>[
                                         new Text(
-                                          i == 3
-                                              ? "10/10"
-                                              : rooms[i].filled +
-                                                  "/" +
-                                                  rooms[i].capacity,
+                                          rooms[i].filled +
+                                              "/" +
+                                              rooms[i].capacity,
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.w100,
                                             color: int.parse(rooms[i].filled) >=
                                                     int.parse(rooms[i].capacity)
-                                                ? Colors.red
-                                                : Colors.green,
+                                                ? HexColor(COLORS.GREEN)
+                                                : HexColor(COLORS.RED),
                                           ),
                                         ),
                                         new Text(

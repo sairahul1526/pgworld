@@ -20,11 +20,12 @@ class ReportActivity extends StatefulWidget {
 class ReportActivityState extends State<ReportActivity> {
   Charts charts = new Charts();
 
-  List<Widget> widgets = new List();
+  List<Widget> timeless = new List();
+  List<Widget> timeline = new List();
 
   bool loading = true;
 
-  DateTime fromDate = new DateTime.now().add(new Duration(days: -6*30));
+  DateTime fromDate = new DateTime.now().add(new Duration(days: -6 * 30));
   DateTime toDate = DateTime.now();
 
   List<DateTime> billDates = new List();
@@ -68,26 +69,47 @@ class ReportActivityState extends State<ReportActivity> {
   }
 
   void updateCharts() {
-    widgets.clear();
+    timeless.clear();
+    timeline.clear();
     if (charts.graphs != null) {
       charts.graphs.forEach((graph) {
-        widgets.add(new Container(
-          margin: EdgeInsets.only(top: 50),
-          child: new Text(
-            graph.title,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
+        if (graph.type == "1") {
+          timeless.add(new Container(
+            margin: EdgeInsets.only(top: 50),
+            child: new Text(
+              graph.title,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-        ));
+          ));
 
-        widgets.add(new Container(
-          child: new Container(
-            height: 20,
-          ),
-        ));
+          timeless.add(new Container(
+            child: new Container(
+              height: 20,
+            ),
+          ));
+        } else if (graph.type == "2") {
+          timeline.add(new Container(
+            margin: EdgeInsets.only(top: 50),
+            child: new Text(
+              graph.title,
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ));
+
+          timeline.add(new Container(
+            child: new Container(
+              height: 20,
+            ),
+          ));
+        }
 
         List<charty.Series<OrdinalSales, String>> seriesList = [];
         graph.data.forEach((d2) {
@@ -96,6 +118,10 @@ class ReportActivityState extends State<ReportActivity> {
           d2.data.forEach((f) {
             data.add(new OrdinalSales(f.title, int.parse(f.value)));
           });
+
+          if (data.length == 0) {
+            data.add(new OrdinalSales("", 0));
+          }
 
           seriesList.add(new charty.Series<OrdinalSales, String>(
             id: d2.title,
@@ -107,28 +133,30 @@ class ReportActivityState extends State<ReportActivity> {
           ));
         });
 
-        if (graph.type == "1") {
-          // pie
-          widgets.add(new Container(
-            height: 250,
-            child: new charty.PieChart(seriesList,
+        if (seriesList.length > 0) {
+          if (graph.type == "1") {
+            // pie
+            timeless.add(new Container(
+              height: 250,
+              child: new charty.PieChart(seriesList,
+                  animate: true,
+                  behaviors: [new charty.DatumLegend()],
+                  defaultRenderer: new charty.ArcRendererConfig(
+                      arcWidth: 60,
+                      arcRendererDecorators: [new charty.ArcLabelDecorator()])),
+            ));
+          } else if (graph.type == "2") {
+            // stacked
+            timeline.add(new Container(
+              height: 300,
+              child: new charty.BarChart(
+                seriesList,
                 animate: true,
-                behaviors: [new charty.DatumLegend()],
-                defaultRenderer: new charty.ArcRendererConfig(
-                    arcWidth: 60,
-                    arcRendererDecorators: [new charty.ArcLabelDecorator()])),
-          ));
-        } else if (graph.type == "2") {
-          // stacked
-          widgets.add(new Container(
-            height: 300,
-            child: new charty.BarChart(
-              seriesList,
-              animate: true,
-              barGroupingType: charty.BarGroupingType.grouped,
-              behaviors: [new charty.SeriesLegend()],
-            ),
-          ));
+                barGroupingType: charty.BarGroupingType.grouped,
+                behaviors: [new charty.SeriesLegend()],
+              ),
+            ));
+          }
         }
       });
     }
@@ -139,87 +167,136 @@ class ReportActivityState extends State<ReportActivity> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black,
+    return new DefaultTabController(
+      length: 2,
+      child: new Scaffold(
+        appBar: new AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),
+          backgroundColor: Colors.white,
+          title: new Text(
+            "REPORTS",
+            style: TextStyle(color: Colors.black),
+          ),
+          elevation: 4.0,
+          bottom: TabBar(
+            tabs: <Widget>[
+              new Container(
+                padding: EdgeInsets.only(bottom: 15),
+                child: new Text(
+                  "Historical",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              new Container(
+                padding: EdgeInsets.only(bottom: 15),
+                child: new Text(
+                  "Current",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
         ),
-        backgroundColor: Colors.white,
-        title: new Text(
-          "REPORTS",
-          style: TextStyle(color: Colors.black),
-        ),
-        elevation: 4.0,
-      ),
-      body: ModalProgressHUD(
-        child: new Container(
-          margin: new EdgeInsets.fromLTRB(
-              MediaQuery.of(context).size.width * 0.1,
-              0,
-              MediaQuery.of(context).size.width * 0.1,
-              0),
-          child: loading
-              ? new Container()
-              : new Column(
-                  children: <Widget>[
-                    new Container(
-                      height: 50,
-                      margin: new EdgeInsets.fromLTRB(15, 15, 0, 0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+        body: TabBarView(
+          children: <Widget>[
+            ModalProgressHUD(
+              child: new Container(
+                margin: new EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * 0.1,
+                    0,
+                    MediaQuery.of(context).size.width * 0.1,
+                    0),
+                child: loading
+                    ? new Container()
+                    : new Column(
                         children: <Widget>[
                           new Container(
-                            width: MediaQuery.of(context).size.width * 0.2,
-                            child: new Text("Bill Date"),
-                          ),
-                          new Flexible(
-                            child: new Container(
-                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: new FlatButton(
-                                  onPressed: () async {
-                                    final List<DateTime> picked =
-                                        await DateRagePicker.showDatePicker(
-                                            context: context,
-                                            initialFirstDate:
-                                                (new DateTime.now())
-                                                    .add(new Duration(days: -6*30)),
-                                            initialLastDate:
-                                                (new DateTime.now())
-                                                    .add(new Duration(days: 1)),
-                                            firstDate: new DateTime.now()
-                                                .subtract(new Duration(
-                                                    days: 10 * 365)),
-                                            lastDate: new DateTime.now().add(
-                                                new Duration(days: 10 * 365)));
-                                    if (picked != null && picked.length == 2) {
-                                      billDates = picked;
-                                      setState(() {
-                                        fromDate = billDates[0];
-                                        toDate = billDates[1];
-                                        billDatesRange = headingDateFormat
-                                                .format(billDates[0]) +
-                                            " to " +
-                                            headingDateFormat
-                                                .format(billDates[1]);
-                                      });
-                                      fillData();
-                                    }
-                                  },
-                                  child: new Text(billDatesRange)),
+                            height: 50,
+                            margin: new EdgeInsets.fromLTRB(15, 15, 0, 0),
+                            child: new Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                new Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.2,
+                                  child: new Text("Bill Date"),
+                                ),
+                                new Flexible(
+                                  child: new Container(
+                                    margin:
+                                        new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                                    child: new FlatButton(
+                                        onPressed: () async {
+                                          final List<DateTime> picked =
+                                              await DateRagePicker.showDatePicker(
+                                                  context: context,
+                                                  initialFirstDate:
+                                                      (new DateTime.now()).add(
+                                                          new Duration(
+                                                              days: -6 * 30)),
+                                                  initialLastDate: (new DateTime.now()).add(
+                                                      new Duration(days: 1)),
+                                                  firstDate: new DateTime.now()
+                                                      .subtract(new Duration(
+                                                          days: 10 * 365)),
+                                                  lastDate: new DateTime.now()
+                                                      .add(new Duration(days: 10 * 365)));
+                                          if (picked != null &&
+                                              picked.length == 2) {
+                                            billDates = picked;
+                                            setState(() {
+                                              fromDate = billDates[0];
+                                              toDate = billDates[1];
+                                              billDatesRange = headingDateFormat
+                                                      .format(billDates[0]) +
+                                                  " to " +
+                                                  headingDateFormat
+                                                      .format(billDates[1]);
+                                            });
+                                            fillData();
+                                          }
+                                        },
+                                        child: new Text(billDatesRange)),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
+                          new Expanded(
+                            child: new ListView(
+                              children: timeline,
+                            ),
+                          )
                         ],
                       ),
-                    ),
-                    new Expanded(
-                      child: new ListView(
-                        children: widgets,
+              ),
+              inAsyncCall: loading,
+            ),
+            ModalProgressHUD(
+              child: new Container(
+                margin: new EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * 0.1,
+                    0,
+                    MediaQuery.of(context).size.width * 0.1,
+                    0),
+                child: loading
+                    ? new Container()
+                    : new Column(
+                        children: <Widget>[
+                          new Expanded(
+                            child: new ListView(
+                              children: timeless,
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
+              ),
+              inAsyncCall: loading,
+            )
+          ],
         ),
-        inAsyncCall: loading,
       ),
     );
   }

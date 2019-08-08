@@ -107,7 +107,6 @@ class UserActivityState extends State<UserActivity> {
               roomNo.text = room.roomno;
             }
           });
-          print(rooms.length);
           if (response.meta == null) {
             oneButtonDialog(context, "", "No Internet connection", true);
           } else if (response.meta != null &&
@@ -486,7 +485,7 @@ class UserActivityState extends State<UserActivity> {
                         child: new TextField(
                           controller: phone,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             isDense: true,
                             prefixIcon: Icon(Icons.phone),
@@ -606,7 +605,7 @@ class UserActivityState extends State<UserActivity> {
                         child: new TextField(
                           controller: emergencyPhone,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(
                             isDense: true,
                             prefixIcon: Icon(Icons.contact_phone),
@@ -668,7 +667,14 @@ class UserActivityState extends State<UserActivity> {
                         });
                       },
                     ),
-                    new Text("Veg"),
+                    new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          eating = eating == 1 ? 0 : 1;
+                        });
+                      },
+                      child: new Text("Veg"),
+                    ),
                     new Radio(
                       value: 1,
                       groupValue: eating,
@@ -678,7 +684,14 @@ class UserActivityState extends State<UserActivity> {
                         });
                       },
                     ),
-                    new Text("Non Veg"),
+                    new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          eating = eating == 1 ? 0 : 1;
+                        });
+                      },
+                      child: new Text("Non Veg"),
+                    ),
                   ],
                 ),
               ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 
@@ -27,9 +29,18 @@ class LoginState extends State<Login> {
   bool loggedIn = true;
   bool wrongCreds = false;
 
+  String onesignalUserId = "";
+
   @override
   void initState() {
     super.initState();
+
+    OneSignal.shared.getPermissionSubscriptionState().then((status) {
+      if (status.subscriptionStatus.subscribed) {
+        onesignalUserId = status.subscriptionStatus.userId;
+      }
+    });
+
     if (Platform.isAndroid) {
       headers["appversion"] = APPVERSION.ANDROID;
       if (kReleaseMode) {
@@ -80,8 +91,11 @@ class LoginState extends State<Login> {
         setState(() {
           loggedIn = true;
         });
-        Future<Admins> employeeResponse = getAdmins(
-            Map.from({'username': username.text, 'password': password.text}));
+        Future<Admins> employeeResponse = getAdmins(Map.from({
+          'username': username.text,
+          'password': password.text,
+          'oneSignalID': onesignalUserId,
+        }));
         employeeResponse.then((response) {
           if (response == null ||
               response.meta == null ||
@@ -188,9 +202,11 @@ class LoginState extends State<Login> {
               new Container(
                 margin: new EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: new MaterialButton(
+                  color: Colors.blue,
                   height: 40,
                   child: new Text(
-                    "Log in",
+                    "Log In",
+                    style: TextStyle(color: Colors.white),
                   ),
                   onPressed: () {
                     login();

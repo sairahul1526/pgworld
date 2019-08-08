@@ -197,6 +197,18 @@ class BillFilterActivityState extends State<BillFilterActivity> {
               ),
             ),
             new Container(
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  new Text(amountLower.round().toString() +
+                      " - " +
+                      (amountUpper.round() == 20000
+                          ? amountUpper.round().toString() + "+"
+                          : amountUpper.round().toString())),
+                ],
+              ),
+            ),
+            new Container(
               margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.start,

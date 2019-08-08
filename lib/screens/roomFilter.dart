@@ -171,6 +171,18 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
               ),
             ),
             new Container(
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  new Text(rentLower.round().toString() +
+                      " - " +
+                      (rentUpper.round() == 20000
+                          ? rentUpper.round().toString() + "+"
+                          : rentUpper.round().toString())),
+                ],
+              ),
+            ),
+            new Container(
               margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
               child: new Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -206,6 +218,18 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                       style: TextStyle(fontSize: 20),
                     ),
                   )
+                ],
+              ),
+            ),
+            new Container(
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  new Text(capacityLower.round().toString() +
+                      " - " +
+                      (capacityUpper.round() == 10
+                          ? capacityUpper.round().toString() + "+"
+                          : capacityUpper.round().toString())),
                 ],
               ),
             ),

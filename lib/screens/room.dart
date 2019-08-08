@@ -56,18 +56,25 @@ class RoomActivityState extends State<RoomActivity> {
 
   List<Widget> amenitiesWidget() {
     List<Widget> widgets = new List();
-    avaiableAmenities.forEach((k, v) => widgets.add(new Row(
-          children: <Widget>[
-            new Checkbox(
-              value: v,
-              onChanged: (bool value) {
-                setState(() {
-                  avaiableAmenities[k] = value;
-                });
-              },
-            ),
-            new Text(getAmenityName(k))
-          ],
+    avaiableAmenities.forEach((k, v) => widgets.add(new GestureDetector(
+          onTap: () {
+            setState(() {
+              avaiableAmenities[k] = !avaiableAmenities[k];
+            });
+          },
+          child: new Row(
+            children: <Widget>[
+              new Checkbox(
+                value: v,
+                onChanged: (bool value) {
+                  setState(() {
+                    avaiableAmenities[k] = value;
+                  });
+                },
+              ),
+              new Text(getAmenityName(k))
+            ],
+          ),
         )));
     return widgets;
   }

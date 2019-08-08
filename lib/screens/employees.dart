@@ -179,9 +179,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                     margin: EdgeInsets.fromLTRB(0, 3, 10, 10),
                                     padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                     decoration: new BoxDecoration(
-                                      color: i == 1
-                                          ? HexColor(COLORS.GREEN)
-                                          : HexColor(COLORS.RED),
+                                      color: HexColor(COLORS.GREEN),
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: new Text(
@@ -219,9 +217,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.normal,
-                                                  color: i == 1
-                                                      ? Colors.red
-                                                      : Colors.green),
+                                                  color: Colors.green),
                                             )
                                           ],
                                         ),

@@ -17,17 +17,24 @@ class API {
   static const SALARY = "salary";
 }
 
-String supportMail = "support@cloudpg.com";
+const ONESIGNAL_APP_ID = "47916c74-a7c2-4819-bb65-911776d5b814";
 
 class COLORS {
   static const RED = "#E1A1AD";
   static const GREEN = "#9AD7CB";
 }
 
+class CONTACT {
+  static const TERMS_URL = "http://cloudpg.in/terms.html";
+  static const PRIVACY_URL = "http://cloudpg.in/privacy.html";
+  static const ABOUT_URL = "http://cloudpg.in/about";
+  static const SUPPORT_MAIL = "support@cloudpg.in";
+}
+
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "1.1";
+  static const ANDROID = "1.7";
   static const IOS = "1.1";
 }
 
@@ -43,7 +50,10 @@ String adminEmailID = "";
 String hostelID = "";
 List<String> amenities = new List();
 
-Map<String, String> headers = {"Accept-Encoding": "gzip"};
+Map<String, String> headers = {
+  "pkgname": "com.saikrishna.cloudpg",
+  "Accept-Encoding": "gzip"
+};
 
 const timeout = 10;
 

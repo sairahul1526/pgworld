@@ -272,7 +272,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new Divider(),
                     new GestureDetector(
                       onTap: () {
-                        launchURL("http://cloudpg.in/terms");
+                        launchURL(CONTACT.TERMS_URL);
                       },
                       child: new Container(
                         color: Colors.transparent,
@@ -298,7 +298,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new Divider(),
                     new GestureDetector(
                       onTap: () {
-                        launchURL("http://cloudpg.in/privacy");
+                        launchURL(CONTACT.PRIVACY_URL);
                       },
                       child: new Container(
                         color: Colors.transparent,
@@ -324,7 +324,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                     new Divider(),
                     new GestureDetector(
                       onTap: () {
-                        launchURL("http://cloudpg.in/about");
+                        launchURL(CONTACT.ABOUT_URL);
                       },
                       child: new Container(
                         color: Colors.transparent,

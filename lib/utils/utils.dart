@@ -112,7 +112,7 @@ IconData getAmenityIcon(String id) {
       return Icons.wifi;
       break;
     case "2": // bathroom
-      return Icons.smoking_rooms;
+      return Icons.hot_tub;
       break;
     case "3": // tv
       return Icons.tv;

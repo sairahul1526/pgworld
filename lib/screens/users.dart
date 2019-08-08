@@ -225,9 +225,9 @@ class UsersActivityState extends State<UsersActivity> {
                                     margin: EdgeInsets.fromLTRB(0, 3, 10, 10),
                                     padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                     decoration: new BoxDecoration(
-                                      color: i == 1
-                                          ? HexColor(COLORS.GREEN)
-                                          : HexColor(COLORS.RED),
+                                      color: users[i].paymentStatus == "0"
+                                          ? HexColor(COLORS.RED)
+                                          : HexColor(COLORS.GREEN),
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: new Text(
@@ -261,9 +261,11 @@ class UsersActivityState extends State<UsersActivity> {
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.normal,
-                                                  color: i == 1
-                                                      ? Colors.red
-                                                      : Colors.green),
+                                                  color: users[i]
+                                                              .paymentStatus ==
+                                                          "0"
+                                                      ? HexColor(COLORS.RED)
+                                                      : HexColor(COLORS.GREEN)),
                                             )
                                           ],
                                         ),
