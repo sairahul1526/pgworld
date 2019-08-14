@@ -325,12 +325,8 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                             icon: Icons.edit,
                             color: Colors.blue,
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) =>
-                                        new EmployeeActivity(employees[i])),
-                              );
+                              addPage(
+                                  context, new EmployeeActivity(employees[i]));
                             },
                           ),
                         ],

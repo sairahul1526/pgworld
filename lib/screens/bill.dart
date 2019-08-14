@@ -13,12 +13,13 @@ class BillActivity extends StatefulWidget {
   final Bill bill;
   final User user;
   final Employee employee;
+  final bool advance;
 
-  BillActivity(this.bill, this.user, this.employee);
+  BillActivity(this.bill, this.user, this.employee, this.advance);
 
   @override
   State<StatefulWidget> createState() {
-    return new BillActivityState(bill, user, employee);
+    return new BillActivityState(bill, user, employee, advance);
   }
 }
 
@@ -37,12 +38,13 @@ class BillActivityState extends State<BillActivity> {
   Bill bill;
   User user;
   Employee employee;
+  bool advance;
 
   bool loading = false;
   List<String> fileNames = new List();
   List<Widget> fileWidgets = new List();
 
-  BillActivityState(this.bill, this.user, this.employee);
+  BillActivityState(this.bill, this.user, this.employee, this.advance);
 
   bool amountCheck = false;
 
@@ -282,24 +284,43 @@ class BillActivityState extends State<BillActivity> {
 
                   Future<bool> load;
                   if (user != null) {
-                    load = add(
-                      API.RENT,
-                      Map.from({
-                        'paid_date_time': pickedPaidDate,
-                        'expiry_date_tine': pickedExpiryDate,
-                        'amount': amount.text,
-                        'title': 'Rent',
-                        'name': user.name,
-                        'description':
-                            user.name + ' paid rent for room ' + user.roomID,
-                        'hostel_id': hostelID,
-                        'document': fileNames.join(","),
-                        'type': selectedType,
-                        'user_id': user.id,
-                        'bill_id': bill != null ? bill.id : "",
-                        'paid': '0'
-                      }),
-                    );
+                    if (advance) {
+                      load = add(
+                        API.BILL,
+                        Map.from({
+                          'hostel_id': hostelID,
+                          'title': "Advance/Token Amount",
+                          'paid_date_time': pickedPaidDate,
+                          'description': user.name +
+                              ' paid advance/token amount for room ' +
+                              user.roomID,
+                          'amount': amount.text,
+                          'document': fileNames.join(","),
+                          'type': selectedType,
+                          'user_id': user.id,
+                          'paid': '0'
+                        }),
+                      );
+                    } else {
+                      load = add(
+                        API.RENT,
+                        Map.from({
+                          'paid_date_time': pickedPaidDate,
+                          'expiry_date_tine': pickedExpiryDate,
+                          'amount': amount.text,
+                          'title': 'Rent',
+                          'name': user.name,
+                          'description':
+                              user.name + ' paid rent for room ' + user.roomID,
+                          'hostel_id': hostelID,
+                          'document': fileNames.join(","),
+                          'type': selectedType,
+                          'user_id': user.id,
+                          'bill_id': bill != null ? bill.id : "",
+                          'paid': '0'
+                        }),
+                      );
+                    }
                   } else if (employee != null) {
                     load = add(
                       API.SALARY,
@@ -573,7 +594,14 @@ class BillActivityState extends State<BillActivity> {
                               });
                             },
                           ),
-                          new Text("Paid"),
+                          new GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                paid = 1;
+                              });
+                            },
+                            child: new Text("Paid"),
+                          ),
                           new Radio(
                             value: 0,
                             groupValue: paid,
@@ -583,7 +611,14 @@ class BillActivityState extends State<BillActivity> {
                               });
                             },
                           ),
-                          new Text("Received"),
+                          new GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                paid = 0;
+                              });
+                            },
+                            child: new Text("Received"),
+                          ),
                         ],
                       ),
                     )
@@ -617,7 +652,7 @@ class BillActivityState extends State<BillActivity> {
                               setState(() {
                                 loading = false;
                               });
-                              Navigator.pop(context);
+                              Navigator.pop(context, "");
                             });
                           }
                         });

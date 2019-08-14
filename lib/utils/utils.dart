@@ -273,7 +273,7 @@ String getBillType(String id) {
       return "Others";
       break;
     default:
-      return "";
+      return "Others";
   }
 }
 
@@ -304,6 +304,6 @@ IconData getBillIcon(String id) {
       return Icons.receipt;
       break;
     default:
-      return null;
+      return Icons.receipt;
   }
 }

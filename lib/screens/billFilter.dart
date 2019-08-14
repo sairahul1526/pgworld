@@ -274,7 +274,14 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                       });
                     },
                   ),
-                  new Text("All"),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        paid = -1;
+                      });
+                    },
+                    child: new Text("All"),
+                  ),
                   new Radio(
                     value: 1,
                     groupValue: paid,
@@ -284,7 +291,14 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                       });
                     },
                   ),
-                  new Text("Paid"),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        paid = 1;
+                      });
+                    },
+                    child: new Text("Paid"),
+                  ),
                   new Radio(
                     value: 0,
                     groupValue: paid,
@@ -294,7 +308,14 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                       });
                     },
                   ),
-                  new Text("Received"),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        paid = 0;
+                      });
+                    },
+                    child: new Text("Received"),
+                  ),
                 ],
               ),
             ),

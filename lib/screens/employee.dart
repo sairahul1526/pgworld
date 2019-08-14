@@ -474,7 +474,7 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                               setState(() {
                                 loading = false;
                               });
-                              Navigator.pop(context);
+                              Navigator.pop(context, "");
                             });
                           }
                         });

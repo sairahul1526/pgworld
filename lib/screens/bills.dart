@@ -248,10 +248,10 @@ class BillsActivityState extends State<BillsActivity> {
               addPage(
                   context,
                   user != null
-                      ? new BillActivity(null, user, null)
+                      ? new BillActivity(null, user, null, false)
                       : (employee != null
-                          ? new BillActivity(null, null, employee)
-                          : new BillActivity(null, null, null)));
+                          ? new BillActivity(null, null, employee, false)
+                          : new BillActivity(null, null, null, false)));
             },
             icon: new Icon(Icons.add),
           ),
@@ -259,9 +259,24 @@ class BillsActivityState extends State<BillsActivity> {
       ),
       body: ModalProgressHUD(
         child: bills.length == 0
-            ? new Center(
-                child: new Text(loading ? "" : "No bills"),
-              )
+            ? (user != null
+                ? new Center(
+                    child: new MaterialButton(
+                      child: new Text(
+                        "Add Advance/Token Amount",
+                        style: TextStyle(
+                          color: Colors.blue,
+                        ),
+                      ),
+                      onPressed: () {
+                        addPage(
+                            context, new BillActivity(null, user, null, true));
+                      },
+                    ),
+                  )
+                : new Center(
+                    child: new Text(loading ? "" : "No bills"),
+                  ))
             : new ListView.builder(
                 controller: _controller,
                 itemCount: bills.length,
@@ -288,12 +303,8 @@ class BillsActivityState extends State<BillsActivity> {
                     return new ListTile(
                       dense: true,
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) =>
-                                  new BillActivity(bills[i], null, null)),
-                        );
+                        addPage(context,
+                            new BillActivity(bills[i], null, null, false));
                       },
                       title: new Container(
                         child: new Row(

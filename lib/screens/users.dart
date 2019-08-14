@@ -378,12 +378,8 @@ class UsersActivityState extends State<UsersActivity> {
                             icon: Icons.edit,
                             color: Colors.blue,
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) =>
-                                        new UserActivity(users[i], room)),
-                              );
+                              addPage(
+                                  context, new UserActivity(users[i], room));
                             },
                           ),
                         ],

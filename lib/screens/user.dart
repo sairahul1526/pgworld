@@ -96,7 +96,7 @@ class UserActivityState extends State<UserActivity> {
         filter["limit"] = "10000";
         filter["hostel_id"] = hostelID;
         filter["status"] = "1";
-        filter["resp"] = "roomno,id";
+        filter["resp"] = "roomno,id,rent";
         Future<Rooms> data = getRooms(filter);
         data.then((response) {
           if (response.rooms != null) {
@@ -226,6 +226,11 @@ class UserActivityState extends State<UserActivity> {
 
                     roomID = rooms[i].id;
                     roomNo.text = rooms[i].roomno;
+
+                    print(rooms[i].rent);
+                    setState(() {
+                      rent.text = rooms[i].rent;
+                    });
                   },
                 );
               },
@@ -437,7 +442,7 @@ class UserActivityState extends State<UserActivity> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
                               isDense: true,
-                              prefixIcon: Icon(Icons.calendar_today),
+                              prefixIcon: Icon(Icons.room),
                               border: OutlineInputBorder(),
                               labelText: 'Room No.',
                             ),
@@ -727,7 +732,7 @@ class UserActivityState extends State<UserActivity> {
                                     setState(() {
                                       loading = false;
                                     });
-                                    Navigator.pop(context);
+                                    Navigator.pop(context, "");
                                   });
                                 }
                               });

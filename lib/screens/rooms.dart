@@ -287,12 +287,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                               icon: Icons.edit,
                               color: Colors.blue,
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      builder: (context) =>
-                                          new RoomActivity(rooms[i])),
-                                );
+                                addPage(context, new RoomActivity(rooms[i]));
                               },
                             ),
                           ],

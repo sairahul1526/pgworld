@@ -342,7 +342,7 @@ class RoomActivityState extends State<RoomActivity> {
                               setState(() {
                                 loading = false;
                               });
-                              Navigator.pop(context);
+                              Navigator.pop(context, "");
                             });
                           }
                         });

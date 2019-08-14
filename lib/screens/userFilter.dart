@@ -269,7 +269,14 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                       });
                     },
                   ),
-                  new Text("All"),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = -1;
+                      });
+                    },
+                    child: new Text("All"),
+                  ),
                   new Radio(
                     value: 1,
                     groupValue: food,
@@ -279,7 +286,14 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                       });
                     },
                   ),
-                  new Text("Veg"),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = 1;
+                      });
+                    },
+                    child: new Text("Veg"),
+                  ),
                   new Radio(
                     value: 0,
                     groupValue: food,
@@ -289,7 +303,14 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                       });
                     },
                   ),
-                  new Text("Non Veg"),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = 0;
+                      });
+                    },
+                    child: new Text("Non Veg"),
+                  ),
                 ],
               ),
             ),
