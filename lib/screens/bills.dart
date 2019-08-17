@@ -28,6 +28,8 @@ class BillsActivityState extends State<BillsActivity> {
 
   Map<String, String> filter = new Map();
 
+  Map<String, String> filterby = new Map();
+
   List<ListItem> bills = new List();
   bool end = false;
   bool ongoing = false;
@@ -136,6 +138,7 @@ class BillsActivityState extends State<BillsActivity> {
       } else if (employee != null) {
         data["employee_id"] = employee.id;
       }
+      filterby = data;
       data["status"] = "1";
       data["hostel_id"] = hostelID;
       data["limit"] = defaultLimit;
@@ -238,7 +241,7 @@ class BillsActivityState extends State<BillsActivity> {
           (employee == null && user == null)
               ? new IconButton(
                   onPressed: () {
-                    filterPage(context, new BillFilterActivity());
+                    filterPage(context, new BillFilterActivity(filterby));
                   },
                   icon: new Icon(Icons.filter_list),
                 )

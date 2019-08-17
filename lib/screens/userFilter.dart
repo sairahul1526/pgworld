@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_range_slider/flutter_range_slider.dart';
 
-import '../utils/utils.dart';
-
 class UserFilterActivity extends StatefulWidget {
-  UserFilterActivity();
+  final Map<String, String> filter;
+
+  UserFilterActivity(this.filter);
   @override
   State<StatefulWidget> createState() {
-    return new UserFilterActivityState();
+    return new UserFilterActivityState(this.filter);
   }
 }
 
@@ -21,15 +21,32 @@ class UserFilterActivityState extends State<UserFilterActivity> {
   double rentLower = 0;
   double rentUpper = 20000;
 
-  UserFilterActivityState();
+  final Map<String, String> filter;
 
-  List<DateTime> billDates = new List();
-
-  String billDatesRange = "Pick date range";
+  UserFilterActivityState(this.filter);
 
   @override
   void initState() {
     super.initState();
+
+    if (filter["name"] != null && filter["name"] != "") {
+      name.text = filter["name"];
+    }
+    if (filter["phone"] != null && filter["phone"] != "") {
+      phone.text = filter["phone"];
+    }
+    if (filter["email"] != null && filter["email"] != "") {
+      email.text = filter["email"];
+    }
+    if (filter["food"] != null && filter["food"] != "") {
+      food = int.parse(filter["food"]);
+    }
+    if (filter["rent"] != null && filter["rent"] != "") {
+      rentLower = double.parse(filter["rent"].split(",")[0]);
+      if (filter["rent"].split(",")[1] != "10000000") {
+        rentUpper = double.parse(filter["rent"].split(",")[1]);
+      }
+    }
   }
 
   @override
@@ -63,11 +80,6 @@ class UserFilterActivityState extends State<UserFilterActivity> {
               if (email.text != "") {
                 filter["email"] = email.text;
               }
-              if (billDates.length > 0) {
-                filter["paid_date_time"] = dateFormat.format(billDates[0]) +
-                    "," +
-                    dateFormat.format(billDates[1]);
-              }
               if (food >= 0) {
                 filter["food"] = food.toString();
               }
@@ -98,7 +110,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                     child: new TextField(
                         controller: name,
                         textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         decoration: InputDecoration(hintText: 'Name'),
                         onSubmitted: (String value) {}),
                   ),
@@ -120,7 +132,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                       child: new TextField(
                           controller: phone,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.phone,
                           decoration: InputDecoration(hintText: 'Phone'),
                           onSubmitted: (String value) {}),
                     ),
@@ -143,7 +155,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                       child: new TextField(
                           controller: email,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(hintText: 'Email'),
                           onSubmitted: (String value) {}),
                     ),

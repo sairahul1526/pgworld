@@ -98,32 +98,55 @@ class DashBoardState extends State<DashBoard> {
             ));
           });
         });
-        widgets.add(new Container(
-          margin: const EdgeInsets.fromLTRB(8, 4, 8, 0),
-          child: new Card(
-            child: new Container(
-              padding: EdgeInsets.all(8.0),
-              // margin: const EdgeInsets.all(8.0),
-              child: new Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  new Text(
-                    graph.title,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+        widgets.add(new GestureDetector(
+          onTap: () {
+            if (graph.type == "1") {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new UsersActivity(null)),
+              );
+            } else if (graph.type == "2") {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new RoomsActivity()),
+              );
+            } else if (graph.type == "3") {
+              Navigator.push(
+                context,
+                new MaterialPageRoute(
+                    builder: (context) => new BillsActivity(null, null)),
+              );
+            }
+          },
+          child: new Container(
+            margin: const EdgeInsets.fromLTRB(8, 4, 8, 0),
+            child: new Card(
+              child: new Container(
+                padding: EdgeInsets.all(8.0),
+                // margin: const EdgeInsets.all(8.0),
+                child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new Text(
+                      graph.title,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  new Container(
-                    // margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                    height: 3,
-                    // color: Colors.grey,
-                  ),
-                  new Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: childs,
-                  )
-                ],
+                    new Container(
+                      // margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      height: 3,
+                      // color: Colors.grey,
+                    ),
+                    new Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: childs,
+                    )
+                  ],
+                ),
               ),
             ),
           ),

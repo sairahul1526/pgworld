@@ -430,7 +430,7 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                                   enabled: false,
                                   controller: joiningDate,
                                   textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.datetime,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     prefixIcon: Icon(Icons.calendar_today),

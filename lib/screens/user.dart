@@ -439,7 +439,7 @@ class UserActivityState extends State<UserActivity> {
                             enabled: false,
                             controller: roomNo,
                             textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               isDense: true,
                               prefixIcon: Icon(Icons.room),
@@ -585,7 +585,7 @@ class UserActivityState extends State<UserActivity> {
                         child: new TextField(
                           controller: emergencyName,
                           textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
+                          keyboardType: TextInputType.text,
                           decoration: InputDecoration(
                             isDense: true,
                             prefixIcon: Icon(Icons.account_circle),
@@ -642,7 +642,7 @@ class UserActivityState extends State<UserActivity> {
                                   enabled: false,
                                   controller: joiningDate,
                                   textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.datetime,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     prefixIcon: Icon(Icons.calendar_today),

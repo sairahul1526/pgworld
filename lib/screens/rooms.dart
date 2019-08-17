@@ -21,6 +21,8 @@ class RoomsActivity extends StatefulWidget {
 class RoomsActivityState extends State<RoomsActivity> {
   Map<String, String> filter = new Map();
 
+  Map<String, String> filterby = new Map();
+
   List<Room> rooms = new List();
   bool end = false;
   bool ongoing = false;
@@ -96,6 +98,7 @@ class RoomsActivityState extends State<RoomsActivity> {
     ) as Map<String, String>;
 
     if (data != null) {
+      filterby = data;
       data["status"] = "1";
       data["hostel_id"] = hostelID;
       data["limit"] = defaultLimit;
@@ -155,7 +158,7 @@ class RoomsActivityState extends State<RoomsActivity> {
             ),
             new IconButton(
               onPressed: () {
-                filterPage(context, new RoomFilterActivity());
+                filterPage(context, new RoomFilterActivity(filterby));
               },
               icon: new Icon(
                 Icons.filter_list,

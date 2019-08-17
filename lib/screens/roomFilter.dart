@@ -5,10 +5,12 @@ import '../utils/utils.dart';
 import '../utils/config.dart';
 
 class RoomFilterActivity extends StatefulWidget {
-  RoomFilterActivity();
+  final Map<String, String> filter;
+
+  RoomFilterActivity(this.filter);
   @override
   State<StatefulWidget> createState() {
-    return new RoomFilterActivityState();
+    return new RoomFilterActivityState(this.filter);
   }
 }
 
@@ -29,12 +31,38 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
   double capacityLower = 1;
   double capacityUpper = 10;
 
-  RoomFilterActivityState();
+  final Map<String, String> filter;
+
+  RoomFilterActivityState(this.filter);
 
   @override
   void initState() {
     super.initState();
+
+    if (filter["roomno"] != null && filter["roomno"] != "") {
+      roomno.text = filter["roomno"];
+    }
+    if (filter["vacant"] != null && filter["vacant"] != "") {
+      filled = filter["vacant"] == "1";
+    }
+    if (filter["rent"] != null && filter["rent"] != "") {
+      rentLower = double.parse(filter["rent"].split(",")[0]);
+      if (filter["rent"].split(",")[1] != "10000000") {
+        rentUpper = double.parse(filter["rent"].split(",")[1]);
+      }
+    }
+    if (filter["capacity"] != null && filter["capacity"] != "") {
+      capacityLower = double.parse(filter["capacity"].split(",")[0]);
+      if (filter["capacity"].split(",")[1] != "1000") {
+        capacityUpper = double.parse(filter["capacity"].split(",")[1]);
+      }
+    }
+
     amenities.forEach((amenity) => avaiableAmenities[amenity] = false);
+    if (filter["amenities"] != null) {
+      filter["amenities"].split(",").forEach((amenity) =>
+          amenity.length > 0 ? avaiableAmenities[amenity] = true : null);
+    }
   }
 
   List<Widget> amenitiesWidget() {

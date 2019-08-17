@@ -414,7 +414,7 @@ class BillActivityState extends State<BillActivity> {
                                   enabled: false,
                                   controller: type,
                                   textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.text,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     prefixIcon: Icon(Icons.label),
@@ -509,7 +509,7 @@ class BillActivityState extends State<BillActivity> {
                             enabled: false,
                             controller: paidDate,
                             textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.datetime,
                             decoration: InputDecoration(
                               isDense: true,
                               prefixIcon: Icon(Icons.calendar_today),
@@ -542,7 +542,7 @@ class BillActivityState extends State<BillActivity> {
                                   enabled: false,
                                   controller: expiryDate,
                                   textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.emailAddress,
+                                  keyboardType: TextInputType.datetime,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     prefixIcon: Icon(Icons.calendar_today),
