@@ -344,11 +344,18 @@ class BillActivityState extends State<BillActivity> {
                       API.BILL,
                       Map.from({
                         'paid_date_time': pickedPaidDate,
-                        "title": type.text,
-                        "description": description.text,
+                        "title": (bill.userID == "" && bill.employeeID == "")
+                            ? type.text
+                            : bill.title,
+                        "description":
+                            (bill.userID == "" && bill.employeeID == "")
+                                ? description.text
+                                : bill.description,
                         "amount": amount.text,
                         'document': fileNames.join(","),
-                        'type': selectedType,
+                        'type': (bill.userID == "" && bill.employeeID == "")
+                            ? selectedType
+                            : bill.type,
                         "paid": paid.toString(),
                       }),
                       Map.from({'hostel_id': hostelID, 'id': bill.id}),

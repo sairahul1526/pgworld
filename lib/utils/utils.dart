@@ -106,26 +106,41 @@ Widget popDialog(BuildContext context, String title, bool pop) {
   );
 }
 
-IconData getAmenityIcon(String id) {
+Icon getAmenityIcon(String id) {
+  IconData iconData;
+  Color color = Colors.black;
   switch (id) {
     case "1": // wifi
-      return Icons.wifi;
+      iconData = Icons.wifi;
       break;
     case "2": // bathroom
-      return Icons.hot_tub;
+      iconData = Icons.hot_tub;
       break;
     case "3": // tv
-      return Icons.tv;
+      iconData = Icons.tv;
       break;
     case "4": // ac
-      return Icons.ac_unit;
+      iconData = Icons.ac_unit;
       break;
     case "5": // power backup
-      return Icons.power;
+      iconData = Icons.power;
+      break;
+    case "6": // washing mahcine
+      iconData = Icons.local_laundry_service;
+      break;
+    case "7": // geyser
+      color = Colors.red;
+      iconData = Icons.whatshot;
       break;
     default:
-      return Icons.plus_one;
+      iconData = Icons.plus_one;
   }
+
+  return new Icon(
+    iconData,
+    color: color,
+    size: 15,
+  );
 }
 
 String getAmenityName(String id) {
@@ -145,6 +160,12 @@ String getAmenityName(String id) {
     case "5": // power backup
       return "Power Backup";
       break;
+    case "6": // washing mahcine
+      return "Washing Machine";
+      break;
+    case "7": // geyser
+      return "Geyser";
+      break;
     default:
       return "";
   }
@@ -157,10 +178,7 @@ List<Widget> getAmenitiesWidgets(String amenities) {
     if (name.length > 0) {
       widgets.add(new Column(
         children: <Widget>[
-          new Icon(
-            getAmenityIcon(amenity),
-            size: 15,
-          ),
+          getAmenityIcon(amenity),
           new Text(
             name,
             style: TextStyle(fontSize: 10),
