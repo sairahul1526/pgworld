@@ -34,7 +34,7 @@ class CONTACT {
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "2.0";
+  static const ANDROID = "2.1";
   static const IOS = "1.1";
 }
 
