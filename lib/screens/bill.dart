@@ -243,7 +243,9 @@ class BillActivityState extends State<BillActivity> {
         ),
         backgroundColor: Colors.white,
         title: new Text(
-          user != null ? "Rent" : (employee != null ? "Salary" : "Bill"),
+          user != null
+              ? (advance ? "Advance/Token Amount" : "Rent")
+              : (employee != null ? "Salary" : "Bill"),
           style: TextStyle(color: Colors.black),
         ),
         elevation: 4.0,
@@ -291,9 +293,8 @@ class BillActivityState extends State<BillActivity> {
                           'hostel_id': hostelID,
                           'title': "Advance/Token Amount",
                           'paid_date_time': pickedPaidDate,
-                          'description': user.name +
-                              ' paid advance/token amount for room ' +
-                              user.roomID,
+                          'description':
+                              user.name + ' paid advance/token amount',
                           'amount': amount.text,
                           'document': fileNames.join(","),
                           'type': selectedType,
@@ -310,8 +311,7 @@ class BillActivityState extends State<BillActivity> {
                           'amount': amount.text,
                           'title': 'Rent',
                           'name': user.name,
-                          'description':
-                              user.name + ' paid rent for room ' + user.roomID,
+                          'description': user.name + ' paid rent',
                           'hostel_id': hostelID,
                           'document': fileNames.join(","),
                           'type': selectedType,

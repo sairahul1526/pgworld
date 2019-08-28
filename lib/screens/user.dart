@@ -31,6 +31,7 @@ class UserActivityState extends State<UserActivity> {
   TextEditingController emergencyName = new TextEditingController();
   TextEditingController emergencyPhone = new TextEditingController();
   TextEditingController rent = new TextEditingController();
+  TextEditingController advance = new TextEditingController();
   TextEditingController joiningDate = new TextEditingController();
   TextEditingController roomNo = new TextEditingController();
 
@@ -340,6 +341,24 @@ class UserActivityState extends State<UserActivity> {
                     if (user != null) {
                       Navigator.pop(context);
                     } else {
+                      if (advance.text.length > 0) {
+                        add(
+                          API.BILL,
+                          Map.from({
+                            'hostel_id': hostelID,
+                            'title': "Advance/Token Amount",
+                            'paid_date_time':
+                                dateFormat.format(new DateTime.now()),
+                            'description':
+                                user.name + ' paid advance/token amount',
+                            'amount': advance.text,
+                            'document': '',
+                            'type': '8', // others
+                            'user_id': user.id,
+                            'paid': '0'
+                          }),
+                        );
+                      }
                       Navigator.pop(context, "");
                     }
                   });
@@ -625,6 +644,33 @@ class UserActivityState extends State<UserActivity> {
                 ),
               ),
               user == null
+                  ? new Container(
+                      height: 50,
+                      margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: new Container(
+                              child: new TextField(
+                                controller: advance,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  prefixIcon: Icon(Icons.attach_money),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Advance/Token Amount',
+                                ),
+                                onSubmitted: (String value) {},
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : new Container(),
+              user == null
                   ? new GestureDetector(
                       onTap: () {
                         _selectDate(context);
@@ -675,7 +721,7 @@ class UserActivityState extends State<UserActivity> {
                     new GestureDetector(
                       onTap: () {
                         setState(() {
-                          eating = eating == 1 ? 0 : 1;
+                          eating = 0;
                         });
                       },
                       child: new Text("Veg"),
@@ -692,10 +738,27 @@ class UserActivityState extends State<UserActivity> {
                     new GestureDetector(
                       onTap: () {
                         setState(() {
-                          eating = eating == 1 ? 0 : 1;
+                          eating = 1;
                         });
                       },
                       child: new Text("Non Veg"),
+                    ),
+                    new Radio(
+                      value: 2,
+                      groupValue: eating,
+                      onChanged: (value) {
+                        setState(() {
+                          eating = value;
+                        });
+                      },
+                    ),
+                    new GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          eating = 2;
+                        });
+                      },
+                      child: new Text("None"),
                     ),
                   ],
                 ),

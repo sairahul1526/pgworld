@@ -290,23 +290,6 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                     child: new Text("All"),
                   ),
                   new Radio(
-                    value: 1,
-                    groupValue: food,
-                    onChanged: (value) {
-                      setState(() {
-                        food = value;
-                      });
-                    },
-                  ),
-                  new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        food = 1;
-                      });
-                    },
-                    child: new Text("Veg"),
-                  ),
-                  new Radio(
                     value: 0,
                     groupValue: food,
                     onChanged: (value) {
@@ -321,7 +304,41 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                         food = 0;
                       });
                     },
+                    child: new Text("Veg"),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: food,
+                    onChanged: (value) {
+                      setState(() {
+                        food = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = 1;
+                      });
+                    },
                     child: new Text("Non Veg"),
+                  ),
+                  new Radio(
+                    value: 2,
+                    groupValue: food,
+                    onChanged: (value) {
+                      setState(() {
+                        food = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = 2;
+                      });
+                    },
+                    child: new Text("None"),
                   ),
                 ],
               ),

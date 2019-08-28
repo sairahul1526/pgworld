@@ -162,6 +162,7 @@ class RoomActivityState extends State<RoomActivity> {
                     load = update(
                       API.ROOM,
                       Map.from({
+                        'roomno': roomno.text,
                         "rent": rent.text,
                         "capacity": capacity.text,
                         "amenities": savedAmenities.length > 0
@@ -218,7 +219,7 @@ class RoomActivityState extends State<RoomActivity> {
                       child: new TextField(
                         controller: roomno,
                         textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.text,
                         decoration: InputDecoration(
                           suffixIcon: roomnoCheck
                               ? IconButton(
