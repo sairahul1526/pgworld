@@ -307,7 +307,7 @@ class BillActivityState extends State<BillActivity> {
                         API.RENT,
                         Map.from({
                           'paid_date_time': pickedPaidDate,
-                          'expiry_date_tine': pickedExpiryDate,
+                          'expiry_date_time': pickedExpiryDate,
                           'amount': amount.text,
                           'title': 'Rent',
                           'name': user.name,
@@ -326,7 +326,7 @@ class BillActivityState extends State<BillActivity> {
                       API.SALARY,
                       Map.from({
                         'paid_date_time': pickedPaidDate,
-                        'expiry_date_tine': pickedExpiryDate,
+                        'expiry_date_time': pickedExpiryDate,
                         'amount': amount.text,
                         'title': 'Salary',
                         'name': employee.name,
