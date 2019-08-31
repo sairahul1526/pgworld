@@ -342,22 +342,35 @@ class UserActivityState extends State<UserActivity> {
                       Navigator.pop(context);
                     } else {
                       if (advance.text.length > 0) {
-                        add(
-                          API.BILL,
-                          Map.from({
-                            'hostel_id': hostelID,
-                            'title': "Advance/Token Amount",
-                            'paid_date_time':
-                                dateFormat.format(new DateTime.now()),
-                            'description':
-                                user.name + ' paid advance/token amount',
-                            'amount': advance.text,
-                            'document': '',
-                            'type': '8', // others
-                            'user_id': user.id,
-                            'paid': '0'
-                          }),
-                        );
+                        Future<Users> data = getUsers({
+                          'hostel_id': hostelID,
+                          'name': name.text,
+                          'phone': phone.text,
+                          'email': email.text,
+                          'food': eating.toString(),
+                          'room_id': roomID,
+                        });
+                        data.then((response) {
+                          if (response.users != null &&
+                              response.users.length > 0) {
+                            add(
+                              API.BILL,
+                              Map.from({
+                                'hostel_id': hostelID,
+                                'title': "Advance/Token Amount",
+                                'paid_date_time':
+                                    dateFormat.format(new DateTime.now()),
+                                'description': response.users[0].name +
+                                    ' paid advance/token amount',
+                                'amount': advance.text,
+                                'document': '',
+                                'type': '8', // others
+                                'user_id': response.users[0].id,
+                                'paid': '0'
+                              }),
+                            );
+                          }
+                        });
                       }
                       Navigator.pop(context, "");
                     }
@@ -405,42 +418,6 @@ class UserActivityState extends State<UserActivity> {
                   ),
                 ],
               ),
-              // rooms.length > 0
-              //     ? new Container(
-              //         color: Colors.transparent,
-              //         height: 50,
-              //         margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-              //         child: new Row(
-              //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //           children: <Widget>[
-              //             new Expanded(
-              //               child: new DropdownButton(
-              //                 isExpanded: true,
-              //                 items: rooms.map((room) {
-              //                   return new DropdownMenuItem(
-              //                       child: new Container(
-              //                         constraints:
-              //                             BoxConstraints(maxWidth: 200),
-              //                         child: new Text(
-              //                           room.roomno,
-              //                           overflow: TextOverflow.clip,
-              //                         ),
-              //                       ),
-              //                       value: room.id);
-              //                 }).toList(),
-              //                 onChanged: (value) {
-              //                   setState(() {
-              //                     roomID = room.id;
-              //                     roomNo.text = room.roomno;
-              //                   });
-              //                 },
-              //                 value: room.id,
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       )
-              //     : new Container(),
               new GestureDetector(
                 onTap: () {
                   selectRoom(context, rooms);
@@ -498,6 +475,33 @@ class UserActivityState extends State<UserActivity> {
                   ],
                 ),
               ),
+              user == null
+                  ? new Container(
+                      height: 50,
+                      margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          new Expanded(
+                            child: new Container(
+                              child: new TextField(
+                                controller: advance,
+                                textInputAction: TextInputAction.next,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  isDense: true,
+                                  prefixIcon: Icon(Icons.attach_money),
+                                  border: OutlineInputBorder(),
+                                  labelText: 'Advance/Token Amount',
+                                ),
+                                onSubmitted: (String value) {},
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : new Container(),
               new Container(
                 height: 50,
                 margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
@@ -643,33 +647,6 @@ class UserActivityState extends State<UserActivity> {
                   ],
                 ),
               ),
-              user == null
-                  ? new Container(
-                      height: 50,
-                      margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          new Expanded(
-                            child: new Container(
-                              child: new TextField(
-                                controller: advance,
-                                textInputAction: TextInputAction.next,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  prefixIcon: Icon(Icons.attach_money),
-                                  border: OutlineInputBorder(),
-                                  labelText: 'Advance/Token Amount',
-                                ),
-                                onSubmitted: (String value) {},
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : new Container(),
               user == null
                   ? new GestureDetector(
                       onTap: () {

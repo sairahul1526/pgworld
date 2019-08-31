@@ -15,6 +15,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
   int food = -1;
 
   TextEditingController name = new TextEditingController();
+  TextEditingController foodC = new TextEditingController();
   TextEditingController phone = new TextEditingController();
   TextEditingController email = new TextEditingController();
 
@@ -47,6 +48,77 @@ class UserFilterActivityState extends State<UserFilterActivity> {
         rentUpper = double.parse(filter["rent"].split(",")[1]);
       }
     }
+  }
+
+  Future<int> selectFood(BuildContext context) async {
+    int returned = -1;
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Select room"),
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            height: 300,
+            child: new ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                new FlatButton(
+                  child: new Text("All"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    returned = -1;
+
+                    setState(() {
+                      foodC.text = "All";
+                      food = -1;
+                    });
+                  },
+                ),
+                new FlatButton(
+                  child: new Text("Veg"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    returned = 0;
+
+                    setState(() {
+                      foodC.text = "Veg";
+                      food = 0;
+                    });
+                  },
+                ),
+                new FlatButton(
+                  child: new Text("Non Veg"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    returned = 1;
+
+                    setState(() {
+                      foodC.text = "Non Veg";
+                      food = 1;
+                    });
+                  },
+                ),
+                new FlatButton(
+                  child: new Text("None"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    returned = 2;
+
+                    setState(() {
+                      foodC.text = "None";
+                      food = 2;
+                    });
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
   }
 
   @override
@@ -214,133 +286,36 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                 ],
               ),
             ),
-            // new Container(
-            //   margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-            //   child: new Row(
-            //     mainAxisAlignment: MainAxisAlignment.start,
-            //     children: <Widget>[
-            //       new Container(
-            //         width: MediaQuery.of(context).size.width * 0.2,
-            //         child: new Text("Bill Date"),
-            //       ),
-            //       new Flexible(
-            //         child: new Container(
-            //           margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-            //           child: new FlatButton(
-            //               onPressed: () async {
-            //                 final List<DateTime> picked =
-            //                     await DateRagePicker.showDatePicker(
-            //                         context: context,
-            //                         initialFirstDate: new DateTime.now(),
-            //                         initialLastDate: (new DateTime.now())
-            //                             .add(new Duration(days: 7)),
-            //                         firstDate: new DateTime.now()
-            //                             .subtract(new Duration(days: 10 * 365)),
-            //                         lastDate: new DateTime.now()
-            //                             .add(new Duration(days: 10 * 365)));
-            //                 if (picked != null && picked.length == 2) {
-            //                   print(picked);
-            //                   billDates = picked;
-            //                   setState(() {
-            //                     billDatesRange =
-            //                         dateFormat.format(billDates[0]) +
-            //                             " to " +
-            //                             dateFormat.format(billDates[1]);
-            //                   });
-            //                 }
-            //               },
-            //               child: new Text(billDatesRange)),
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  new Container(
-                    width: MediaQuery.of(context).size.width * 0.2,
-                    child: new Text("Food"),
-                  ),
-                ],
-              ),
-            ),
-            new Container(
-              margin: new EdgeInsets.fromLTRB(0, 0, 0, 0),
-              child: new Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Radio(
-                    value: -1,
-                    groupValue: food,
-                    onChanged: (value) {
-                      setState(() {
-                        food = value;
-                      });
-                    },
-                  ),
-                  new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        food = -1;
-                      });
-                    },
-                    child: new Text("All"),
-                  ),
-                  new Radio(
-                    value: 0,
-                    groupValue: food,
-                    onChanged: (value) {
-                      setState(() {
-                        food = value;
-                      });
-                    },
-                  ),
-                  new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        food = 0;
-                      });
-                    },
-                    child: new Text("Veg"),
-                  ),
-                  new Radio(
-                    value: 1,
-                    groupValue: food,
-                    onChanged: (value) {
-                      setState(() {
-                        food = value;
-                      });
-                    },
-                  ),
-                  new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        food = 1;
-                      });
-                    },
-                    child: new Text("Non Veg"),
-                  ),
-                  new Radio(
-                    value: 2,
-                    groupValue: food,
-                    onChanged: (value) {
-                      setState(() {
-                        food = value;
-                      });
-                    },
-                  ),
-                  new GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        food = 2;
-                      });
-                    },
-                    child: new Text("None"),
-                  ),
-                ],
+            new GestureDetector(
+              onTap: () {
+                selectFood(context);
+              },
+              child: new Container(
+                color: Colors.transparent,
+                height: 50,
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Container(
+                        child: new TextField(
+                          enabled: false,
+                          controller: foodC,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.room),
+                            border: OutlineInputBorder(),
+                            labelText: 'Food',
+                          ),
+                          onSubmitted: (String value) {},
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
