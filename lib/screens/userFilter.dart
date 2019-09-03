@@ -376,7 +376,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                         type = 2;
                       });
                     },
-                    child: new Text("Vacant"),
+                    child: new Text("Vacate"),
                   ),
                 ],
               ),
