@@ -175,6 +175,7 @@ class BillsActivityState extends State<BillsActivity> {
       filter["orderby"] = "paid_date_time";
       filter["sortby"] = "desc";
       offset = defaultOffset;
+      total = 0;
 
       bills.clear();
       fillData();
