@@ -129,8 +129,8 @@ class UserActivityState extends State<UserActivity> {
     });
   }
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  Future getImage(ImageSource source) async {
+    var image = await ImagePicker.pickImage(source: source);
 
     if (image != null) {
       setState(() {
@@ -149,6 +149,41 @@ class UserActivityState extends State<UserActivity> {
         });
       });
     }
+  }
+
+  Future<String> selectPhoto(BuildContext context) async {
+    String returned = "";
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            child: new ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                new FlatButton(
+                  child: new Text("Camera"),
+                  onPressed: () {
+                    getImage(ImageSource.camera);
+                    Navigator.of(context).pop();
+                  },
+                ),
+                new FlatButton(
+                  child: new Text("Gallery"),
+                  onPressed: () {
+                    getImage(ImageSource.gallery);
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
   }
 
   void loadDocuments() {
@@ -189,7 +224,7 @@ class UserActivityState extends State<UserActivity> {
       children: <Widget>[
         new Expanded(
           child: new FlatButton(
-            onPressed: () => getImage(),
+            onPressed: () => selectPhoto(context),
             child: new Text("Add Document"),
           ),
         )
@@ -340,6 +375,8 @@ class UserActivityState extends State<UserActivity> {
                       'rent': rent.text,
                       'document': fileNames.join(","),
                       'joining_date_time': pickedJoiningDate,
+                      'expiry_date_time': dateFormat.format(
+                          new DateTime.now().add(new Duration(days: 30))),
                     };
                     if (DateTime.parse(pickedJoiningDate)
                             .difference(DateTime.now())
