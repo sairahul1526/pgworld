@@ -13,6 +13,7 @@ class UserFilterActivity extends StatefulWidget {
 
 class UserFilterActivityState extends State<UserFilterActivity> {
   int food = -1;
+  int type = -1;
 
   TextEditingController name = new TextEditingController();
   TextEditingController foodC = new TextEditingController();
@@ -148,6 +149,9 @@ class UserFilterActivityState extends State<UserFilterActivity> {
               }
               if (phone.text != "") {
                 filter["phone"] = phone.text;
+              }
+              if (type > 0) {
+                filter["type"] = type.toString();
               }
               if (email.text != "") {
                 filter["email"] = email.text;
@@ -286,36 +290,188 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                 ],
               ),
             ),
-            new GestureDetector(
-              onTap: () {
-                selectFood(context);
-              },
-              child: new Container(
-                color: Colors.transparent,
-                height: 50,
-                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                child: new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    new Expanded(
-                      child: new Container(
-                        child: new TextField(
-                          enabled: false,
-                          controller: foodC,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            prefixIcon: Icon(Icons.room),
-                            border: OutlineInputBorder(),
-                            labelText: 'Food',
-                          ),
-                          onSubmitted: (String value) {},
+            // new GestureDetector(
+            //   onTap: () {
+            //     selectFood(context);
+            //   },
+            //   child: new Container(
+            //     color: Colors.transparent,
+            //     height: 50,
+            //     margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+            //     child: new Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: <Widget>[
+            //         new Expanded(
+            //           child: new Container(
+            //             child: new TextField(
+            //               enabled: false,
+            //               controller: foodC,
+            //               textInputAction: TextInputAction.next,
+            //               keyboardType: TextInputType.number,
+            //               decoration: InputDecoration(
+            //                 isDense: true,
+            //                 prefixIcon: Icon(Icons.room),
+            //                 border: OutlineInputBorder(),
+            //                 labelText: 'Food',
+            //               ),
+            //               onSubmitted: (String value) {},
+            //             ),
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Radio(
+                    value: -1,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        type = -1;
+                      });
+                    },
+                    child: new Text("All"),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        type = 1;
+                      });
+                    },
+                    child: new Text("Booked"),
+                  ),
+                  new Radio(
+                    value: 2,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        type = 2;
+                      });
+                    },
+                    child: new Text("Vacant"),
+                  ),
+                ],
+              ),
+            ),
+            new Expanded(
+              child: new GridView.count(
+                childAspectRatio: 3,
+                primary: false,
+                crossAxisCount: 2,
+                children: <Widget>[
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = -1;
+                      });
+                    },
+                    child: new Row(
+                      children: <Widget>[
+                        new Radio(
+                          value: -1,
+                          groupValue: food,
+                          onChanged: (value) {
+                            setState(() {
+                              food = -1;
+                            });
+                          },
                         ),
-                      ),
+                        new Text("All")
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = 0;
+                      });
+                    },
+                    child: new Row(
+                      children: <Widget>[
+                        new Radio(
+                          value: 0,
+                          groupValue: food,
+                          onChanged: (value) {
+                            setState(() {
+                              food = 0;
+                            });
+                          },
+                        ),
+                        new Text("Veg")
+                      ],
+                    ),
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = 1;
+                      });
+                    },
+                    child: new Row(
+                      children: <Widget>[
+                        new Radio(
+                          value: 1,
+                          groupValue: food,
+                          onChanged: (value) {
+                            setState(() {
+                              food = 1;
+                            });
+                          },
+                        ),
+                        new Text("Non Veg")
+                      ],
+                    ),
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        food = 2;
+                      });
+                    },
+                    child: new Row(
+                      children: <Widget>[
+                        new Radio(
+                          value: 2,
+                          groupValue: food,
+                          onChanged: (value) {
+                            setState(() {
+                              food = 2;
+                            });
+                          },
+                        ),
+                        new Text("None")
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
           ],

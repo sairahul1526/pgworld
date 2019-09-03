@@ -32,6 +32,7 @@ class UsersActivityState extends State<UsersActivity> {
   bool ongoing = false;
 
   double width = 0;
+  String vacatingDate = '';
 
   Room room;
   String offset = defaultOffset;
@@ -55,6 +56,61 @@ class UsersActivityState extends State<UsersActivity> {
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
     fillData();
+  }
+
+  Future _selectDate(BuildContext context, User user) async {
+    DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: new DateTime.now().add(new Duration(days: 15)),
+        firstDate: new DateTime.now().subtract(new Duration(days: 365)),
+        lastDate: new DateTime.now().add(new Duration(days: 365)));
+    if (picked != null) {
+      // if (headingDateFormat.format(new DateTime.now()) ==
+      //     headingDateFormat.format(picked)) {
+      //   setState(() {
+      //     loading = true;
+      //   });
+      //   Future<bool> load = delete(
+      //       API.USER,
+      //       Map.from({
+      //         'hostel_id': hostelID,
+      //         'id': user.id,
+      //         'room_id': user.roomID,
+      //       }));
+      //   load.then((response) {
+      //     setState(() {
+      //       loading = false;
+      //     });
+      //     oneButtonDialog(context, "", user.name + " removed", true);
+      //   });
+      // } else {
+      vacatingDate = dateFormat.format(picked);
+
+      setState(() {
+        loading = true;
+      });
+      Future<bool> load = update(
+        API.USERVACATE,
+        Map.from({
+          "vacate_date_time": vacatingDate,
+        }),
+        Map.from(
+            {'hostel_id': hostelID, 'id': user.id, 'room_id': user.roomID}),
+      );
+      load.then((response) {
+        setState(() {
+          loading = false;
+        });
+        filter["limit"] = defaultLimit;
+        filter["offset"] = defaultOffset;
+        offset = defaultOffset;
+
+        users.clear();
+        fillData();
+        oneButtonDialog(context, "", user.name + " is vacating", true);
+      });
+      // }
+    }
   }
 
   _scrollListener() {
@@ -119,7 +175,6 @@ class UsersActivityState extends State<UsersActivity> {
       data["limit"] = defaultLimit;
       data["offset"] = defaultOffset;
       offset = defaultOffset;
-      print(data);
       setState(() {
         filter = data;
         users.clear();
@@ -228,9 +283,13 @@ class UsersActivityState extends State<UsersActivity> {
                                     margin: EdgeInsets.fromLTRB(0, 3, 10, 10),
                                     padding: EdgeInsets.fromLTRB(10, 5, 10, 5),
                                     decoration: new BoxDecoration(
-                                      color: users[i].paymentStatus == "0"
-                                          ? HexColor(COLORS.RED)
-                                          : HexColor(COLORS.GREEN),
+                                      color: users[i].joining == "1"
+                                          ? Colors.blue
+                                          : (users[i].vacating == "1"
+                                              ? HexColor("#D8B868")
+                                              : (users[i].expiryDateTime == "" || users[i].expiryDateTime.contains("0000") || DateTime.parse(users[i].expiryDateTime).difference(DateTime.now()).inDays > 0
+                                                  ? HexColor(COLORS.GREEN)
+                                                  : HexColor(COLORS.RED))),
                                       shape: BoxShape.rectangle,
                                     ),
                                     child: new Text(
@@ -264,11 +323,13 @@ class UsersActivityState extends State<UsersActivity> {
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.normal,
-                                                  color: users[i]
-                                                              .paymentStatus ==
-                                                          "0"
-                                                      ? HexColor(COLORS.RED)
-                                                      : HexColor(COLORS.GREEN)),
+                                                  color: users[i].joining == "1"
+                                                  ? Colors.blue
+                                          : (users[i].vacating == "1"
+                                              ? HexColor("#D8B868")
+                                              : (users[i].expiryDateTime == "" || users[i].expiryDateTime.contains("0000") || DateTime.parse(users[i].expiryDateTime).difference(DateTime.now()).inDays > 0
+                                                  ? HexColor(COLORS.GREEN)
+                                                  : HexColor(COLORS.RED)))),
                                             )
                                           ],
                                         ),
@@ -285,7 +346,22 @@ class UsersActivityState extends State<UsersActivity> {
                                                       (users[i].food == "1"
                                                           ? ""
                                                           : "Non ") +
-                                                      "Veg",
+                                                      "Veg" +
+                                                      (users[i].joining == "1"
+                                                          ? "    " +
+                                                              headingDateFormat
+                                                                  .format(DateTime
+                                                                      .parse(users[
+                                                                              i]
+                                                                          .joiningDateTime))
+                                                          : (users[i].vacating ==
+                                                                  "1"
+                                                              ? "    " +
+                                                                  headingDateFormat
+                                                                      .format(DateTime
+                                                                          .parse(
+                                                                              users[i].vacateDateTime))
+                                                              : "")),
                                               style: TextStyle(
                                                   fontSize: 12,
                                                   fontWeight: FontWeight.w100,
@@ -376,6 +452,50 @@ class UsersActivityState extends State<UsersActivity> {
                           ],
                         ),
                         secondaryActions: <Widget>[
+                          users[i].joining == "1"
+                              ? new IconSlideAction(
+                                  caption: 'JOIN',
+                                  icon: Icons.add,
+                                  color: Colors.green,
+                                  onTap: () {
+                                    update(
+                                      API.USERBOOKED,
+                                      Map.from({}),
+                                      Map.from({
+                                        'hostel_id': hostelID,
+                                        'id': users[i].id,
+                                        'room_id': users[i].roomID
+                                      }),
+                                    );
+                                  },
+                                )
+                              : (users[i].vacating == "1"
+                                  ? new IconSlideAction(
+                                      caption: 'REMOVE',
+                                      icon: Icons.remove,
+                                      color: Colors.red,
+                                      onTap: () {
+                                        delete(
+                                            API.USER,
+                                            Map.from({
+                                              'hostel_id': hostelID,
+                                              'id': users[i].id,
+                                              'room_id': users[i].roomID,
+                                              'vacating': users[i].vacating,
+                                              'joining': users[i].joining,
+                                            }));
+                                        oneButtonDialog(context, "",
+                                            users[i].name + " removed", true);
+                                      },
+                                    )
+                                  : new IconSlideAction(
+                                      caption: 'VACATE',
+                                      icon: Icons.remove,
+                                      color: Colors.red,
+                                      onTap: () {
+                                        _selectDate(context, users[i]);
+                                      },
+                                    )),
                           new IconSlideAction(
                             caption: 'EDIT',
                             icon: Icons.edit,

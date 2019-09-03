@@ -54,6 +54,10 @@ class UserActivityState extends State<UserActivity> {
   @override
   void initState() {
     super.initState();
+    joiningDate.text =
+        headingDateFormat.format(new DateTime.now().add(new Duration(days: 5)));
+    pickedJoiningDate =
+        dateFormat.format(new DateTime.now().add(new Duration(days: 5)));
     if (user != null) {
       name.text = user.name;
       phone.text = user.phone;
@@ -63,6 +67,10 @@ class UserActivityState extends State<UserActivity> {
       emergencyPhone.text = user.emerPhone;
       rent.text = user.rent;
       eating = int.parse(user.food);
+      joiningDate.text =
+          headingDateFormat.format(DateTime.parse(user.joiningDateTime));
+      pickedJoiningDate =
+          dateFormat.format(DateTime.parse(user.joiningDateTime));
       if (user.document != null) {
         fileNames = user.document.split(",");
       }
@@ -76,8 +84,6 @@ class UserActivityState extends State<UserActivity> {
       roomNo.text = "";
       rent.text = "";
     }
-    joiningDate.text = headingDateFormat.format(new DateTime.now());
-    pickedJoiningDate = dateFormat.format(new DateTime.now());
     loadDocuments();
     getRoomsIDs();
   }
@@ -194,12 +200,17 @@ class UserActivityState extends State<UserActivity> {
   Future _selectDate(BuildContext context) async {
     DateTime picked = await showDatePicker(
         context: context,
-        initialDate: new DateTime.now(),
+        initialDate: new DateTime.now().add(new Duration(days: 5)),
         firstDate: new DateTime.now().subtract(new Duration(days: 365)),
         lastDate: new DateTime.now().add(new Duration(days: 365)));
     if (picked != null)
       setState(() {
-        joiningDate.text = headingDateFormat.format(picked);
+        if (headingDateFormat.format(new DateTime.now()) ==
+            headingDateFormat.format(picked)) {
+          joiningDate.text = "Joining Today";
+        } else {
+          joiningDate.text = headingDateFormat.format(picked);
+        }
         pickedJoiningDate = dateFormat.format(picked);
       });
   }
@@ -228,7 +239,6 @@ class UserActivityState extends State<UserActivity> {
                     roomID = rooms[i].id;
                     roomNo.text = rooms[i].roomno;
 
-                    print(rooms[i].rent);
                     setState(() {
                       rent.text = rooms[i].rent;
                     });
@@ -312,26 +322,34 @@ class UserActivityState extends State<UserActivity> {
                         'document': fileNames.join(","),
                         'room_id': roomID,
                         'prev_room_id': user.roomID,
+                        'joining_date_time': pickedJoiningDate,
                       }),
                       Map.from({'hostel_id': hostelID, 'id': user.id}),
                     );
                   } else {
+                    Map<String, String> data = {
+                      'hostel_id': hostelID,
+                      'name': name.text,
+                      'phone': phone.text,
+                      'email': email.text,
+                      'address': address.text,
+                      'emer_contact': emergencyName.text,
+                      'emer_phone': emergencyPhone.text,
+                      'food': eating.toString(),
+                      'room_id': roomID,
+                      'rent': rent.text,
+                      'document': fileNames.join(","),
+                      'joining_date_time': pickedJoiningDate,
+                    };
+                    if (DateTime.parse(pickedJoiningDate)
+                            .difference(DateTime.now())
+                            .inDays >
+                        0) {
+                      data["joining"] = "1";
+                    }
                     load = add(
                       API.USER,
-                      Map.from({
-                        'hostel_id': hostelID,
-                        'name': name.text,
-                        'phone': phone.text,
-                        'email': email.text,
-                        'address': address.text,
-                        'emer_contact': emergencyName.text,
-                        'emer_phone': emergencyPhone.text,
-                        'food': eating.toString(),
-                        'room_id': roomID,
-                        'rent': rent.text,
-                        'document': fileNames.join(","),
-                        'joining_date_time': pickedJoiningDate
-                      }),
+                      Map.from(data),
                     );
                   }
                   load.then((onValue) {
@@ -341,18 +359,35 @@ class UserActivityState extends State<UserActivity> {
                     if (user != null) {
                       Navigator.pop(context);
                     } else {
-                      if (advance.text.length > 0) {
-                        Future<Users> data = getUsers({
-                          'hostel_id': hostelID,
-                          'name': name.text,
-                          'phone': phone.text,
-                          'email': email.text,
-                          'food': eating.toString(),
-                          'room_id': roomID,
-                        });
-                        data.then((response) {
-                          if (response.users != null &&
-                              response.users.length > 0) {
+                      Future<Users> data = getUsers({
+                        'hostel_id': hostelID,
+                        'name': name.text,
+                        'phone': phone.text,
+                        'email': email.text,
+                        'food': eating.toString(),
+                        'room_id': roomID,
+                      });
+                      data.then((response) {
+                        if (response.users != null &&
+                            response.users.length > 0) {
+                          if (DateTime.parse(pickedJoiningDate)
+                                  .difference(DateTime.now())
+                                  .inDays >
+                              0) {
+                            update(
+                              API.USERBOOK,
+                              Map.from({
+                                "joining_date_time": pickedJoiningDate,
+                              }),
+                              Map.from({
+                                'hostel_id': hostelID,
+                                'id': response.users[0].id,
+                                'room_id': response.users[0].roomID
+                              }),
+                            );
+                          }
+
+                          if (advance.text.length > 0) {
                             add(
                               API.BILL,
                               Map.from({
@@ -370,8 +405,9 @@ class UserActivityState extends State<UserActivity> {
                               }),
                             );
                           }
-                        });
-                      }
+                        }
+                      });
+
                       Navigator.pop(context, "");
                     }
                   });
@@ -499,6 +535,40 @@ class UserActivityState extends State<UserActivity> {
                             ),
                           ),
                         ],
+                      ),
+                    )
+                  : new Container(),
+              (user == null || user.joining == "1")
+                  ? new GestureDetector(
+                      onTap: () {
+                        _selectDate(context);
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 50,
+                        margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Expanded(
+                              child: new Container(
+                                child: new TextField(
+                                  enabled: false,
+                                  controller: joiningDate,
+                                  textInputAction: TextInputAction.next,
+                                  keyboardType: TextInputType.datetime,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    prefixIcon: Icon(Icons.calendar_today),
+                                    border: OutlineInputBorder(),
+                                    labelText: 'Joining Date',
+                                  ),
+                                  onSubmitted: (String value) {},
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   : new Container(),
@@ -647,40 +717,6 @@ class UserActivityState extends State<UserActivity> {
                   ],
                 ),
               ),
-              user == null
-                  ? new GestureDetector(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: new Container(
-                        color: Colors.transparent,
-                        height: 50,
-                        margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Expanded(
-                              child: new Container(
-                                child: new TextField(
-                                  enabled: false,
-                                  controller: joiningDate,
-                                  textInputAction: TextInputAction.next,
-                                  keyboardType: TextInputType.datetime,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    prefixIcon: Icon(Icons.calendar_today),
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Joining Date',
-                                  ),
-                                  onSubmitted: (String value) {},
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    )
-                  : new Container(),
               new Container(
                 margin: new EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: new Row(
@@ -748,7 +784,7 @@ class UserActivityState extends State<UserActivity> {
                         children: <Widget>[
                           new FlatButton(
                             child: new Text(
-                              "DELETE",
+                              "REMOVE",
                               style: TextStyle(color: Colors.red),
                             ),
                             onPressed: () {
@@ -767,6 +803,8 @@ class UserActivityState extends State<UserActivity> {
                                         'hostel_id': hostelID,
                                         'id': user.id,
                                         'room_id': user.roomID,
+                                        'vacating': user.vacating,
+                                        'joining': user.joining,
                                       }));
                                   deleteResquest.then((response) {
                                     setState(() {

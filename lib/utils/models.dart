@@ -522,6 +522,8 @@ class Room {
   final String filled;
   final String capacity;
   final String amenities;
+  final String joining;
+  final String vacating;
   final String status;
   final String createdBy;
   final String modifiedBy;
@@ -537,6 +539,8 @@ class Room {
       this.filled,
       this.capacity,
       this.amenities,
+      this.joining,
+      this.vacating,
       this.status,
       this.createdBy,
       this.modifiedBy,
@@ -553,6 +557,8 @@ class Room {
       filled: json['filled'],
       capacity: json['capacity'],
       amenities: json['amenities'],
+      joining: json['room_joining'],
+      vacating: json['room_vacating'],
       status: json['status'],
       createdBy: json['created_by'],
       modifiedBy: json['modified_by'],
@@ -600,6 +606,9 @@ class User {
   final String document;
   final String paymentStatus;
   final String joiningDateTime;
+  final String vacateDateTime;
+  final String joining;
+  final String vacating;
   final String lastPaidDateTime;
   final String expiryDateTime;
   final String leaveDateTime;
@@ -625,6 +634,9 @@ class User {
       this.document,
       this.paymentStatus,
       this.joiningDateTime,
+      this.vacateDateTime,
+      this.joining,
+      this.vacating,
       this.lastPaidDateTime,
       this.expiryDateTime,
       this.leaveDateTime,
@@ -651,6 +663,9 @@ class User {
       document: json['document'],
       paymentStatus: json['payment_status'],
       joiningDateTime: json['joining_date_time'],
+      vacateDateTime: json['vacate_date_time'],
+      joining: json['joining'],
+      vacating: json['vacating'],
       lastPaidDateTime: json['last_paid_date_time'],
       expiryDateTime: json['expiry_date_time'],
       leaveDateTime: json['leave_date_time'],

@@ -132,6 +132,9 @@ Icon getAmenityIcon(String id) {
       color = Colors.red;
       iconData = Icons.whatshot;
       break;
+    case "8": // laundry
+      iconData = Icons.local_laundry_service;
+      break;
     default:
       iconData = Icons.plus_one;
   }
@@ -165,6 +168,9 @@ String getAmenityName(String id) {
       break;
     case "7": // geyser
       return "Geyser";
+      break;
+    case "8": // laundry
+      return "Laundry";
       break;
     default:
       return "";

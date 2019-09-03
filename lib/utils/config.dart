@@ -9,6 +9,9 @@ class API {
   static const REPORT = "report";
   static const ROOM = "room";
   static const USER = "user";
+  static const USERBOOK = "userbook";
+  static const USERBOOKED = "userbooked";
+  static const USERVACATE = "uservacate";
   static const SIGNUP = "signup";
   static const SUPPORT = "support";
   static const HOSTEL = "hostel";
@@ -34,7 +37,7 @@ class CONTACT {
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "2.2";
+  static const ANDROID = "2.3";
   static const IOS = "1.1";
 }
 

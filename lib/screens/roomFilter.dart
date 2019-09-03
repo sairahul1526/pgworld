@@ -16,6 +16,7 @@ class RoomFilterActivity extends StatefulWidget {
 
 class RoomFilterActivityState extends State<RoomFilterActivity> {
   bool filled = false;
+  int type = -1;
 
   TextEditingController roomno = new TextEditingController();
   TextEditingController rent = new TextEditingController();
@@ -117,6 +118,9 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
               }
               if (filled) {
                 filter["vacant"] = "1";
+              }
+              if (type > 0) {
+                filter["type"] = type.toString();
               }
               List<String> savedAmenities = new List();
               avaiableAmenities.forEach((k, v) {
@@ -289,6 +293,65 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                         },
                       ),
                     ),
+                  ),
+                ],
+              ),
+            ),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 0, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Radio(
+                    value: -1,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        type = -1;
+                      });
+                    },
+                    child: new Text("All"),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        type = 1;
+                      });
+                    },
+                    child: new Text("Booked"),
+                  ),
+                  new Radio(
+                    value: 2,
+                    groupValue: type,
+                    onChanged: (value) {
+                      setState(() {
+                        type = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        type = 2;
+                      });
+                    },
+                    child: new Text("Vacant"),
                   ),
                 ],
               ),

@@ -209,10 +209,15 @@ class RoomsActivityState extends State<RoomsActivity> {
                                           EdgeInsets.fromLTRB(10, 12, 10, 10),
                                       height: 50,
                                       // width: 3,
-                                      color: int.parse(rooms[i].filled) >=
-                                              int.parse(rooms[i].capacity)
-                                          ? HexColor(COLORS.GREEN)
-                                          : HexColor(COLORS.RED),
+                                      color: rooms[i].joining != "0"
+                                          ? Colors.blue
+                                          : (rooms[i].vacating != "0"
+                                              ? HexColor("#D8B868")
+                                              : int.parse(rooms[i].filled) >=
+                                                      int.parse(
+                                                          rooms[i].capacity)
+                                                  ? HexColor(COLORS.GREEN)
+                                                  : HexColor(COLORS.RED)),
                                       child: new Text(
                                         rooms[i].roomno,
                                         style: TextStyle(
@@ -263,7 +268,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                                               rooms[i].capacity,
                                           style: TextStyle(
                                             fontSize: 20,
-                                            fontWeight: FontWeight.w100,
+                                            fontWeight: FontWeight.bold,
                                             color: int.parse(rooms[i].filled) >=
                                                     int.parse(rooms[i].capacity)
                                                 ? HexColor(COLORS.GREEN)

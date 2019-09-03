@@ -317,7 +317,9 @@ class BillActivityState extends State<BillActivity> {
                           'type': selectedType,
                           'user_id': user.id,
                           'bill_id': bill != null ? bill.id : "",
-                          'paid': '0'
+                          'paid': '0',
+                          'joining': user.joining,
+                          'room_id': user.roomID
                         }),
                       );
                     }
