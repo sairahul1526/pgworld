@@ -357,41 +357,42 @@ class UsersActivityState extends State<UsersActivity> {
                                             )
                                           ],
                                         ),
-                                        new Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: <Widget>[
-                                            new Text(
-                                              "Room : " + users[i].roomno !=
-                                                      null
-                                                  ? users[i].roomno
-                                                  : "" +
-                                                      "    Meal : " +
-                                                      (users[i].food == "1"
-                                                          ? ""
-                                                          : "Non ") +
-                                                      "Veg" +
-                                                      (users[i].joining == "1"
-                                                          ? "    " +
-                                                              headingDateFormat
-                                                                  .format(DateTime
-                                                                      .parse(users[
-                                                                              i]
-                                                                          .joiningDateTime))
-                                                          : (users[i].vacating ==
-                                                                  "1"
-                                                              ? "    " +
+                                        new Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: new Container(
+                                            width: width * 0.7,
+                                            child: new Text(
+                                              "Room : " +
+                                                  (users[i].roomno != null
+                                                      ? users[i].roomno
+                                                      : "") +
+                                                  (users[i].joining == "1"
+                                                      ? "    Joining Date : " +
+                                                          headingDateFormat.format(
+                                                              DateTime.parse(users[i]
+                                                                  .joiningDateTime))
+                                                      : (users[i].vacating == "1"
+                                                          ? "    Vacating Date : " +
+                                                              headingDateFormat.format(
+                                                                  DateTime.parse(users[i]
+                                                                      .vacateDateTime))
+                                                          : (users[i].expiryDateTime == "" ||
+                                                                  users[i]
+                                                                      .expiryDateTime
+                                                                      .contains(
+                                                                          "0000") ||
+                                                                  DateTime.parse(users[i].expiryDateTime).difference(DateTime.now()).inDays >
+                                                                      0
+                                                              ? ""
+                                                              : "    Payment Due Date : " +
                                                                   headingDateFormat
-                                                                      .format(DateTime
-                                                                          .parse(
-                                                                              users[i].vacateDateTime))
-                                                              : "")),
+                                                                      .format(DateTime.parse(users[i].expiryDateTime))))),
+                                              overflow: TextOverflow.clip,
                                               style: TextStyle(
                                                   fontSize: 12,
-                                                  fontWeight: FontWeight.w100,
                                                   color: Colors.grey),
                                             ),
-                                          ],
+                                          ),
                                         ),
                                         new Container(
                                           height: 10,
@@ -482,7 +483,10 @@ class UsersActivityState extends State<UsersActivity> {
                                   icon: Icons.add,
                                   color: Colors.green,
                                   onTap: () {
-                                    update(
+                                    setState(() {
+                                      loading = true;
+                                    });
+                                    Future<bool> load = update(
                                       API.USERBOOKED,
                                       Map.from({}),
                                       Map.from({
@@ -491,6 +495,17 @@ class UsersActivityState extends State<UsersActivity> {
                                         'room_id': users[i].roomID
                                       }),
                                     );
+                                    load.then((onValue) {
+                                      setState(() {
+                                        loading = false;
+                                      });
+                                      filter["limit"] = defaultLimit;
+                                      filter["offset"] = defaultOffset;
+                                      offset = defaultOffset;
+
+                                      users.clear();
+                                      fillData();
+                                    });
                                   },
                                 )
                               : (users[i].vacating == "1"
@@ -499,7 +514,10 @@ class UsersActivityState extends State<UsersActivity> {
                                       icon: Icons.remove,
                                       color: Colors.red,
                                       onTap: () {
-                                        delete(
+                                        setState(() {
+                                          loading = true;
+                                        });
+                                        Future<bool> load = delete(
                                             API.USER,
                                             Map.from({
                                               'hostel_id': hostelID,
@@ -508,14 +526,19 @@ class UsersActivityState extends State<UsersActivity> {
                                               'vacating': users[i].vacating,
                                               'joining': users[i].joining,
                                             }));
-                                        filter["limit"] = defaultLimit;
-                                        filter["offset"] = defaultOffset;
-                                        offset = defaultOffset;
+                                        load.then((onValue) {
+                                          setState(() {
+                                            loading = false;
+                                          });
+                                          filter["limit"] = defaultLimit;
+                                          filter["offset"] = defaultOffset;
+                                          offset = defaultOffset;
 
-                                        users.clear();
-                                        fillData();
-                                        oneButtonDialog(context, "",
-                                            users[i].name + " removed", true);
+                                          users.clear();
+                                          fillData();
+                                          oneButtonDialog(context, "",
+                                              users[i].name + " removed", true);
+                                        });
                                       },
                                     )
                                   : new IconSlideAction(
