@@ -27,7 +27,9 @@ class BillActivityState extends State<BillActivity> {
   int paid = 1;
 
   TextEditingController type = new TextEditingController();
+  TextEditingController payment = new TextEditingController();
   TextEditingController description = new TextEditingController();
+  TextEditingController transactionID = new TextEditingController();
   TextEditingController amount = new TextEditingController();
   TextEditingController paidDate = new TextEditingController();
   TextEditingController expiryDate = new TextEditingController();
@@ -49,6 +51,7 @@ class BillActivityState extends State<BillActivity> {
   bool amountCheck = false;
 
   String selectedType = "0";
+  String selectedPayment = "0";
 
   @override
   void initState() {
@@ -58,7 +61,9 @@ class BillActivityState extends State<BillActivity> {
     pickedExpiryDate =
         dateFormat.format(new DateTime.now().add(new Duration(days: 30)));
     selectedType = "8";
+    selectedPayment = "4";
     type.text = getBillType(selectedType);
+    payment.text = getPaymentType(selectedPayment);
     if (user != null) {
       amount.text = user.rent;
       paidDate.text = headingDateFormat.format(new DateTime.now());
@@ -70,6 +75,13 @@ class BillActivityState extends State<BillActivity> {
         if (bill.type != null) {
           selectedType = bill.type;
           type.text = getBillType(bill.type);
+        }
+        if (bill.payment != null) {
+          selectedPayment = bill.payment;
+          payment.text = getPaymentType(bill.payment);
+        }
+        if (bill.transactionID != null) {
+          transactionID.text = bill.transactionID;
         }
         amount.text = bill.amount;
         paidDate.text =
@@ -89,6 +101,13 @@ class BillActivityState extends State<BillActivity> {
           selectedType = bill.type;
           type.text = getBillType(bill.type);
         }
+        if (bill.payment != null) {
+          selectedPayment = bill.payment;
+          payment.text = getPaymentType(bill.payment);
+        }
+        if (bill.transactionID != null) {
+          transactionID.text = bill.transactionID;
+        }
         amount.text = bill.amount;
         paidDate.text =
             headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -101,6 +120,13 @@ class BillActivityState extends State<BillActivity> {
       if (bill.type != null) {
         selectedType = bill.type;
         type.text = getBillType(bill.type);
+      }
+      if (bill.payment != null) {
+        selectedPayment = bill.payment;
+        payment.text = getPaymentType(bill.payment);
+      }
+      if (bill.transactionID != null) {
+        transactionID.text = bill.transactionID;
       }
       paidDate.text =
           headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -234,6 +260,38 @@ class BillActivityState extends State<BillActivity> {
     return returned;
   }
 
+  Future<String> selectPayment(BuildContext context) async {
+    String returned = "";
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Select Payment Mode"),
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            child: new ListView.builder(
+              shrinkWrap: true,
+              itemCount: paymentTypes.length,
+              itemBuilder: (context, i) {
+                return new FlatButton(
+                  child: new Text(paymentTypes[i][0]),
+                  onPressed: () {
+                    returned = paymentTypes[i][1];
+                    payment.text = paymentTypes[i][0];
+                    selectedPayment = paymentTypes[i][1];
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
+  }
+
   Future<String> selectPhoto(BuildContext context) async {
     String returned = "";
 
@@ -334,7 +392,9 @@ class BillActivityState extends State<BillActivity> {
                           'document': fileNames.join(","),
                           'type': selectedType,
                           'user_id': user.id,
-                          'paid': '0'
+                          'paid': '0',
+                          'payment': selectedPayment,
+                          'transaction_id': transactionID.text,
                         }),
                       );
                     } else {
@@ -354,7 +414,9 @@ class BillActivityState extends State<BillActivity> {
                           'bill_id': bill != null ? bill.id : "",
                           'paid': '0',
                           'joining': user.joining,
-                          'room_id': user.roomID
+                          'room_id': user.roomID,
+                          'payment': selectedPayment,
+                          'transaction_id': transactionID.text,
                         }),
                       );
                     }
@@ -373,7 +435,9 @@ class BillActivityState extends State<BillActivity> {
                         'type': selectedType,
                         'employee_id': employee.id,
                         'bill_id': bill != null ? bill.id : "",
-                        'paid': '1'
+                        'paid': '1',
+                        'payment': selectedPayment,
+                        'transaction_id': transactionID.text,
                       }),
                     );
                   } else if (bill != null) {
@@ -393,7 +457,9 @@ class BillActivityState extends State<BillActivity> {
                         'type': (bill.userID == "" && bill.employeeID == "")
                             ? selectedType
                             : bill.type,
+                        'payment': selectedPayment,
                         "paid": paid.toString(),
+                        'transaction_id': transactionID.text,
                       }),
                       Map.from({'hostel_id': hostelID, 'id': bill.id}),
                     );
@@ -408,7 +474,9 @@ class BillActivityState extends State<BillActivity> {
                         'amount': amount.text,
                         'document': fileNames.join(","),
                         'type': selectedType,
-                        'paid': paid.toString()
+                        'payment': selectedPayment,
+                        'paid': paid.toString(),
+                        'transaction_id': transactionID.text,
                       }),
                     );
                   }
@@ -528,6 +596,64 @@ class BillActivityState extends State<BillActivity> {
                             prefixIcon: Icon(Icons.attach_money),
                             border: OutlineInputBorder(),
                             labelText: 'Amount',
+                          ),
+                          onSubmitted: (String value) {},
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              new GestureDetector(
+                onTap: () {
+                  selectPayment(context);
+                },
+                child: new Container(
+                  color: Colors.transparent,
+                  height: 50,
+                  margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                  child: new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      new Expanded(
+                        child: new Container(
+                          child: new TextField(
+                            enabled: false,
+                            controller: payment,
+                            textInputAction: TextInputAction.next,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              prefixIcon: Icon(Icons.label),
+                              border: OutlineInputBorder(),
+                              labelText: 'Payment Mode',
+                            ),
+                            onSubmitted: (String value) {},
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              new Container(
+                height: 50,
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Flexible(
+                      child: new Container(
+                        child: new TextField(
+                          controller: transactionID,
+                          maxLines: 5,
+                          textInputAction: TextInputAction.newline,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.receipt),
+                            border: OutlineInputBorder(),
+                            labelText: 'Transaction ID',
                           ),
                           onSubmitted: (String value) {},
                         ),

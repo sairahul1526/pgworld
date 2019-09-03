@@ -78,3 +78,10 @@ List<List<String>> billTypes = [
   ["Property Rent/Tax", "7"],
   ["Others", "8"],
 ];
+
+List<List<String>> paymentTypes = [
+  ["Credit Card/Debit Card/Net Banking", "1"],
+  ["Google Pay/PhonePe/PayTM", "2"],
+  ["Cash", "3"],
+  ["Others", "4"],
+];

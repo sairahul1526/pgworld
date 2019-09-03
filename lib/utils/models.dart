@@ -127,6 +127,8 @@ class Bill implements ListItem {
   final String employeeID;
   final String description;
   final String type;
+  final String payment;
+  final String transactionID;
   final String document;
   final String amount;
   final String paid;
@@ -145,6 +147,8 @@ class Bill implements ListItem {
       this.employeeID,
       this.description,
       this.type,
+      this.payment,
+      this.transactionID,
       this.document,
       this.amount,
       this.paid,
@@ -164,6 +168,8 @@ class Bill implements ListItem {
       employeeID: json['employee_id'],
       description: json['description'],
       type: json['type'],
+      payment: json['payment'],
+      transactionID: json['transaction_id'],
       document: json['document'],
       amount: json['amount'],
       paid: json['paid'],

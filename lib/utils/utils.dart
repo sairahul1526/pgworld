@@ -271,6 +271,7 @@ class HexColor extends Color {
 }
 
 String getBillType(String id) {
+  // if you add here, add in config too
   switch (id) {
     case "1":
       return "Cable Bill";
@@ -299,9 +300,11 @@ String getBillType(String id) {
     default:
       return "Others";
   }
+  // if you add here, add in config too
 }
 
 IconData getBillIcon(String id) {
+  // if you add here, add in config too
   switch (id) {
     case "1":
       return Icons.tv;
@@ -330,4 +333,26 @@ IconData getBillIcon(String id) {
     default:
       return Icons.receipt;
   }
+  // if you add here, add in config too
+}
+
+String getPaymentType(String id) {
+  // if you add here, add in config too
+  switch (id) {
+    case "1":
+      return "Credit Card/Debit Card/Net Banking";
+      break;
+    case "2":
+      return "Google Pay/PhonePe/PayTM";
+      break;
+    case "3":
+      return "Cash";
+      break;
+    case "4":
+      return "Others";
+      break;
+    default:
+      return "Others";
+  }
+  // if you add here, add in config too
 }
