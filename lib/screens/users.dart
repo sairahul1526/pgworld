@@ -287,7 +287,18 @@ class UsersActivityState extends State<UsersActivity> {
                                           ? Colors.blue
                                           : (users[i].vacating == "1"
                                               ? HexColor("#D8B868")
-                                              : (users[i].expiryDateTime == "" || users[i].expiryDateTime.contains("0000") || DateTime.parse(users[i].expiryDateTime).difference(DateTime.now()).inDays > 0
+                                              : (users[i].expiryDateTime ==
+                                                          "" ||
+                                                      users[i]
+                                                          .expiryDateTime
+                                                          .contains("0000") ||
+                                                      DateTime.parse(users[i]
+                                                                  .expiryDateTime)
+                                                              .difference(
+                                                                  DateTime
+                                                                      .now())
+                                                              .inDays >
+                                                          0
                                                   ? HexColor(COLORS.GREEN)
                                                   : HexColor(COLORS.RED))),
                                       shape: BoxShape.rectangle,
@@ -324,12 +335,25 @@ class UsersActivityState extends State<UsersActivity> {
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.normal,
                                                   color: users[i].joining == "1"
-                                                  ? Colors.blue
-                                          : (users[i].vacating == "1"
-                                              ? HexColor("#D8B868")
-                                              : (users[i].expiryDateTime == "" || users[i].expiryDateTime.contains("0000") || DateTime.parse(users[i].expiryDateTime).difference(DateTime.now()).inDays > 0
-                                                  ? HexColor(COLORS.GREEN)
-                                                  : HexColor(COLORS.RED)))),
+                                                      ? Colors.blue
+                                                      : (users[i].vacating ==
+                                                              "1"
+                                                          ? HexColor("#D8B868")
+                                                          : (users[i].expiryDateTime ==
+                                                                      "" ||
+                                                                  users[i]
+                                                                      .expiryDateTime
+                                                                      .contains(
+                                                                          "0000") ||
+                                                                  DateTime.parse(users[i].expiryDateTime)
+                                                                          .difference(DateTime
+                                                                              .now())
+                                                                          .inDays >
+                                                                      0
+                                                              ? HexColor(
+                                                                  COLORS.GREEN)
+                                                              : HexColor(
+                                                                  COLORS.RED)))),
                                             )
                                           ],
                                         ),
@@ -484,6 +508,12 @@ class UsersActivityState extends State<UsersActivity> {
                                               'vacating': users[i].vacating,
                                               'joining': users[i].joining,
                                             }));
+                                        filter["limit"] = defaultLimit;
+                                        filter["offset"] = defaultOffset;
+                                        offset = defaultOffset;
+
+                                        users.clear();
+                                        fillData();
                                         oneButtonDialog(context, "",
                                             users[i].name + " removed", true);
                                       },
