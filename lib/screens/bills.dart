@@ -337,10 +337,14 @@ class BillsActivityState extends State<BillsActivity> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      new Text(
-                                        item.title,
-                                        style: TextStyle(
-                                          fontSize: 20,
+                                      new Flexible(
+                                        child: new Text(
+                                          item.title,
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                          ),
                                         ),
                                       ),
                                       new Text(
