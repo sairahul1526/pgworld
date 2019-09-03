@@ -58,8 +58,8 @@ class EmployeeActivityState extends State<EmployeeActivity> {
     loadDocuments();
   }
 
-  Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+  Future getImage(ImageSource source) async {
+    var image = await ImagePicker.pickImage(source: source);
 
     if (image != null) {
       setState(() {
@@ -78,6 +78,41 @@ class EmployeeActivityState extends State<EmployeeActivity> {
         });
       });
     }
+  }
+
+  Future<String> selectPhoto(BuildContext context) async {
+    String returned = "";
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            child: new ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                new FlatButton(
+                  child: new Text("Camera"),
+                  onPressed: () {
+                    getImage(ImageSource.camera);
+                    Navigator.of(context).pop();
+                  },
+                ),
+                new FlatButton(
+                  child: new Text("Gallery"),
+                  onPressed: () {
+                    getImage(ImageSource.gallery);
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
   }
 
   void loadDocuments() {
@@ -116,7 +151,7 @@ class EmployeeActivityState extends State<EmployeeActivity> {
       children: <Widget>[
         new Expanded(
           child: new FlatButton(
-            onPressed: () => getImage(),
+            onPressed: () => selectPhoto(context),
             child: new Text("Add Document"),
           ),
         )
