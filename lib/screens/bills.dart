@@ -227,18 +227,18 @@ class BillsActivityState extends State<BillsActivity> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
-          new IconButton(
-            onPressed: () {
-              Map<String, String> billFilter = filter;
-              billFilter["offset"] = "0";
-              billFilter["shouldMail"] = "true";
-              billFilter["shouldMailID"] = adminEmailID;
-              getBills(billFilter);
-              oneButtonDialog(context,
-                  "Bills data is sent to your registered mail", "", true);
-            },
-            icon: new Icon(Icons.mail),
-          ),
+          // new IconButton(
+          //   onPressed: () {
+          //     Map<String, String> billFilter = filter;
+          //     billFilter["offset"] = "0";
+          //     billFilter["shouldMail"] = "true";
+          //     billFilter["shouldMailID"] = adminEmailID;
+          //     getBills(billFilter);
+          //     oneButtonDialog(context,
+          //         "Bills data is sent to your registered mail", "", true);
+          //   },
+          //   icon: new Icon(Icons.mail),
+          // ),
           (employee == null && user == null)
               ? new IconButton(
                   onPressed: () {

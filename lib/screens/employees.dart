@@ -122,18 +122,18 @@ class EmployeesActivityState extends State<EmployeesActivity> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
-          new IconButton(
-            onPressed: () {
-              Map<String, String> mailFilter = filter;
-              mailFilter["offset"] = "0";
-              mailFilter["shouldMail"] = "true";
-              mailFilter["shouldMailID"] = adminEmailID;
-              getEmployees(mailFilter);
-              oneButtonDialog(context,
-                  "Employees data is sent to your registered mail", "", true);
-            },
-            icon: new Icon(Icons.mail),
-          ),
+          // new IconButton(
+          //   onPressed: () {
+          //     Map<String, String> mailFilter = filter;
+          //     mailFilter["offset"] = "0";
+          //     mailFilter["shouldMail"] = "true";
+          //     mailFilter["shouldMailID"] = adminEmailID;
+          //     getEmployees(mailFilter);
+          //     oneButtonDialog(context,
+          //         "Employees data is sent to your registered mail", "", true);
+          //   },
+          //   icon: new Icon(Icons.mail),
+          // ),
           new IconButton(
             onPressed: () {
               addPage(context, new EmployeeActivity(null));

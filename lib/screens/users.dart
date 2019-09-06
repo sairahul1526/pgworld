@@ -218,18 +218,18 @@ class UsersActivityState extends State<UsersActivity> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
-          new IconButton(
-            onPressed: () {
-              Map<String, String> userFilter = filter;
-              userFilter["offset"] = "0";
-              userFilter["shouldMail"] = "true";
-              userFilter["shouldMailID"] = adminEmailID;
-              getUsers(userFilter);
-              oneButtonDialog(context,
-                  "Users data is sent to your registered mail", "", true);
-            },
-            icon: new Icon(Icons.mail),
-          ),
+          // new IconButton(
+          //   onPressed: () {
+          //     Map<String, String> userFilter = filter;
+          //     userFilter["offset"] = "0";
+          //     userFilter["shouldMail"] = "true";
+          //     userFilter["shouldMailID"] = adminEmailID;
+          //     getUsers(userFilter);
+          //     oneButtonDialog(context,
+          //         "Users data is sent to your registered mail", "", true);
+          //   },
+          //   icon: new Icon(Icons.mail),
+          // ),
           room == null
               ? new IconButton(
                   onPressed: () {

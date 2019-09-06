@@ -394,7 +394,7 @@ class UserActivityState extends State<UserActivity> {
                       loading = false;
                     });
                     if (user != null) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, "");
                     } else {
                       Future<Users> data = getUsers({
                         'hostel_id': hostelID,

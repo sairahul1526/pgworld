@@ -14,6 +14,7 @@ class UserFilterActivity extends StatefulWidget {
 class UserFilterActivityState extends State<UserFilterActivity> {
   int food = -1;
   int type = -1;
+  int paymenttype = -1;
 
   TextEditingController name = new TextEditingController();
   TextEditingController foodC = new TextEditingController();
@@ -153,6 +154,9 @@ class UserFilterActivityState extends State<UserFilterActivity> {
               if (type > 0) {
                 filter["type"] = type.toString();
               }
+              if (paymenttype >= 0) {
+                filter["payment_status"] = paymenttype.toString();
+              }
               if (email.text != "") {
                 filter["email"] = email.text;
               }
@@ -290,38 +294,65 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                 ],
               ),
             ),
-            // new GestureDetector(
-            //   onTap: () {
-            //     selectFood(context);
-            //   },
-            //   child: new Container(
-            //     color: Colors.transparent,
-            //     height: 50,
-            //     margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-            //     child: new Row(
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: <Widget>[
-            //         new Expanded(
-            //           child: new Container(
-            //             child: new TextField(
-            //               enabled: false,
-            //               controller: foodC,
-            //               textInputAction: TextInputAction.next,
-            //               keyboardType: TextInputType.number,
-            //               decoration: InputDecoration(
-            //                 isDense: true,
-            //                 prefixIcon: Icon(Icons.room),
-            //                 border: OutlineInputBorder(),
-            //                 labelText: 'Food',
-            //               ),
-            //               onSubmitted: (String value) {},
-            //             ),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Radio(
+                    value: -1,
+                    groupValue: paymenttype,
+                    onChanged: (value) {
+                      setState(() {
+                        paymenttype = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        paymenttype = -1;
+                      });
+                    },
+                    child: new Text("All"),
+                  ),
+                  new Radio(
+                    value: 1,
+                    groupValue: paymenttype,
+                    onChanged: (value) {
+                      setState(() {
+                        paymenttype = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        paymenttype = 1;
+                      });
+                    },
+                    child: new Text("Paid"),
+                  ),
+                  new Radio(
+                    value: 0,
+                    groupValue: paymenttype,
+                    onChanged: (value) {
+                      setState(() {
+                        paymenttype = value;
+                      });
+                    },
+                  ),
+                  new GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        paymenttype = 0;
+                      });
+                    },
+                    child: new Text("Due"),
+                  ),
+                ],
+              ),
+            ),
             new Container(
               margin: new EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: new Row(
