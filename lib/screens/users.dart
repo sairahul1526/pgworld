@@ -204,6 +204,27 @@ class UsersActivityState extends State<UsersActivity> {
     }
   }
 
+    billsPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      if (room != null) {
+        filter["room_id"] = room.id;
+      }
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = defaultOffset;
+      offset = defaultOffset;
+
+      users.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -260,12 +281,7 @@ class UsersActivityState extends State<UsersActivity> {
                 itemBuilder: (itemContext, i) {
                   return new GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) =>
-                                new BillsActivity(users[i], null)),
-                      );
+                      billsPage(context, new BillsActivity(users[i], null));
                     },
                     child: new Container(
                       padding: EdgeInsets.fromLTRB(10, i == 0 ? 10 : 0, 10, 0),

@@ -340,15 +340,27 @@ String getPaymentType(String id) {
   // if you add here, add in config too
   switch (id) {
     case "1":
-      return "Credit Card/Debit Card/Net Banking";
+      return "Credit Card";
       break;
     case "2":
-      return "Google Pay/PhonePe/PayTM";
+      return "Debit Card";
       break;
     case "3":
-      return "Cash";
+      return "Net Banking";
       break;
     case "4":
+      return "Google Pay";
+      break;
+    case "5":
+      return "PhonePe";
+      break;
+    case "6":
+      return "PayTM";
+      break;
+    case "7":
+      return "Cash";
+      break;
+    case "8":
       return "Others";
       break;
     default:

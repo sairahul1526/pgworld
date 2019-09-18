@@ -131,6 +131,24 @@ class RoomsActivityState extends State<RoomsActivity> {
     }
   }
 
+  usersPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = offset;
+      offset = defaultOffset;
+
+      rooms.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -186,12 +204,7 @@ class RoomsActivityState extends State<RoomsActivity> {
                   itemBuilder: (itemContext, i) {
                     return new ListTile(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          new MaterialPageRoute(
-                              builder: (context) =>
-                                  new UsersActivity(rooms[i])),
-                        );
+                        usersPage(context, new UsersActivity(rooms[i]));
                       },
                       title: new Container(
                         child: new Slidable(

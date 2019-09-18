@@ -80,8 +80,12 @@ List<List<String>> billTypes = [
 ];
 
 List<List<String>> paymentTypes = [
-  ["Credit Card/Debit Card/Net Banking", "1"],
-  ["Google Pay/PhonePe/PayTM", "2"],
-  ["Cash", "3"],
-  ["Others", "4"],
+  ["Credit Card", "1"],
+  ["Debit Card", "2"],
+  ["Net Banking", "3"],
+  ["Google Pay", "4"],
+  ["PhonePe", "5"],
+  ["PayTM", "6"],
+  ["Cash", "7"],
+  ["Others", "8"],
 ];

@@ -108,6 +108,24 @@ class EmployeesActivityState extends State<EmployeesActivity> {
     }
   }
 
+  billsPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    if (data != null) {
+      filter["status"] = "1";
+      filter["hostel_id"] = hostelID;
+      filter["limit"] = defaultLimit;
+      filter["offset"] = offset;
+      offset = defaultOffset;
+
+      employees.clear();
+      fillData();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -156,12 +174,7 @@ class EmployeesActivityState extends State<EmployeesActivity> {
                 itemBuilder: (itemContext, i) {
                   return new GestureDetector(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        new MaterialPageRoute(
-                            builder: (context) =>
-                                new BillsActivity(null, employees[i])),
-                      );
+                      billsPage(context, new BillsActivity(null, employees[i]));
                     },
                     child: new Container(
                       padding: EdgeInsets.fromLTRB(10, i == 0 ? 10 : 0, 10, 0),
