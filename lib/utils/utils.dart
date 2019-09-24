@@ -338,6 +338,7 @@ IconData getBillIcon(String id) {
 
 String getPaymentType(String id) {
   // if you add here, add in config too
+  // if you change here, chnage in api too
   switch (id) {
     case "1":
       return "Credit Card";
@@ -367,4 +368,5 @@ String getPaymentType(String id) {
       return "Others";
   }
   // if you add here, add in config too
+  // if you change here, chnage in api too
 }

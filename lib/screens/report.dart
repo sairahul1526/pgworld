@@ -147,15 +147,28 @@ class ReportActivityState extends State<ReportActivity> {
             ));
           } else if (graph.type == "2") {
             // stacked
-            timeline.add(new Container(
-              height: 300,
-              child: new charty.BarChart(
-                seriesList,
-                animate: true,
-                barGroupingType: charty.BarGroupingType.grouped,
-                behaviors: [new charty.SeriesLegend()],
-              ),
-            ));
+            if (graph.horizontal != null && graph.horizontal == "1") {
+              timeline.add(new Container(
+                height: 300,
+                child: new charty.BarChart(
+                  seriesList,
+                  animate: true,
+                  vertical: false,
+                  barGroupingType: charty.BarGroupingType.grouped,
+                  behaviors: [new charty.SeriesLegend()],
+                ),
+              ));
+            } else {
+              timeline.add(new Container(
+                height: 300,
+                child: new charty.BarChart(
+                  seriesList,
+                  animate: true,
+                  barGroupingType: charty.BarGroupingType.grouped,
+                  behaviors: [new charty.SeriesLegend()],
+                ),
+              ));
+            }
           }
         }
       });

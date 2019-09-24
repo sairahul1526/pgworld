@@ -18,7 +18,9 @@ class BillFilterActivityState extends State<BillFilterActivity> {
   int paid = -1;
   int type = -1;
 
+  TextEditingController billID = new TextEditingController();
   TextEditingController expenseType = new TextEditingController();
+  TextEditingController paymentType = new TextEditingController();
   TextEditingController title = new TextEditingController();
   TextEditingController amount = new TextEditingController();
 
@@ -34,6 +36,7 @@ class BillFilterActivityState extends State<BillFilterActivity> {
   String billDatesRange = "Pick date range";
 
   String selectedType = "";
+  String selectedPaymentType = "";
 
   List<List<String>> billFilterTypes = [];
 
@@ -54,6 +57,20 @@ class BillFilterActivityState extends State<BillFilterActivity> {
         }
       });
     }
+
+    if (filter["payment"] != null && filter["payment"] != "") {
+      selectedPaymentType = filter["payment"];
+      paymentTypes.forEach((types) {
+        if (filter["payment"] == types[1]) {
+          paymentType.text = types[0];
+        }
+      });
+    }
+
+    if (filter["billid"] != null && filter["billid"] != "") {
+      billID.text = filter["billid"];
+    }
+
     if (filter["paid"] != null && filter["paid"] != "") {
       paid = int.parse(filter["paid"]);
     }
@@ -107,6 +124,39 @@ class BillFilterActivityState extends State<BillFilterActivity> {
     return returned;
   }
 
+  Future<String> selectMode(BuildContext context) async {
+    String returned = "";
+
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Select Payment Mode"),
+          content: new Container(
+            width: MediaQuery.of(context).size.width,
+            height: 300,
+            child: new ListView.builder(
+              shrinkWrap: true,
+              itemCount: paymentTypes.length,
+              itemBuilder: (context, i) {
+                return new FlatButton(
+                  child: new Text(paymentTypes[i][0]),
+                  onPressed: () {
+                    returned = paymentTypes[i][1];
+                    paymentType.text = paymentTypes[i][0];
+                    selectedPaymentType = paymentTypes[i][1];
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
+    return returned;
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -137,8 +187,14 @@ class BillFilterActivityState extends State<BillFilterActivity> {
               if (paid >= 0) {
                 filter["paid"] = paid.toString();
               }
+              if (billID.text != "") {
+                filter["billid"] = billID.text;
+              }
               if (selectedType.length > 0) {
                 filter["type"] = selectedType;
+              }
+              if (selectedPaymentType.length > 0) {
+                filter["payment"] = selectedPaymentType;
               }
               filter["amount"] = amountLower.round().toString() +
                   "," +
@@ -155,6 +211,28 @@ class BillFilterActivityState extends State<BillFilterActivity> {
             25, MediaQuery.of(context).size.width * 0.1, 0),
         child: new Column(
           children: <Widget>[
+            new Container(
+              margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+              child: new Row(
+                children: <Widget>[
+                  new Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    child: new Text("Bill ID"),
+                  ),
+                  new Expanded(
+                    child: new Container(
+                      margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                      child: new TextField(
+                          controller: billID,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(hintText: 'Bill ID'),
+                          onSubmitted: (String value) {}),
+                    ),
+                  ),
+                ],
+              ),
+            ),
             new GestureDetector(
               onTap: () {
                 selectTitle(context);
@@ -178,6 +256,38 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                             prefixIcon: Icon(Icons.label),
                             border: OutlineInputBorder(),
                             labelText: 'Expense Type',
+                          ),
+                          onSubmitted: (String value) {},
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            new GestureDetector(
+              onTap: () {
+                selectMode(context);
+              },
+              child: new Container(
+                color: Colors.transparent,
+                height: 50,
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Expanded(
+                      child: new Container(
+                        child: new TextField(
+                          enabled: false,
+                          controller: paymentType,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.text,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.label),
+                            border: OutlineInputBorder(),
+                            labelText: 'Payment Mode',
                           ),
                           onSubmitted: (String value) {},
                         ),

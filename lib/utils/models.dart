@@ -129,6 +129,7 @@ class Bill implements ListItem {
   final String type;
   final String payment;
   final String transactionID;
+  final String billID;
   final String document;
   final String amount;
   final String paid;
@@ -149,6 +150,7 @@ class Bill implements ListItem {
       this.type,
       this.payment,
       this.transactionID,
+      this.billID,
       this.document,
       this.amount,
       this.paid,
@@ -170,6 +172,7 @@ class Bill implements ListItem {
       type: json['type'],
       payment: json['payment'],
       transactionID: json['transaction_id'],
+      billID: json['billid'],
       document: json['document'],
       amount: json['amount'],
       paid: json['paid'],
@@ -738,6 +741,7 @@ class Graph {
   final String color;
   final String dataTitle;
   final String type;
+  final String horizontal;
   final String steps;
   final List<ChartType2> data;
 
@@ -746,6 +750,7 @@ class Graph {
       this.color,
       this.dataTitle,
       this.type,
+      this.horizontal,
       this.steps,
       this.data});
 
@@ -755,6 +760,7 @@ class Graph {
       color: json['color'],
       dataTitle: json['data_title'],
       type: json['type'],
+      horizontal: json['horizontal'],
       steps: json['steps'],
       data: json['data'] != null
           ? List<ChartType2>.from(

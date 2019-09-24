@@ -30,6 +30,7 @@ class BillActivityState extends State<BillActivity> {
   TextEditingController payment = new TextEditingController();
   TextEditingController description = new TextEditingController();
   TextEditingController transactionID = new TextEditingController();
+  TextEditingController billID = new TextEditingController();
   TextEditingController amount = new TextEditingController();
   TextEditingController paidDate = new TextEditingController();
   TextEditingController expiryDate = new TextEditingController();
@@ -83,6 +84,9 @@ class BillActivityState extends State<BillActivity> {
         if (bill.transactionID != null) {
           transactionID.text = bill.transactionID;
         }
+        if (bill.billID != null) {
+          billID.text = bill.billID;
+        }
         amount.text = bill.amount;
         paidDate.text =
             headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -108,6 +112,9 @@ class BillActivityState extends State<BillActivity> {
         if (bill.transactionID != null) {
           transactionID.text = bill.transactionID;
         }
+        if (bill.billID != null) {
+          billID.text = bill.billID;
+        }
         amount.text = bill.amount;
         paidDate.text =
             headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -127,6 +134,9 @@ class BillActivityState extends State<BillActivity> {
       }
       if (bill.transactionID != null) {
         transactionID.text = bill.transactionID;
+      }
+      if (bill.billID != null) {
+        billID.text = bill.billID;
       }
       paidDate.text =
           headingDateFormat.format(DateTime.parse(bill.paidDateTime));
@@ -395,6 +405,7 @@ class BillActivityState extends State<BillActivity> {
                           'paid': '0',
                           'payment': selectedPayment,
                           'transaction_id': transactionID.text,
+                          'billid': billID.text,
                         }),
                       );
                     } else {
@@ -417,6 +428,7 @@ class BillActivityState extends State<BillActivity> {
                           'room_id': user.roomID,
                           'payment': selectedPayment,
                           'transaction_id': transactionID.text,
+                          'billid': billID.text,
                         }),
                       );
                     }
@@ -438,6 +450,7 @@ class BillActivityState extends State<BillActivity> {
                         'paid': '1',
                         'payment': selectedPayment,
                         'transaction_id': transactionID.text,
+                        'billid': billID.text,
                       }),
                     );
                   } else if (bill != null) {
@@ -460,6 +473,7 @@ class BillActivityState extends State<BillActivity> {
                         'payment': selectedPayment,
                         "paid": paid.toString(),
                         'transaction_id': transactionID.text,
+                        'billid': billID.text,
                       }),
                       Map.from({'hostel_id': hostelID, 'id': bill.id}),
                     );
@@ -477,6 +491,7 @@ class BillActivityState extends State<BillActivity> {
                         'payment': selectedPayment,
                         'paid': paid.toString(),
                         'transaction_id': transactionID.text,
+                        'billid': billID.text,
                       }),
                     );
                   }
@@ -485,7 +500,7 @@ class BillActivityState extends State<BillActivity> {
                       loading = false;
                     });
                     if (bill != null) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, "");
                     } else {
                       Navigator.pop(context, "");
                     }
@@ -596,6 +611,32 @@ class BillActivityState extends State<BillActivity> {
                             prefixIcon: Icon(Icons.attach_money),
                             border: OutlineInputBorder(),
                             labelText: 'Amount',
+                          ),
+                          onSubmitted: (String value) {},
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              new Container(
+                height: 50,
+                margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    new Flexible(
+                      child: new Container(
+                        child: new TextField(
+                          controller: billID,
+                          maxLines: 5,
+                          textInputAction: TextInputAction.newline,
+                          keyboardType: TextInputType.multiline,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: Icon(Icons.receipt),
+                            border: OutlineInputBorder(),
+                            labelText: 'Bill ID',
                           ),
                           onSubmitted: (String value) {},
                         ),

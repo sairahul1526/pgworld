@@ -254,7 +254,7 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                       loading = false;
                     });
                     if (employee != null) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, "");
                     } else {
                       Navigator.pop(context, "");
                     }

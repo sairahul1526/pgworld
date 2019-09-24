@@ -191,7 +191,7 @@ class RoomActivityState extends State<RoomActivity> {
                       loading = false;
                     });
                     if (room != null) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, "");
                     } else {
                       Navigator.pop(context, "");
                     }

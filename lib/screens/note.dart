@@ -95,7 +95,7 @@ class NoteActivityState extends State<NoteActivity> {
                       loading = false;
                     });
                     if (note != null) {
-                      Navigator.pop(context);
+                      Navigator.pop(context, "");
                     } else {
                       Navigator.pop(context, "");
                     }

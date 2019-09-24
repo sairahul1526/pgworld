@@ -79,6 +79,7 @@ List<List<String>> billTypes = [
   ["Others", "8"],
 ];
 
+// if you change here, chnage in api too
 List<List<String>> paymentTypes = [
   ["Credit Card", "1"],
   ["Debit Card", "2"],
