@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:cloudpg/screens/invoices.dart';
 import 'package:flutter/material.dart';
 import '../utils/api.dart';
 
@@ -107,6 +108,16 @@ class SettingsActivityState extends State<SettingsActivity> {
                 child: new ListView(
                   children: <Widget>[
                     new Container(
+                      margin: EdgeInsets.fromLTRB(0, 0, 0, 20),
+                      child: new Text(
+                        "ACCOUNT",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                    new Container(
                       margin: new EdgeInsets.fromLTRB(0, 0, 0, 15),
                       child: new Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -156,6 +167,9 @@ class SettingsActivityState extends State<SettingsActivity> {
                                       hostelID = value;
                                       hostels.hostels.forEach((hostel) {
                                         if (hostel.id == value) {
+                                          prefs.setString(
+                                              'hostelName', hostel.name);
+                                          hostelName = hostel.name;
                                           amenities =
                                               hostel.amenities.split(",");
                                           expiry = headingDateFormat.format(
@@ -192,9 +206,49 @@ class SettingsActivityState extends State<SettingsActivity> {
                       ),
                     ),
                     new Container(
+                      height: 20,
+                    ),
+                    new GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => new InvoicesActivity()));
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 30,
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Icon(Icons.receipt),
+                            new Container(
+                              width: 20,
+                            ),
+                            new Expanded(
+                              child: new Text("Subscription Invoices"),
+                            ),
+                            new Icon(
+                              Icons.arrow_right,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    new Container(
                       height: 30,
                     ),
-                    new Divider(),
+                    new Container(
+                      margin: EdgeInsets.fromLTRB(0, 40, 0, 20),
+                      child: new Text(
+                        "GET IN TOUCH",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
                     new GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -202,21 +256,6 @@ class SettingsActivityState extends State<SettingsActivity> {
                             MaterialPageRoute(
                                 builder: (context) =>
                                     new SupportActivity(true)));
-                        // launchURL(
-                        //     "upi://pay?pa=dravid.rahul1526@okicici&pn=Rahul&tn=test&am=100&cu=INR");
-                        // sendMail(
-                        //     supportMail,
-                        //     "Feedback%20and%20Support",
-                        //     "User - " +
-                        //         adminName +
-                        //         "\nHostel ID - " +
-                        //         hostelID +
-                        //         "\nOS - " +
-                        //         (Platform.isAndroid ? "Android" : "iOS") +
-                        //         "\nApp Version - " +
-                        //         (Platform.isAndroid
-                        //             ? APPVERSION.ANDROID
-                        //             : APPVERSION.IOS));
                       },
                       child: new Container(
                         color: Colors.transparent,
@@ -268,7 +307,16 @@ class SettingsActivityState extends State<SettingsActivity> {
                         ),
                       ),
                     ),
-                    new Divider(),
+                    new Container(
+                      margin: EdgeInsets.fromLTRB(0, 40, 0, 20),
+                      child: new Text(
+                        "ABOUT",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
                     new GestureDetector(
                       onTap: () {
                         launchURL(CONTACT.TERMS_URL);
@@ -336,7 +384,7 @@ class SettingsActivityState extends State<SettingsActivity> {
                               width: 20,
                             ),
                             new Expanded(
-                              child: new Text("About"),
+                              child: new Text("About Us"),
                             ),
                             new Icon(
                               Icons.arrow_right,
@@ -346,7 +394,9 @@ class SettingsActivityState extends State<SettingsActivity> {
                         ),
                       ),
                     ),
-                    new Divider(),
+                    new Container(
+                      height: 30,
+                    ),
                     new FlatButton(
                       child: new Text(
                         "Log Out",
@@ -364,7 +414,10 @@ class SettingsActivityState extends State<SettingsActivity> {
                                 : APPVERSION.IOS),
                         textAlign: TextAlign.center,
                       ),
-                    )
+                    ),
+                    new Container(
+                      height: 30,
+                    ),
                   ],
                 ),
               ),
