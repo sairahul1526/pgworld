@@ -64,6 +64,7 @@ class LoginState extends State<Login> {
           adminName = prefs.getString("username");
           adminEmailID = prefs.getString("email");
           hostelID = prefs.getString("hostelID");
+          hostelName = prefs.getString("hostelName");
           amenities = prefs.getString("amenities").split(",");
           Navigator.of(context).pushReplacement(new MaterialPageRoute(
               builder: (BuildContext context) => new DashBoard()));
@@ -113,16 +114,28 @@ class LoginState extends State<Login> {
               prefs.setString('username', response.admins[0].username);
               prefs.setString('email', response.admins[0].email);
               prefs.setString('hostelIDs', response.admins[0].hostels);
-              prefs.setString(
-                  'hostelID', response.admins[0].hostels.split(",")[0]);
-              prefs.setString('amenities', response.admins[0].amenities);
               adminName = response.admins[0].username;
               adminEmailID = response.admins[0].email;
-              hostelID = response.admins[0].hostels.split(",")[0];
-              amenities = response.admins[0].amenities.split(",");
+              Future<Hostels> hostelResponse = getHostels(
+                  Map.from({'id': response.admins[0].hostels, 'status': '1'}));
+              hostelResponse.then((response) {
+                setState(() {
+                  if (response.hostels.length > 0) {
+                    prefs.setString('hostelID', response.hostels[0].id);
+                    prefs.setString('hostelName', response.hostels[0].name);
+                    prefs.setString('amenities', response.hostels[0].amenities);
+                    hostelID = response.hostels[0].id;
+                    hostelName = response.hostels[0].name;
+                    amenities = response.hostels[0].amenities.split(",");
+                  } else {
+                    loggedIn = false;
+                    wrongCreds = true;
+                  }
+                });
 
-              Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                  builder: (BuildContext context) => new DashBoard()));
+                Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                    builder: (BuildContext context) => new DashBoard()));
+              });
             }
           }
         });
@@ -133,17 +146,6 @@ class LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      // appBar: new AppBar(
-      //   iconTheme: IconThemeData(
-      //     color: Colors.black,
-      //   ),
-      //   backgroundColor: Colors.white,
-      //   title: new Text(
-      //     "Log in",
-      //     style: TextStyle(color: Colors.black),
-      //   ),
-      //   elevation: 4.0,
-      // ),
       body: ModalProgressHUD(
         child: new Container(
           margin: new EdgeInsets.fromLTRB(
