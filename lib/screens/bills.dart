@@ -362,19 +362,29 @@ class BillsActivityState extends State<BillsActivity> {
                                       ),
                                     ],
                                   ),
-                                  item.description.length > 0
-                                      ? new Container(
-                                          width: width * 0.7,
-                                          child: new Text(
-                                            item.description,
-                                            overflow: TextOverflow.clip,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w100,
-                                                color: Colors.grey),
-                                          ),
-                                        )
-                                      : new Container(),
+                                  new Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      item.description.length > 0
+                                          ? new Container(
+                                              width: width * 0.6,
+                                              child: new Text(
+                                                item.description,
+                                                overflow: TextOverflow.clip,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w100,
+                                                    color: Colors.grey),
+                                              ),
+                                            )
+                                          : new Container(),
+                                      new Text(
+                                        getPaymentType(item.payment),
+                                        overflow: TextOverflow.ellipsis,
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),

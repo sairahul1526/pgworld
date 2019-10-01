@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
+import 'package:flutter_range_slider/flutter_range_slider.dart' as rangeslider;
 
 import '../utils/utils.dart';
 import '../utils/config.dart';
@@ -182,7 +182,7 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                   new Flexible(
                     child: new Container(
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: new RangeSlider(
+                      child: new rangeslider.RangeSlider(
                         min: 0,
                         max: 20000,
                         lowerValue: rentLower,
@@ -233,7 +233,7 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                   new Flexible(
                     child: new Container(
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: new RangeSlider(
+                      child: new rangeslider.RangeSlider(
                         min: 0,
                         max: 10,
                         lowerValue: capacityLower,
@@ -351,7 +351,7 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
                         type = 2;
                       });
                     },
-                    child: new Text("Vacant"),
+                    child: new Text("Vacating"),
                   ),
                 ],
               ),

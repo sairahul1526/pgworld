@@ -115,6 +115,21 @@ class LogsActivityState extends State<LogsActivity> {
                 log.color = "#A179E0";
                 log.icon = Icons.supervisor_account;
                 log.title = "User";
+              } else if (log.type == "10") {
+                // user
+                log.color = "#E1A1AD";
+                log.icon = Icons.report_problem;
+                log.title = "Complaint";
+              } else if (log.type == "11") {
+                // user
+                log.color = "#82b832";
+                log.icon = Icons.local_dining;
+                log.title = "Food";
+              } else if (log.type == "12") {
+                // user
+                log.color = "#D3D3D3";
+                log.icon = Icons.list;
+                log.title = "Food";
               } else {
                 log.color = "#C36BB4";
                 log.icon = Icons.track_changes;

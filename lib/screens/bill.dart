@@ -145,7 +145,7 @@ class BillActivityState extends State<BillActivity> {
       amount.text = bill.amount;
       paid = int.parse(bill.paid);
     } else {
-      paidDate.text = dateFormat.format(new DateTime.now());
+      paidDate.text = headingDateFormat.format(new DateTime.now());
       pickedPaidDate = dateFormat.format(new DateTime.now());
     }
     loadDocuments();

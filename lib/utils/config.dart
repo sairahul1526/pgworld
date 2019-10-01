@@ -4,8 +4,12 @@ class API {
   static const BILL = "bill";
   static const DASHBOARD = "dashboard";
   static const EMPLOYEE = "employee";
+  static const FOOD = "food";
+  static const INVOICE = "invoice";
+  static const ISSUE = "issue";
   static const LOG = "log";
   static const NOTE = "note";
+  static const NOTICE = "notice";
   static const REPORT = "report";
   static const ROOM = "room";
   static const USER = "user";
@@ -37,7 +41,7 @@ class CONTACT {
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "2.4";
+  static const ANDROID = "2.5";
   static const IOS = "1.1";
 }
 
@@ -51,6 +55,7 @@ class APIKEY {
 String adminName = "";
 String adminEmailID = "";
 String hostelID = "";
+String hostelName = "";
 List<String> amenities = new List();
 
 Map<String, String> headers = {
@@ -79,7 +84,7 @@ List<List<String>> billTypes = [
   ["Others", "8"],
 ];
 
-// if you change here, chnage in api too
+// if you change here, change in api too
 List<List<String>> paymentTypes = [
   ["Credit Card", "1"],
   ["Debit Card", "2"],
@@ -89,4 +94,22 @@ List<List<String>> paymentTypes = [
   ["PayTM", "6"],
   ["Cash", "7"],
   ["Others", "8"],
+];
+
+// if you change here, change in api too
+List<List<String>> issueTypes = [
+  ["Internet", "1"],
+  ["Food", "2"],
+  ["Electrical", "3"],
+  ["Plumbing", "4"],
+  ["Pests", "5"],
+  ["Cleaning", "6"],
+  ["Bed", "7"],
+  ["Room", "8"],
+  ["Security", "9"],
+  ["Theft", "10"],
+  ["Parking", "11"],
+  ["TV", "12"],
+  ["Appliances", "13"],
+  ["Others", "14"],
 ];

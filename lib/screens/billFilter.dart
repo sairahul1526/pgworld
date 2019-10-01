@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
+import 'package:flutter_range_slider/flutter_range_slider.dart' as rangeslider;
 import 'package:date_range_picker/date_range_picker.dart' as DateRagePicker;
 
 import '../utils/utils.dart';
@@ -309,7 +309,7 @@ class BillFilterActivityState extends State<BillFilterActivity> {
                   new Flexible(
                     child: new Container(
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: new RangeSlider(
+                      child: new rangeslider.RangeSlider(
                         min: 0,
                         max: 20000,
                         lowerValue: amountLower,

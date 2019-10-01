@@ -370,3 +370,107 @@ String getPaymentType(String id) {
   // if you add here, add in config too
   // if you change here, chnage in api too
 }
+
+String getIssueType(String id) {
+  // if you add here, you have to change in tenant app too
+  switch (id) {
+    case "1":
+      return "Internet";
+      break;
+    case "2":
+      return "Food";
+      break;
+    case "3":
+      return "Electrical";
+      break;
+    case "4":
+      return "Plumbing";
+      break;
+    case "5":
+      return "Pests";
+      break;
+    case "6":
+      return "Cleaning";
+      break;
+    case "7":
+      return "Bed";
+      break;
+    case "8":
+      return "Room";
+      break;
+
+    case "9":
+      return "Security";
+      break;
+    case "10":
+      return "Theft";
+      break;
+    case "11":
+      return "Parking";
+      break;
+    case "12":
+      return "TV";
+      break;
+    case "13":
+      return "Appliances";
+      break;
+    case "14":
+      return "Others";
+      break;
+    default:
+      return "Others";
+  }
+  // if you add here, you have to change in tenant app too
+}
+
+IconData getIssueIcon(String id) {
+  // if you add here, you have to change in tenant app too
+  switch (id) {
+    case "1":
+      return Icons.wifi;
+      break;
+    case "2":
+      return Icons.local_dining;
+      break;
+    case "3":
+      return Icons.flash_on;
+      break;
+    case "4":
+      return Icons.build;
+      break;
+    case "5":
+      return Icons.bug_report;
+      break;
+    case "6":
+      return Icons.blur_on;
+      break;
+    case "7":
+      return Icons.local_hotel;
+      break;
+    case "8":
+      return Icons.home;
+      break;
+
+    case "9":
+      return Icons.remove_red_eye;
+      break;
+    case "10":
+      return Icons.remove_circle_outline;
+      break;
+    case "11":
+      return Icons.local_parking;
+      break;
+    case "12":
+      return Icons.tv;
+      break;
+    case "13":
+      return Icons.category;
+      break;
+    case "14":
+      return Icons.report_problem;
+      break;
+    default:
+      return Icons.report_problem;
+  }
+  // if you add here, you have to change in tenant app too
+}

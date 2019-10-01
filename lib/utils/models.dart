@@ -214,6 +214,7 @@ class Dashboard {
   final String bill;
   final String note;
   final String employee;
+  final String issue;
 
   Dashboard({
     this.user,
@@ -221,6 +222,7 @@ class Dashboard {
     this.bill,
     this.note,
     this.employee,
+    this.issue,
   });
 
   factory Dashboard.fromJson(Map<String, dynamic> json) {
@@ -230,6 +232,7 @@ class Dashboard {
       bill: json['bill'],
       note: json['note'],
       employee: json['employee'],
+      issue: json['issue'],
     );
   }
 }
@@ -308,6 +311,204 @@ class Employee {
       lastPaidDateTime: json['last_paid_date_time'],
       expiryDateTime: json['expiry_date_time'],
       leaveDateTime: json['leave_date_time'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// food
+
+class Foods {
+  final List<Food> foods;
+  final Meta meta;
+  final Pagination pagination;
+
+  Foods({this.foods, this.meta, this.pagination});
+
+  factory Foods.fromJson(Map<String, dynamic> json) {
+    return Foods(
+      foods: json['data'] != null
+          ? List<Food>.from(json['data'].map((i) => Food.fromJson(i)))
+          : new List<Food>(),
+      meta: Meta.fromJson(json['meta']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
+    );
+  }
+}
+
+class Food {
+  final String id;
+  final String hostelID;
+  final String date;
+  final String breakfast;
+  final String lunch;
+  final String dinner;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Food(
+      {this.id,
+      this.hostelID,
+      this.date,
+      this.breakfast,
+      this.lunch,
+      this.dinner,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Food.fromJson(Map<String, dynamic> json) {
+    return Food(
+      id: json['id'],
+      hostelID: json['hostel_id'],
+      date: json['date'],
+      breakfast: json['breakfast'],
+      lunch: json['lunch'],
+      dinner: json['dinner'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// invoice
+
+class Invoices {
+  final List<Invoice> invoices;
+  final Meta meta;
+  final Pagination pagination;
+
+  Invoices({this.invoices, this.meta, this.pagination});
+
+  factory Invoices.fromJson(Map<String, dynamic> json) {
+    return Invoices(
+      invoices: json['data'] != null
+          ? List<Invoice>.from(json['data'].map((i) => Invoice.fromJson(i)))
+          : new List<Invoice>(),
+      meta: Meta.fromJson(json['meta']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
+    );
+  }
+}
+
+class Invoice {
+  final String id;
+  final String hostelID;
+  final String amount;
+  final String description;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Invoice(
+      {this.id,
+      this.hostelID,
+      this.amount,
+      this.description,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Invoice.fromJson(Map<String, dynamic> json) {
+    return Invoice(
+      id: json['id'],
+      hostelID: json['hostelID'],
+      amount: json['amount'],
+      description: json['description'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// issue
+
+class Issues {
+  final List<Issue> issues;
+  final Meta meta;
+  final Pagination pagination;
+
+  Issues({this.issues, this.meta, this.pagination});
+
+  factory Issues.fromJson(Map<String, dynamic> json) {
+    return Issues(
+      issues: json['data'] != null
+          ? List<Issue>.from(json['data'].map((i) => Issue.fromJson(i)))
+          : new List<Issue>(),
+      meta: Meta.fromJson(json['meta']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
+    );
+  }
+}
+
+class Issue implements ListItem {
+  final String id;
+  final String hostelID;
+  final String userID;
+  final String type;
+  final String title;
+  final String username;
+  final String phone;
+  final String resolve;
+  final String roomno;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Issue(
+      {this.id,
+      this.hostelID,
+      this.userID,
+      this.type,
+      this.title,
+      this.username,
+      this.phone,
+      this.resolve,
+      this.roomno,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Issue.fromJson(Map<String, dynamic> json) {
+    return Issue(
+      id: json['id'],
+      hostelID: json['hostelID'],
+      userID: json['user_id'],
+      type: json['type'],
+      title: json['title'],
+      username: json['username'],
+      phone: json['phone'],
+      resolve: json['resolve'],
+      roomno: json['roomno'],
       status: json['status'],
       createdBy: json['created_by'],
       modifiedBy: json['modified_by'],
@@ -491,6 +692,74 @@ class Note implements ListItem {
     return Note(
       id: json['id'],
       note: json['note'],
+      status: json['status'],
+      createdBy: json['created_by'],
+      modifiedBy: json['modified_by'],
+      createdDateTime: json['created_date_time'],
+      modifiedDateTime: json['modified_date_time'],
+    );
+  }
+}
+
+// notice
+
+class Notices {
+  final List<Notice> notices;
+  final Meta meta;
+  final Pagination pagination;
+
+  Notices({this.notices, this.meta, this.pagination});
+
+  factory Notices.fromJson(Map<String, dynamic> json) {
+    return Notices(
+      notices: json['data'] != null
+          ? List<Notice>.from(json['data'].map((i) => Notice.fromJson(i)))
+          : new List<Notice>(),
+      meta: Meta.fromJson(json['meta']),
+      pagination: json['pagination'] != null
+          ? Pagination.fromJson(json['pagination'])
+          : null,
+    );
+  }
+}
+
+class Notice implements ListItem {
+  final String id;
+  final String title;
+  final String description;
+  final String img;
+  final String hostelID;
+  final String type;
+  final String date;
+  final String status;
+  final String createdBy;
+  final String modifiedBy;
+  final String createdDateTime;
+  final String modifiedDateTime;
+
+  Notice(
+      {this.id,
+      this.title,
+      this.description,
+      this.img,
+      this.hostelID,
+      this.type,
+      this.date,
+      this.status,
+      this.createdBy,
+      this.modifiedBy,
+      this.createdDateTime,
+      this.modifiedDateTime});
+
+  factory Notice.fromJson(Map<String, dynamic> json) {
+    return Notice(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      img: json['img'],
+      hostelID: json['hostelID'],
+      type: json['type'],
+      date: json['date'],
       status: json['status'],
       createdBy: json['created_by'],
       modifiedBy: json['modified_by'],

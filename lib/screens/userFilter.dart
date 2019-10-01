@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_range_slider/flutter_range_slider.dart';
+import 'package:flutter_range_slider/flutter_range_slider.dart' as rangeslider;
 
 class UserFilterActivity extends StatefulWidget {
   final Map<String, String> filter;
@@ -255,7 +255,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                   new Flexible(
                     child: new Container(
                       margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: new RangeSlider(
+                      child: new rangeslider.RangeSlider(
                         min: 0,
                         max: 20000,
                         lowerValue: rentLower,
@@ -407,7 +407,7 @@ class UserFilterActivityState extends State<UserFilterActivity> {
                         type = 2;
                       });
                     },
-                    child: new Text("Vacate"),
+                    child: new Text("Vacating"),
                   ),
                 ],
               ),

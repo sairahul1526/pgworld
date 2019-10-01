@@ -49,6 +49,36 @@ Future<Employees> getEmployees(Map<String, String> query) async {
   return Employees.fromJson(json.decode(response.body));
 }
 
+// food
+
+Future<Foods> getFoods(Map<String, String> query) async {
+  final response = await http
+      .get(Uri.http(API.URL, API.FOOD, query), headers: headers)
+      .timeout(Duration(seconds: timeout));
+
+  return Foods.fromJson(json.decode(response.body));
+}
+
+// invoice
+
+Future<Invoices> getInvoices(Map<String, String> query) async {
+  final response = await http
+      .get(Uri.http(API.URL, API.INVOICE, query), headers: headers)
+      .timeout(Duration(seconds: timeout));
+
+  return Invoices.fromJson(json.decode(response.body));
+}
+
+// issue
+
+Future<Issues> getIssues(Map<String, String> query) async {
+  final response = await http
+      .get(Uri.http(API.URL, API.ISSUE, query), headers: headers)
+      .timeout(Duration(seconds: timeout));
+
+  return Issues.fromJson(json.decode(response.body));
+}
+
 // log
 
 Future<Logs> getLogs(Map<String, String> query) async {
@@ -67,6 +97,16 @@ Future<Notes> getNotes(Map<String, String> query) async {
       .timeout(Duration(seconds: timeout));
 
   return Notes.fromJson(json.decode(response.body));
+}
+
+// notice
+
+Future<Notices> getNotices(Map<String, String> query) async {
+  final response = await http
+      .get(Uri.http(API.URL, API.NOTICE, query), headers: headers)
+      .timeout(Duration(seconds: timeout));
+
+  return Notices.fromJson(json.decode(response.body));
 }
 
 // report
