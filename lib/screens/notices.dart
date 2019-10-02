@@ -1,10 +1,8 @@
 import 'package:cloudpg/screens/notice.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import './bills.dart';
 import '../utils/models.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
