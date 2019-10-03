@@ -59,7 +59,8 @@ class RoomFilterActivityState extends State<RoomFilterActivity> {
       }
     }
 
-    amenities.forEach((amenity) => avaiableAmenities[amenity] = false);
+    amenities.forEach((amenity) =>
+        amenity.length > 0 ? avaiableAmenities[amenity] = false : null);
     if (filter["amenities"] != null) {
       filter["amenities"].split(",").forEach((amenity) =>
           amenity.length > 0 ? avaiableAmenities[amenity] = true : null);

@@ -41,7 +41,7 @@ class CONTACT {
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "2.5";
+  static const ANDROID = "2.6";
   static const IOS = "1.1";
 }
 
@@ -72,6 +72,17 @@ const defaultOffset = "0";
 const STATUS_400 = "400";
 const STATUS_403 = "403"; // forbidden
 const STATUS_500 = "500";
+
+List<List<String>> amenityTypes = [
+  ["Wifi", "1"],
+  ["Bathroom", "2"],
+  ["TV", "3"],
+  ["AC", "4"],
+  ["Power Backup", "5"],
+  ["Washing Machine", "6"],
+  ["Geyser", "7"],
+  ["Laundry", "8"],
+];
 
 List<List<String>> billTypes = [
   ["Cable Bill", "1"],

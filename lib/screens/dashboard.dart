@@ -16,14 +16,14 @@ import './report.dart';
 import '../utils/utils.dart';
 import '../utils/config.dart';
 
-class DashBoard extends StatefulWidget {
+class DashBoardActivity extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return new DashBoardState();
+    return new DashBoardActivityState();
   }
 }
 
-class DashBoardState extends State<DashBoard> {
+class DashBoardActivityState extends State<DashBoardActivity> {
   FocusNode textSecondFocusNode = new FocusNode();
 
   Dashboard dashboard;

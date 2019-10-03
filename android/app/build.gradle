@@ -73,8 +73,8 @@ android {
         applicationId "com.saikrishna.cloudpg"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 40
-        versionName "2.5"
+        versionCode 41
+        versionName "2.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

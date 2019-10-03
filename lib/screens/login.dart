@@ -1,3 +1,5 @@
+import 'package:cloudpg/screens/hostel.dart';
+import 'package:cloudpg/screens/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -11,7 +13,6 @@ import '../utils/models.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
 import '../utils/utils.dart';
-import './support.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -67,7 +68,7 @@ class LoginState extends State<Login> {
           hostelName = prefs.getString("hostelName");
           amenities = prefs.getString("amenities").split(",");
           Navigator.of(context).pushReplacement(new MaterialPageRoute(
-              builder: (BuildContext context) => new DashBoard()));
+              builder: (BuildContext context) => new DashBoardActivity()));
         } else {
           setState(() {
             loggedIn = false;
@@ -92,12 +93,12 @@ class LoginState extends State<Login> {
         setState(() {
           loggedIn = true;
         });
-        Future<Admins> employeeResponse = getAdmins(Map.from({
+        Future<Admins> adminResponse = getAdmins(Map.from({
           'username': username.text,
           'password': password.text,
           'oneSignalID': onesignalUserId,
         }));
-        employeeResponse.then((response) {
+        adminResponse.then((response) {
           if (response == null ||
               response.meta == null ||
               response.meta.status != "200") {
@@ -127,14 +128,16 @@ class LoginState extends State<Login> {
                     hostelID = response.hostels[0].id;
                     hostelName = response.hostels[0].name;
                     amenities = response.hostels[0].amenities.split(",");
+
+                    Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            new DashBoardActivity()));
                   } else {
-                    loggedIn = false;
-                    wrongCreds = true;
+                    Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                        builder: (BuildContext context) =>
+                            new HostelActivity(null, true, true)));
                   }
                 });
-
-                Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                    builder: (BuildContext context) => new DashBoard()));
               });
             }
           }
@@ -226,7 +229,7 @@ class LoginState extends State<Login> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => new SupportActivity(false)));
+                            builder: (context) => new SignupActivity()));
                   },
                 ),
               ),

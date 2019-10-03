@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+import 'package:cloudpg/screens/hostels.dart';
 import 'package:cloudpg/screens/invoices.dart';
 import 'package:flutter/material.dart';
 import '../utils/api.dart';
@@ -38,10 +39,65 @@ class SettingsActivityState extends State<SettingsActivity> {
   @override
   void initState() {
     super.initState();
-    hostelIDs = prefs.getString('hostelIDs');
     selectedHostelID = prefs.getString('hostelID');
 
-    getHostelsData();
+    getUserData();
+  }
+
+  void getUserData() {
+    checkInternet().then((internet) {
+      if (internet == null || !internet) {
+        oneButtonDialog(context, "No Internet connection", "", true);
+        return;
+      } else {
+        setState(() {
+          loading = true;
+        });
+        Future<Admins> adminResponse = getAdmins(Map.from({
+          'username': adminName,
+          'email': adminEmailID,
+        }));
+        adminResponse.then((response) {
+          if (response == null ||
+              response.meta == null ||
+              response.meta.status != "200") {
+            setState(() {
+              loading = false;
+            });
+          } else {
+            if (response.admins.length == 0) {
+              setState(() {
+                loading = false;
+              });
+            } else {
+              prefs.setString('username', response.admins[0].username);
+              prefs.setString('email', response.admins[0].email);
+              prefs.setString('hostelIDs', response.admins[0].hostels);
+              hostelIDs = prefs.getString('hostelIDs');
+              adminName = response.admins[0].username;
+              adminEmailID = response.admins[0].email;
+              Future<Hostels> hostelResponse =
+                  getHostels(Map.from({'id': hostelID, 'status': '1'}));
+              hostelResponse.then((response) {
+                setState(() {
+                  if (response.hostels.length > 0) {
+                    prefs.setString('hostelID', response.hostels[0].id);
+                    prefs.setString('hostelName', response.hostels[0].name);
+                    prefs.setString('amenities', response.hostels[0].amenities);
+                    hostelID = response.hostels[0].id;
+                    hostelName = response.hostels[0].name;
+                    amenities = response.hostels[0].amenities.split(",");
+                    getHostelsData();
+                  } else {
+                    loading = false;
+                  }
+                });
+              });
+            }
+          }
+        });
+      }
+    });
   }
 
   void getHostelsData() {
@@ -75,6 +131,15 @@ class SettingsActivityState extends State<SettingsActivity> {
     Navigator.pop(context);
     Navigator.of(context).pushReplacement(
         new MaterialPageRoute(builder: (BuildContext context) => new Login()));
+  }
+
+  hostelsPage(BuildContext context, Widget page) async {
+    final data = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    ) as String;
+
+    getUserData();
   }
 
   @override
@@ -227,6 +292,34 @@ class SettingsActivityState extends State<SettingsActivity> {
                             ),
                             new Expanded(
                               child: new Text("Subscription Invoices"),
+                            ),
+                            new Icon(
+                              Icons.arrow_right,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    new Container(
+                      height: 20,
+                    ),
+                    new GestureDetector(
+                      onTap: () {
+                        hostelsPage(context, new HostelsActivity());
+                      },
+                      child: new Container(
+                        color: Colors.transparent,
+                        height: 30,
+                        child: new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            new Icon(Icons.receipt),
+                            new Container(
+                              width: 20,
+                            ),
+                            new Expanded(
+                              child: new Text("Hostels"),
                             ),
                             new Icon(
                               Icons.arrow_right,

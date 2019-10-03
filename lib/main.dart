@@ -1,3 +1,4 @@
+import 'package:cloudpg/screens/hostel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -85,9 +86,18 @@ class _MyHomePageState extends State<MyHomePage> {
           adminName = prefs.getString("username");
           adminEmailID = prefs.getString("email");
           hostelID = prefs.getString("hostelID");
-          amenities = prefs.getString("amenities").split(",");
-          Navigator.of(context).pushReplacement(new MaterialPageRoute(
-              builder: (BuildContext context) => new DashBoard()));
+          amenities = prefs.getString("amenities") != null
+              ? prefs.getString("amenities").split(",")
+              : new List();
+          if (prefs.getString("hostelIDs") != null &&
+              prefs.getString("hostelIDs").length > 0) {
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (BuildContext context) => new DashBoardActivity()));
+          } else {
+            Navigator.of(context).pushReplacement(new MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    new HostelActivity(null, true, true)));
+          }
         } else {
           Navigator.of(context).pushReplacement(new MaterialPageRoute(
               builder: (BuildContext context) => new Login()));

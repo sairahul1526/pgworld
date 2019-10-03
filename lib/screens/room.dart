@@ -18,11 +18,6 @@ class RoomActivity extends StatefulWidget {
 }
 
 class RoomActivityState extends State<RoomActivity> {
-  bool wifi = false;
-  bool bathroom = false;
-  bool tv = false;
-  bool ac = false;
-
   TextEditingController roomno = new TextEditingController();
   TextEditingController rent = new TextEditingController();
   TextEditingController capacity = new TextEditingController();
@@ -42,7 +37,9 @@ class RoomActivityState extends State<RoomActivity> {
   @override
   void initState() {
     super.initState();
-    amenities.forEach((amenity) => avaiableAmenities[amenity] = false);
+    print(amenities);
+    amenities.forEach((amenity) =>
+        amenity.length > 0 ? avaiableAmenities[amenity] = false : null);
     if (room != null) {
       roomno.text = room.roomno;
       rent.text = room.rent;
@@ -52,6 +49,7 @@ class RoomActivityState extends State<RoomActivity> {
             amenity.length > 0 ? avaiableAmenities[amenity] = true : null);
       }
     }
+    print(avaiableAmenities);
   }
 
   List<Widget> amenitiesWidget() {
