@@ -1,18 +1,26 @@
-# cloudpg
+# PG/Hostel Management app (Made with Flutter)
 
-A new Flutter project.
+1. You can manage multiple PG's in one place without logging again. 
+2. Easy room management.
+3. Filter by amenities like TV, AC. Filter by available and occupied rooms.
+4. Collect rents from tenants easily without any complex flow. 
+5. Track rent payments of every tenant by date, month or year. 
+6. Track financial growth of your PG accurately and get insights into your daily expense and maintenance.
+7. Don't worry about loosing your important documents. Now store all your PG related documents such as electricity bill, water bill in the app.
+8. Managing thousand's of tenants is easy with our simplified approach. You can easily view information about individual tenants from the dashboard. 
+9. You can easily add informations such as Name, Email ID, Phone number, address of tenants in the dashboard. You can also upload related documents such as Tenant's Aadhar card, driving license, voter id to the dashboard.
+10. You can track rent payments of the individual tenant. You can view the data of tenants whose rent payment is successfully paid. This helps you to have better control over rent management.
+11. Manage your staff and their salaries easily without any hassle. 
+12. Helps you to get the overall performance of your PG Business. PG's income's and expenses can be added from the dashboard. App will summarize finance data from various income and expense sources and present it to you to have a better understanding of your PG's growth.
+13. Mail data of tenants, bills, employees, rooms with filters.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/1.webp?raw=true)
+![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/2.webp?raw=true)
+![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/3.webp?raw=true)
+![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/4.webp?raw=true)
+![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/5.webp?raw=true)
+![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/6.webp?raw=true)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.io/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-# cloudpg
+## Backend code @ [API](https://github.com/sairahul1526/pgworld-api)
+## PG/Hostel [Tenant App](https://github.com/sairahul1526/pgworldtenant) (Not upto 100%)
