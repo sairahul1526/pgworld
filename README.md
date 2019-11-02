@@ -13,6 +13,7 @@
 11. Manage your staff and their salaries easily without any hassle. 
 12. Helps you to get the overall performance of your PG Business. PG's income's and expenses can be added from the dashboard. App will summarize finance data from various income and expense sources and present it to you to have a better understanding of your PG's growth.
 13. Mail data of tenants, bills, employees, rooms with filters.
+And many more.
 
 
 ![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/1.webp?raw=true)
