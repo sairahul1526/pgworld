@@ -1,3 +1,4 @@
+import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -254,7 +255,21 @@ class UsersActivityState extends State<UsersActivity> {
           room == null
               ? new IconButton(
                   onPressed: () {
-                    filterPage(context, new UserFilterActivity(filterby));
+                    Future<Admins> statusResponse =
+                        getStatus({"hostel_id": hostelID});
+                    statusResponse.then((response) {
+                      if (response != null) {
+                        if (response.meta.status != STATUS_403) {
+                          filterPage(context, new UserFilterActivity(filterby));
+                        } else {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new ProActivity())
+                          );
+                        }
+                      }
+                    });
                   },
                   icon: new Icon(Icons.filter_list),
                 )

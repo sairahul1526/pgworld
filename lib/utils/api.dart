@@ -149,6 +149,18 @@ Future<Hostels> getHostels(Map<String, String> query) async {
   return Hostels.fromJson(json.decode(response.body));
 }
 
+
+// status
+
+Future<Admins> getStatus(Map<String, String> query) async {
+  final response = await http
+      .get(Uri.http(API.URL, API.STATUS, query), headers: headers)
+      .timeout(Duration(seconds: timeout));
+
+  return Admins.fromJson(json.decode(response.body));
+}
+
+
 // add and update
 Future<bool> add(String endpoint, Map<String, String> body) async {
   if (body["status"] != null) {

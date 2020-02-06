@@ -3,7 +3,7 @@ import 'package:cloudpg/screens/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
@@ -36,11 +36,11 @@ class LoginState extends State<Login> {
   void initState() {
     super.initState();
 
-    OneSignal.shared.getPermissionSubscriptionState().then((status) {
-      if (status.subscriptionStatus.subscribed) {
-        onesignalUserId = status.subscriptionStatus.userId;
-      }
-    });
+    // OneSignal.shared.getPermissionSubscriptionState().then((status) {
+    //   if (status.subscriptionStatus.subscribed) {
+    //     onesignalUserId = status.subscriptionStatus.userId;
+    //   }
+    // });
 
     if (Platform.isAndroid) {
       headers["appversion"] = APPVERSION.ANDROID;

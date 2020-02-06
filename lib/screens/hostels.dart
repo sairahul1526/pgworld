@@ -1,3 +1,4 @@
+import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -125,8 +126,22 @@ class HostelsActivityState extends State<HostelsActivity> {
         actions: <Widget>[
           new IconButton(
             onPressed: () {
-              addPage(context,
-                  new HostelActivity(null, false, hostels.length <= 1));
+              Future<Admins> statusResponse =
+                  getStatus({"hostel_id": hostelID});
+              statusResponse.then((response) {
+                if (response != null) {
+                  if (response.meta.status != STATUS_403) {
+                    addPage(context,
+                        new HostelActivity(null, false, hostels.length <= 1));
+                  } else {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new ProActivity()),
+                    );
+                  }
+                }
+              });
             },
             icon: new Icon(Icons.add),
           )

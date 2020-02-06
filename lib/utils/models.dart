@@ -214,7 +214,7 @@ class Dashboard {
   final String bill;
   final String note;
   final String employee;
-  final String issue;
+  // final String issue;
 
   Dashboard({
     this.user,
@@ -222,7 +222,7 @@ class Dashboard {
     this.bill,
     this.note,
     this.employee,
-    this.issue,
+    // this.issue,
   });
 
   factory Dashboard.fromJson(Map<String, dynamic> json) {
@@ -232,7 +232,7 @@ class Dashboard {
       bill: json['bill'],
       note: json['note'],
       employee: json['employee'],
-      issue: json['issue'],
+      // issue: json['issue'],
     );
   }
 }

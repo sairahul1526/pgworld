@@ -1,5 +1,5 @@
 class API {
-  static const URL = "test-pgworld.ap-south-1.elasticbeanstalk.com";
+  static const URL = "cloudpg.ap-south-1.elasticbeanstalk.com";
   static const ADMIN = "admin";
   static const BILL = "bill";
   static const DASHBOARD = "dashboard";
@@ -18,6 +18,7 @@ class API {
   static const USERVACATE = "uservacate";
   static const SIGNUP = "signup";
   static const SUPPORT = "support";
+  static const STATUS = "status";
   static const HOSTEL = "hostel";
 
   static const RENT = "rent";

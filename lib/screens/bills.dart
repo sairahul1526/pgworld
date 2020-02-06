@@ -1,3 +1,4 @@
+import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
@@ -242,7 +243,21 @@ class BillsActivityState extends State<BillsActivity> {
           (employee == null && user == null)
               ? new IconButton(
                   onPressed: () {
-                    filterPage(context, new BillFilterActivity(filterby));
+                    Future<Admins> statusResponse =
+                        getStatus({"hostel_id": hostelID});
+                    statusResponse.then((response) {
+                      if (response != null) {
+                        if (response.meta.status != STATUS_403) {
+                          filterPage(context, new BillFilterActivity(filterby));
+                        } else {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new ProActivity()),
+                          );
+                        }
+                      }
+                    });
                   },
                   icon: new Icon(Icons.filter_list),
                 )

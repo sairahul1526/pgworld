@@ -1,3 +1,4 @@
+import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -225,7 +226,23 @@ class UserActivityState extends State<UserActivity> {
       children: <Widget>[
         new Expanded(
           child: new FlatButton(
-            onPressed: () => selectPhoto(context),
+            onPressed: () {
+              Future<Admins> statusResponse =
+                  getStatus({"hostel_id": hostelID});
+              statusResponse.then((response) {
+                if (response != null) {
+                  if (response.meta.status != STATUS_403) {
+                    selectPhoto(context);
+                  } else {
+                    Navigator.push(
+                      context,
+                      new MaterialPageRoute(
+                          builder: (context) => new ProActivity()),
+                    );
+                  }
+                }
+              });
+            },
             child: new Text("Add Document"),
           ),
         )

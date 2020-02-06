@@ -2,7 +2,7 @@ import 'package:cloudpg/screens/hostel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:onesignal_flutter/onesignal_flutter.dart';
+// import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
@@ -49,13 +49,13 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
 // Map<OSiOSSettings, dynamic>(OSiOSSettings.autoPrompt: true, OSiOSSettings.inAppLaunchUrl: true)
-    OneSignal.shared.init(ONESIGNAL_APP_ID);
-    OneSignal.shared
-        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+    // OneSignal.shared.init(ONESIGNAL_APP_ID);
+    // OneSignal.shared
+    //     .setInFocusDisplayType(OSNotificationDisplayType.notification);
 
-    OneSignal.shared.promptUserForPushNotificationPermission();
-    OneSignal.shared
-        .promptUserForPushNotificationPermission(fallbackToSettings: true);
+    // OneSignal.shared.promptUserForPushNotificationPermission();
+    // OneSignal.shared
+    //     .promptUserForPushNotificationPermission(fallbackToSettings: true);
 
     Future.delayed(Duration(seconds: 3), () {
       loginCheck();

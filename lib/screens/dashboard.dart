@@ -1,6 +1,7 @@
 import 'package:cloudpg/screens/food.dart';
 import 'package:cloudpg/screens/issues.dart';
 import 'package:cloudpg/screens/notices.dart';
+import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
 import '../utils/api.dart';
 import '../utils/models.dart';
@@ -447,52 +448,52 @@ class DashBoardActivityState extends State<DashBoardActivity> {
                             );
                           },
                         ),
-                        new GestureDetector(
-                          child: new Card(
-                            child: new Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                              child: new Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: new BoxDecoration(
-                                        color: Colors.red,
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: new Icon(
-                                        Icons.report_problem,
-                                        size: 25,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                  new Text(
-                                    (dashboard != null ? dashboard.issue : ""),
-                                    style: TextStyle(
-                                      fontSize: 25,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                  new Text("Complaints",
-                                      style: new TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.grey,
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new IssuesActivity()),
-                            );
-                          },
-                        ),
+                        // new GestureDetector(
+                        //   child: new Card(
+                        //     child: new Container(
+                        //       margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        //       child: new Column(
+                        //         mainAxisAlignment: MainAxisAlignment.start,
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         children: <Widget>[
+                        //           new Expanded(
+                        //             child: new Container(
+                        //               padding: EdgeInsets.all(10),
+                        //               decoration: new BoxDecoration(
+                        //                 color: Colors.red,
+                        //                 shape: BoxShape.circle,
+                        //               ),
+                        //               child: new Icon(
+                        //                 Icons.report_problem,
+                        //                 size: 25,
+                        //                 color: Colors.white,
+                        //               ),
+                        //             ),
+                        //           ),
+                        //           new Text(
+                        //             "0",
+                        //             style: TextStyle(
+                        //               fontSize: 25,
+                        //               color: Colors.black,
+                        //             ),
+                        //           ),
+                        //           new Text("Complaints",
+                        //               style: new TextStyle(
+                        //                 fontSize: 17,
+                        //                 color: Colors.grey,
+                        //               )),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       new MaterialPageRoute(
+                        //           builder: (context) => new IssuesActivity()),
+                        //     );
+                        //   },
+                        // ),
                       ],
                     ),
                   ),
@@ -510,82 +511,82 @@ class DashBoardActivityState extends State<DashBoardActivity> {
                       mainAxisSpacing: 15.0,
                       crossAxisCount: 2,
                       children: <Widget>[
-                        new GestureDetector(
-                          child: new Card(
-                            child: new Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                              child: new Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  new Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    padding: EdgeInsets.all(10),
-                                    decoration: new BoxDecoration(
-                                      color: HexColor("#82b832"),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: new Icon(
-                                      Icons.local_dining,
-                                      size: 25,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  new Text("Food",
-                                      style: new TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.grey,
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new FoodActivity()),
-                            );
-                          },
-                        ),
-                        new GestureDetector(
-                          child: new Card(
-                            child: new Container(
-                              margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                              child: new Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  new Container(
-                                    margin: EdgeInsets.only(bottom: 10),
-                                    padding: EdgeInsets.all(10),
-                                    decoration: new BoxDecoration(
-                                      color: Colors.grey,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: new Icon(
-                                      Icons.list,
-                                      size: 25,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  new Text("Notices",
-                                      style: new TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.grey,
-                                      )),
-                                ],
-                              ),
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new NoticesActivity()),
-                            );
-                          },
-                        ),
+                        // new GestureDetector(
+                        //   child: new Card(
+                        //     child: new Container(
+                        //       margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        //       child: new Column(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         children: <Widget>[
+                        //           new Container(
+                        //             margin: EdgeInsets.only(bottom: 10),
+                        //             padding: EdgeInsets.all(10),
+                        //             decoration: new BoxDecoration(
+                        //               color: HexColor("#82b832"),
+                        //               shape: BoxShape.circle,
+                        //             ),
+                        //             child: new Icon(
+                        //               Icons.local_dining,
+                        //               size: 25,
+                        //               color: Colors.white,
+                        //             ),
+                        //           ),
+                        //           new Text("Food",
+                        //               style: new TextStyle(
+                        //                 fontSize: 17,
+                        //                 color: Colors.grey,
+                        //               )),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       new MaterialPageRoute(
+                        //           builder: (context) => new FoodActivity()),
+                        //     );
+                        //   },
+                        // ),
+                        // new GestureDetector(
+                        //   child: new Card(
+                        //     child: new Container(
+                        //       margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        //       child: new Column(
+                        //         mainAxisAlignment: MainAxisAlignment.center,
+                        //         crossAxisAlignment: CrossAxisAlignment.center,
+                        //         children: <Widget>[
+                        //           new Container(
+                        //             margin: EdgeInsets.only(bottom: 10),
+                        //             padding: EdgeInsets.all(10),
+                        //             decoration: new BoxDecoration(
+                        //               color: Colors.grey,
+                        //               shape: BoxShape.circle,
+                        //             ),
+                        //             child: new Icon(
+                        //               Icons.list,
+                        //               size: 25,
+                        //               color: Colors.white,
+                        //             ),
+                        //           ),
+                        //           new Text("Notices",
+                        //               style: new TextStyle(
+                        //                 fontSize: 17,
+                        //                 color: Colors.grey,
+                        //               )),
+                        //         ],
+                        //       ),
+                        //     ),
+                        //   ),
+                        //   onTap: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       new MaterialPageRoute(
+                        //           builder: (context) => new NoticesActivity()),
+                        //     );
+                        //   },
+                        // ),
                         new GestureDetector(
                           child: new Card(
                             child: new Container(
@@ -655,11 +656,27 @@ class DashBoardActivityState extends State<DashBoardActivity> {
                             ),
                           ),
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new ReportActivity()),
-                            );
+                            Future<Admins> statusResponse =
+                                getStatus({"hostel_id": hostelID});
+                            statusResponse.then((response) {
+                              if (response != null) {
+                                if (response.meta.status != STATUS_403) {
+                                  Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) =>
+                                            new ReportActivity()),
+                                  );
+                                } else {
+                                  Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) =>
+                                            new ProActivity()),
+                                  );
+                                }
+                              }
+                            });
                           },
                         ),
                       ],

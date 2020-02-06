@@ -1,6 +1,7 @@
 import 'dart:io' show Platform;
 import 'package:cloudpg/screens/hostels.dart';
 import 'package:cloudpg/screens/invoices.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter/material.dart';
 import '../utils/api.dart';
 
@@ -36,12 +37,30 @@ class SettingsActivityState extends State<SettingsActivity> {
 
   bool loading = true;
 
+  var _razorpay = Razorpay();
+
   @override
   void initState() {
     super.initState();
     selectedHostelID = prefs.getString('hostelID');
 
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+
     getUserData();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet was selected
   }
 
   void getUserData() {
@@ -275,10 +294,22 @@ class SettingsActivityState extends State<SettingsActivity> {
                     ),
                     new GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => new InvoicesActivity()));
+                        var options = {
+                          'key': 'rzp_test_ZMeXzB3F3VAv6q',
+                          'amount': 100228,
+                          'name': 'Acme Corp.',
+                          'description': 'Fine T-Shirt',
+                          'payment_capture': '1',
+                          'prefill': {
+                            'contact': '8888888888',
+                            'email': 'dravid.rahul1526@gmail.com'
+                          }
+                        };
+                        _razorpay.open(options);
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => new InvoicesActivity()));
                       },
                       child: new Container(
                         color: Colors.transparent,
