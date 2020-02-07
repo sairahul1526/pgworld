@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../utils/utils.dart';
 
@@ -73,22 +73,30 @@ class InvoicesActivityState extends State<InvoicesActivity> {
         filter["offset"] = offset;
         Future<Invoices> data = getInvoices(filter);
         data.then((response) {
-          if (response.invoices != null && response.invoices.length > 0) {
-            offset = (int.parse(response.pagination.offset) +
-                    response.invoices.length)
-                .toString();
-            invoices.addAll(response.invoices);
+          if (response != null) {
+            if (response.invoices != null && response.invoices.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.invoices.length)
+                  .toString();
+              invoices.addAll(response.invoices);
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
+            });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

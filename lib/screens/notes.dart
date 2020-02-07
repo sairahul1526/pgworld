@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import './note.dart';
@@ -70,33 +70,41 @@ class NotesActivityState extends State<NotesActivity> {
         filter["offset"] = offset;
         Future<Notes> data = getNotes(filter);
         data.then((response) {
-          if (response.notes != null && response.notes.length > 0) {
-            offset =
-                (int.parse(response.pagination.offset) + response.notes.length)
-                    .toString();
-            response.notes.forEach((note) {
-              if (note is Note) {
-                print(note.createdDateTime);
-                if (createdDateTime
-                        .compareTo(note.createdDateTime.split(" ")[0]) !=
-                    0) {
-                  createdDateTime = note.createdDateTime.split(" ")[0];
-                  notes.add(HeadingItem(createdDateTime));
+          if (response != null) {
+            if (response.notes != null && response.notes.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.notes.length)
+                  .toString();
+              response.notes.forEach((note) {
+                if (note is Note) {
+                  print(note.createdDateTime);
+                  if (createdDateTime
+                          .compareTo(note.createdDateTime.split(" ")[0]) !=
+                      0) {
+                    createdDateTime = note.createdDateTime.split(" ")[0];
+                    notes.add(HeadingItem(createdDateTime));
+                  }
                 }
-              }
-              notes.add(note);
+                notes.add(note);
+              });
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
             });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

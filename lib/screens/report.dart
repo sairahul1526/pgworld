@@ -55,14 +55,20 @@ class ReportActivityState extends State<ReportActivity> {
         filter["to"] = dateFormat.format(toDate);
         Future<Charts> data = getReports(filter);
         data.then((response) {
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
+          if (response != null) {
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              charts = response;
+            });
+            updateCharts();
+          } else {
+            setState(() {
+              loading = false;
+            });
           }
-          setState(() {
-            charts = response;
-          });
-          updateCharts();
         });
       }
     });

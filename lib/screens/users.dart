@@ -1,6 +1,6 @@
 import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -139,22 +139,30 @@ class UsersActivityState extends State<UsersActivity> {
         filter["offset"] = offset;
         Future<Users> data = getUsers(filter);
         data.then((response) {
-          if (response.users != null && response.users.length > 0) {
-            offset =
-                (int.parse(response.pagination.offset) + response.users.length)
-                    .toString();
-            users.addAll(response.users);
+          if (response != null) {
+            if (response.users != null && response.users.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.users.length)
+                  .toString();
+              users.addAll(response.users);
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
+            });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });
@@ -205,7 +213,7 @@ class UsersActivityState extends State<UsersActivity> {
     }
   }
 
-    billsPage(BuildContext context, Widget page) async {
+  billsPage(BuildContext context, Widget page) async {
     final data = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => page),
@@ -263,10 +271,9 @@ class UsersActivityState extends State<UsersActivity> {
                           filterPage(context, new UserFilterActivity(filterby));
                         } else {
                           Navigator.push(
-                            context,
-                            new MaterialPageRoute(
-                                builder: (context) => new ProActivity())
-                          );
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new ProActivity()));
                         }
                       }
                     });

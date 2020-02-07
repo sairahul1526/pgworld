@@ -175,71 +175,76 @@ class HostelActivityState extends State<HostelActivity> {
                     );
                   }
                   load.then((onValue) {
-                    if (hostel != null) {
-                      setState(() {
-                        loading = false;
-                      });
-                      Navigator.pop(context, "");
-                    } else {
-                      new Timer(const Duration(milliseconds: 1000), () {
-                        Future<Hostels> data = getHostels(Map.from({
-                          "name": name.text,
-                          "address": address.text,
-                          "phone": phone.text,
-                          "amenities": savedAmenities.length > 0
-                              ? "," + savedAmenities.join(",") + ","
-                              : ""
-                        }));
-                        data.then((response) {
-                          if (response.hostels != null &&
-                              response.hostels.length > 0) {
-                            List<String> hostelIDs =
-                                prefs.getString('hostelIDs') != null
-                                    ? prefs.getString('hostelIDs').split(",")
-                                    : new List();
-                            hostelIDs.add(response.hostels[0].id);
-                            if (startup) {
-                              prefs.setString(
-                                  'hostelID', response.hostels[0].id);
-                              hostelID = response.hostels[0].id;
-                              prefs.setString(
-                                  'hostelName', response.hostels[0].name);
-                              hostelName = response.hostels[0].name;
-                              prefs.setString(
-                                  'amenities',
-                                  savedAmenities.length > 0
-                                      ? "," + savedAmenities.join(",") + ","
-                                      : "");
-                              amenities = savedAmenities;
-                            }
-                            List<String> temp = new List();
-                            hostelIDs.forEach((h) {
-                              if (h.length > 0) {
-                                temp.add(h);
-                              }
-                            });
-                            load = update(
-                              API.ADMIN,
-                              Map.from({"hostels": temp.join(",")}),
-                              Map.from({
-                                'username': adminName,
-                                'email': adminEmailID
-                              }),
-                            );
-                          }
-                          setState(() {
-                            loading = false;
-                          });
-                          if (startup) {
-                            Navigator.of(context).pushReplacement(
-                                new MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        new DashBoardActivity()));
-                          } else {
-                            Navigator.pop(context, "");
-                          }
+                    if (onValue != null) {
+                      if (hostel != null) {
+                        setState(() {
+                          loading = false;
                         });
-                      });
+                        Navigator.pop(context, "");
+                      } else {
+                        new Timer(const Duration(milliseconds: 1000), () {
+                          Future<Hostels> data = getHostels(Map.from({
+                            "name": name.text,
+                            "address": address.text,
+                            "phone": phone.text,
+                            "amenities": savedAmenities.length > 0
+                                ? "," + savedAmenities.join(",") + ","
+                                : ""
+                          }));
+                          data.then((response) {
+                            if (response.hostels != null &&
+                                response.hostels.length > 0) {
+                              List<String> hostelIDs =
+                                  prefs.getString('hostelIDs') != null
+                                      ? prefs.getString('hostelIDs').split(",")
+                                      : new List();
+                              hostelIDs.add(response.hostels[0].id);
+                              if (startup) {
+                                prefs.setString(
+                                    'hostelID', response.hostels[0].id);
+                                hostelID = response.hostels[0].id;
+                                prefs.setString(
+                                    'hostelName', response.hostels[0].name);
+                                hostelName = response.hostels[0].name;
+                                prefs.setString(
+                                    'amenities',
+                                    savedAmenities.length > 0
+                                        ? "," + savedAmenities.join(",") + ","
+                                        : "");
+                                amenities = savedAmenities;
+                              }
+                              List<String> temp = new List();
+                              hostelIDs.forEach((h) {
+                                if (h.length > 0) {
+                                  temp.add(h);
+                                }
+                              });
+                              load = update(
+                                API.ADMIN,
+                                Map.from({"hostels": temp.join(",")}),
+                                Map.from({
+                                  'username': adminName,
+                                  'email': adminEmailID
+                                }),
+                              );
+                            }
+                            setState(() {
+                              loading = false;
+                            });
+                            if (startup) {
+                              Navigator.of(context).pushReplacement(
+                                  new MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          new DashBoardActivity()));
+                            } else {
+                              Navigator.pop(context, "");
+                            }
+                          });
+                        });
+                      }
+                    } else {
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
                     }
                   });
                 }

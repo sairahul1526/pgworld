@@ -108,24 +108,32 @@ class UserActivityState extends State<UserActivity> {
         filter["resp"] = "roomno,id,rent";
         Future<Rooms> data = getRooms(filter);
         data.then((response) {
-          if (response.rooms != null) {
-            rooms.addAll(response.rooms);
-          }
-          rooms.forEach((room) {
-            if (room.id == roomID) {
-              roomNo.text = room.roomno;
+          if (response != null) {
+            if (response.rooms != null) {
+              rooms.addAll(response.rooms);
             }
-          });
-          if (response.meta == null) {
-            oneButtonDialog(context, "", "No Internet connection", true);
-          } else if (response.meta != null &&
-              response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
+            rooms.forEach((room) {
+              if (room.id == roomID) {
+                roomNo.text = room.roomno;
+              }
+            });
+            if (response.meta == null) {
+              oneButtonDialog(context, "", "No Internet connection", true);
+            } else if (response.meta != null &&
+                response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              loading = false;
+            });
+          } else {
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                getRoomsIDs();
+              });
+            });
           }
-          setState(() {
-            loading = false;
-          });
         });
       }
     });
@@ -411,61 +419,66 @@ class UserActivityState extends State<UserActivity> {
                     setState(() {
                       loading = false;
                     });
-                    if (user != null) {
-                      Navigator.pop(context, "");
-                    } else {
-                      new Timer(const Duration(milliseconds: 1000), () {
-                        Future<Users> data = getUsers({
-                          'hostel_id': hostelID,
-                          'name': name.text,
-                          'phone': phone.text,
-                          'email': email.text,
-                          'food': eating.toString(),
-                          'room_id': roomID,
-                        });
-                        data.then((response) {
-                          if (response.users != null &&
-                              response.users.length > 0) {
-                            if (DateTime.parse(pickedJoiningDate)
-                                    .difference(DateTime.now())
-                                    .inDays >
-                                0) {
-                              update(
-                                API.USERBOOK,
-                                Map.from({
-                                  "joining_date_time": pickedJoiningDate,
-                                }),
-                                Map.from({
-                                  'hostel_id': hostelID,
-                                  'id': response.users[0].id,
-                                  'room_id': response.users[0].roomID
-                                }),
-                              );
-                            }
-
-                            if (advance.text.length > 0) {
-                              add(
-                                API.BILL,
-                                Map.from({
-                                  'hostel_id': hostelID,
-                                  'title': "Advance/Token Amount",
-                                  'paid_date_time':
-                                      dateFormat.format(new DateTime.now()),
-                                  'description': response.users[0].name +
-                                      ' paid advance/token amount',
-                                  'amount': advance.text,
-                                  'document': '',
-                                  'type': '8', // others
-                                  'user_id': response.users[0].id,
-                                  'paid': '0'
-                                }),
-                              );
-                            }
-                          }
-                        });
-
+                    if (onValue != null) {
+                      if (user != null) {
                         Navigator.pop(context, "");
-                      });
+                      } else {
+                        new Timer(const Duration(milliseconds: 1000), () {
+                          Future<Users> data = getUsers({
+                            'hostel_id': hostelID,
+                            'name': name.text,
+                            'phone': phone.text,
+                            'email': email.text,
+                            'food': eating.toString(),
+                            'room_id': roomID,
+                          });
+                          data.then((response) {
+                            if (response.users != null &&
+                                response.users.length > 0) {
+                              if (DateTime.parse(pickedJoiningDate)
+                                      .difference(DateTime.now())
+                                      .inDays >
+                                  0) {
+                                update(
+                                  API.USERBOOK,
+                                  Map.from({
+                                    "joining_date_time": pickedJoiningDate,
+                                  }),
+                                  Map.from({
+                                    'hostel_id': hostelID,
+                                    'id': response.users[0].id,
+                                    'room_id': response.users[0].roomID
+                                  }),
+                                );
+                              }
+
+                              if (advance.text.length > 0) {
+                                add(
+                                  API.BILL,
+                                  Map.from({
+                                    'hostel_id': hostelID,
+                                    'title': "Advance/Token Amount",
+                                    'paid_date_time':
+                                        dateFormat.format(new DateTime.now()),
+                                    'description': response.users[0].name +
+                                        ' paid advance/token amount',
+                                    'amount': advance.text,
+                                    'document': '',
+                                    'type': '8', // others
+                                    'user_id': response.users[0].id,
+                                    'paid': '0'
+                                  }),
+                                );
+                              }
+                            }
+                          });
+
+                          Navigator.pop(context, "");
+                        });
+                      }
+                    } else {
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
                     }
                   });
                 }

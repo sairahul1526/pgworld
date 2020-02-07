@@ -270,10 +270,15 @@ class EmployeeActivityState extends State<EmployeeActivity> {
                     setState(() {
                       loading = false;
                     });
-                    if (employee != null) {
-                      Navigator.pop(context, "");
+                    if (onValue != null) {
+                      if (employee != null) {
+                        Navigator.pop(context, "");
+                      } else {
+                        Navigator.pop(context, "");
+                      }
                     } else {
-                      Navigator.pop(context, "");
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
                     }
                   });
                 }

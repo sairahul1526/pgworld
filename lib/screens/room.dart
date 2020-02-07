@@ -188,10 +188,15 @@ class RoomActivityState extends State<RoomActivity> {
                     setState(() {
                       loading = false;
                     });
-                    if (room != null) {
-                      Navigator.pop(context, "");
+                    if (onValue != null) {
+                      if (room != null) {
+                        Navigator.pop(context, "");
+                      } else {
+                        Navigator.pop(context, "");
+                      }
                     } else {
-                      Navigator.pop(context, "");
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
                     }
                   });
                 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -69,22 +69,30 @@ class EmployeesActivityState extends State<EmployeesActivity> {
         filter["offset"] = offset;
         Future<Employees> data = getEmployees(filter);
         data.then((response) {
-          if (response.employees != null && response.employees.length > 0) {
-            offset = (int.parse(response.pagination.offset) +
-                    response.employees.length)
-                .toString();
-            employees.addAll(response.employees);
+          if (response != null) {
+            if (response.employees != null && response.employees.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.employees.length)
+                  .toString();
+              employees.addAll(response.employees);
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
+            });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

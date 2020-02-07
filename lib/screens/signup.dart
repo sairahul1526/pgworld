@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
+import '../utils/utils.dart';
 import '../utils/api.dart';
 import '../utils/config.dart';
 
@@ -157,7 +158,12 @@ class SignupActivityState extends State<SignupActivity> {
                       setState(() {
                         loading = false;
                       });
-                      Navigator.pop(context, "");
+                      if (onValue != null) {
+                        Navigator.pop(context, "");
+                      } else {
+                        oneButtonDialog(
+                            context, "Network error", "Please try again", true);
+                      }
                     });
                   },
                 ),

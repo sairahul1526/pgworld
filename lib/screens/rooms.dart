@@ -1,6 +1,6 @@
 import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -71,22 +71,30 @@ class RoomsActivityState extends State<RoomsActivity> {
         filter["offset"] = offset;
         Future<Rooms> data = getRooms(filter);
         data.then((response) {
-          if (response.rooms != null && response.rooms.length > 0) {
-            offset =
-                (int.parse(response.pagination.offset) + response.rooms.length)
-                    .toString();
-            rooms.addAll(response.rooms);
+          if (response != null) {
+            if (response.rooms != null && response.rooms.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.rooms.length)
+                  .toString();
+              rooms.addAll(response.rooms);
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
+            });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

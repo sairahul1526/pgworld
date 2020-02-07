@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../utils/utils.dart';
 
@@ -68,86 +68,95 @@ class LogsActivityState extends State<LogsActivity> {
         filter["offset"] = offset;
         Future<Logs> data = getLogs(filter);
         data.then((response) {
-          if (response.logs != null && response.logs.length > 0) {
-            offset =
-                (int.parse(response.pagination.offset) + response.logs.length)
-                    .toString();
-            response.logs.forEach((log) {
-              if (log is Log) {
-                if (previousDate.compareTo(log.createdDateTime.split(" ")[0]) !=
-                    0) {
-                  previousDate = log.createdDateTime.split(" ")[0];
-                  logs.add(HeadingItem(previousDate));
+          if (response != null) {
+            if (response.logs != null && response.logs.length > 0) {
+              offset =
+                  (int.parse(response.pagination.offset) + response.logs.length)
+                      .toString();
+              response.logs.forEach((log) {
+                if (log is Log) {
+                  if (previousDate
+                          .compareTo(log.createdDateTime.split(" ")[0]) !=
+                      0) {
+                    previousDate = log.createdDateTime.split(" ")[0];
+                    logs.add(HeadingItem(previousDate));
+                  }
                 }
-              }
-              if (log.type == "2") {
-                // bill
-                log.color = "#67CCB7";
-                log.icon = Icons.attach_money;
-                log.title = "Bill";
-              } else if (log.type == "3") {
-                // employee
-                log.color = "#539ECE";
-                log.icon = Icons.account_box;
-                log.title = "Employee";
-              } else if (log.type == "5") {
-                // note
-                log.color = "#D8B868";
-                log.icon = Icons.format_list_numbered;
-                log.title = "Task";
-              } else if (log.type == "6") {
-                // room
-                log.color = "#DF7B8D";
-                log.icon = Icons.local_hotel;
-                log.title = "Room";
-              } else if (log.type == "7") {
-                // rent
-                log.color = "#67CCB7";
-                log.icon = Icons.attach_money;
-                log.title = "Rent";
-              } else if (log.type == "8") {
-                // salary
-                log.color = "#67CCB7";
-                log.icon = Icons.attach_money;
-                log.title = "Salary";
-              } else if (log.type == "9") {
-                // user
-                log.color = "#A179E0";
-                log.icon = Icons.supervisor_account;
-                log.title = "User";
-              } else if (log.type == "10") {
-                // user
-                log.color = "#E1A1AD";
-                log.icon = Icons.report_problem;
-                log.title = "Complaint";
-              } else if (log.type == "11") {
-                // user
-                log.color = "#82b832";
-                log.icon = Icons.local_dining;
-                log.title = "Food";
-              } else if (log.type == "12") {
-                // user
-                log.color = "#D3D3D3";
-                log.icon = Icons.list;
-                log.title = "Food";
-              } else {
-                log.color = "#C36BB4";
-                log.icon = Icons.track_changes;
-                log.title = "";
-              }
-              logs.add(log);
+                if (log.type == "2") {
+                  // bill
+                  log.color = "#67CCB7";
+                  log.icon = Icons.attach_money;
+                  log.title = "Bill";
+                } else if (log.type == "3") {
+                  // employee
+                  log.color = "#539ECE";
+                  log.icon = Icons.account_box;
+                  log.title = "Employee";
+                } else if (log.type == "5") {
+                  // note
+                  log.color = "#D8B868";
+                  log.icon = Icons.format_list_numbered;
+                  log.title = "Task";
+                } else if (log.type == "6") {
+                  // room
+                  log.color = "#DF7B8D";
+                  log.icon = Icons.local_hotel;
+                  log.title = "Room";
+                } else if (log.type == "7") {
+                  // rent
+                  log.color = "#67CCB7";
+                  log.icon = Icons.attach_money;
+                  log.title = "Rent";
+                } else if (log.type == "8") {
+                  // salary
+                  log.color = "#67CCB7";
+                  log.icon = Icons.attach_money;
+                  log.title = "Salary";
+                } else if (log.type == "9") {
+                  // user
+                  log.color = "#A179E0";
+                  log.icon = Icons.supervisor_account;
+                  log.title = "User";
+                } else if (log.type == "10") {
+                  // user
+                  log.color = "#E1A1AD";
+                  log.icon = Icons.report_problem;
+                  log.title = "Complaint";
+                } else if (log.type == "11") {
+                  // user
+                  log.color = "#82b832";
+                  log.icon = Icons.local_dining;
+                  log.title = "Food";
+                } else if (log.type == "12") {
+                  // user
+                  log.color = "#D3D3D3";
+                  log.icon = Icons.list;
+                  log.title = "Food";
+                } else {
+                  log.color = "#C36BB4";
+                  log.icon = Icons.track_changes;
+                  log.title = "";
+                }
+                logs.add(log);
+              });
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
             });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

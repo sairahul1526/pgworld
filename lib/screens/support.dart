@@ -133,7 +133,12 @@ class SupportActivityState extends State<SupportActivity> {
                     setState(() {
                       loading = false;
                     });
-                    Navigator.pop(context, "");
+                    if (onValue != null) {
+                      Navigator.pop(context, "");
+                    } else {
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
+                    }
                   });
                 }
               });

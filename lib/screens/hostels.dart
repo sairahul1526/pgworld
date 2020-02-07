@@ -1,6 +1,6 @@
 import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
@@ -83,16 +83,24 @@ class HostelsActivityState extends State<HostelsActivity> {
         Future<Hostels> data =
             getHostels(Map.from({'id': hostelIDs, 'status': '1'}));
         data.then((response) {
-          if (response.hostels != null && response.hostels.length > 0) {
-            hostels.addAll(response.hostels);
+          if (response != null) {
+            if (response.hostels != null && response.hostels.length > 0) {
+              hostels.addAll(response.hostels);
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              loading = false;
+            });
+          } else {
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            loading = false;
-          });
         });
       }
     });

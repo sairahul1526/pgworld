@@ -272,10 +272,15 @@ class NoticeActivityState extends State<NoticeActivity> {
                     setState(() {
                       loading = false;
                     });
-                    if (notice != null) {
-                      Navigator.pop(context, "");
+                    if (onValue) {
+                      if (notice != null) {
+                        Navigator.pop(context, "");
+                      } else {
+                        Navigator.pop(context, "");
+                      }
                     } else {
-                      Navigator.pop(context, "");
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
                     }
                   });
                 }

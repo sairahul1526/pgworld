@@ -1,6 +1,6 @@
 import 'package:cloudpg/screens/pro.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../utils/utils.dart';
 
@@ -92,36 +92,44 @@ class BillsActivityState extends State<BillsActivity> {
         filter["offset"] = offset;
         Future<Bills> data = getBills(filter);
         data.then((response) {
-          if (response.bills != null && response.bills.length > 0) {
-            offset =
-                (int.parse(response.pagination.offset) + response.bills.length)
-                    .toString();
-            response.bills.forEach((bill) {
-              if (bill is Bill) {
-                if (previousDate.compareTo(bill.paidDateTime.split(" ")[0]) !=
-                    0) {
-                  previousDate = bill.paidDateTime.split(" ")[0];
-                  bills.add(HeadingItem(previousDate));
+          if (response != null) {
+            if (response.bills != null && response.bills.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.bills.length)
+                  .toString();
+              response.bills.forEach((bill) {
+                if (bill is Bill) {
+                  if (previousDate.compareTo(bill.paidDateTime.split(" ")[0]) !=
+                      0) {
+                    previousDate = bill.paidDateTime.split(" ")[0];
+                    bills.add(HeadingItem(previousDate));
+                  }
                 }
-              }
-              if (bill.paid == "0") {
-                total += int.parse(bill.amount);
-              } else {
-                total -= int.parse(bill.amount);
-              }
-              bills.add(bill);
+                if (bill.paid == "0") {
+                  total += int.parse(bill.amount);
+                } else {
+                  total -= int.parse(bill.amount);
+                }
+                bills.add(bill);
+              });
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
             });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

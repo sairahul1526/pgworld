@@ -94,10 +94,15 @@ class NoteActivityState extends State<NoteActivity> {
                     setState(() {
                       loading = false;
                     });
-                    if (note != null) {
-                      Navigator.pop(context, "");
+                    if (onValue != null) {
+                      if (note != null) {
+                        Navigator.pop(context, "");
+                      } else {
+                        Navigator.pop(context, "");
+                      }
                     } else {
-                      Navigator.pop(context, "");
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
                     }
                   });
                 }

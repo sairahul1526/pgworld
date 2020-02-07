@@ -1,6 +1,6 @@
 import 'package:cloudpg/screens/issueFilter.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import '../utils/utils.dart';
 
@@ -76,32 +76,40 @@ class IssuesActivityState extends State<IssuesActivity> {
         filter["offset"] = offset;
         Future<Issues> data = getIssues(filter);
         data.then((response) {
-          if (response.issues != null && response.issues.length > 0) {
-            offset =
-                (int.parse(response.pagination.offset) + response.issues.length)
-                    .toString();
-            response.issues.forEach((issue) {
-              if (issue is Issue) {
-                if (previousDate
-                        .compareTo(issue.createdDateTime.split(" ")[0]) !=
-                    0) {
-                  previousDate = issue.createdDateTime.split(" ")[0];
-                  issues.add(HeadingItem(previousDate));
+          if (response != null) {
+            if (response.issues != null && response.issues.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.issues.length)
+                  .toString();
+              response.issues.forEach((issue) {
+                if (issue is Issue) {
+                  if (previousDate
+                          .compareTo(issue.createdDateTime.split(" ")[0]) !=
+                      0) {
+                    previousDate = issue.createdDateTime.split(" ")[0];
+                    issues.add(HeadingItem(previousDate));
+                  }
                 }
-              }
-              issues.add(issue);
+                issues.add(issue);
+              });
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
             });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

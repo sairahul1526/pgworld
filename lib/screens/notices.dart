@@ -1,6 +1,6 @@
 import 'package:cloudpg/screens/notice.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:async';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
 import '../utils/models.dart';
@@ -74,22 +74,30 @@ class NoticesActivityState extends State<NoticesActivity> {
         filter["offset"] = offset;
         Future<Notices> data = getNotices(filter);
         data.then((response) {
-          if (response.notices != null && response.notices.length > 0) {
-            offset = (int.parse(response.pagination.offset) +
-                    response.notices.length)
-                .toString();
-            notices.addAll(response.notices);
+          if (response != null) {
+            if (response.notices != null && response.notices.length > 0) {
+              offset = (int.parse(response.pagination.offset) +
+                      response.notices.length)
+                  .toString();
+              notices.addAll(response.notices);
+            } else {
+              end = true;
+            }
+            if (response.meta != null && response.meta.messageType == "1") {
+              oneButtonDialog(context, "", response.meta.message,
+                  !(response.meta.status == STATUS_403));
+            }
+            setState(() {
+              ongoing = false;
+              loading = false;
+            });
           } else {
-            end = true;
+            new Timer(Duration(milliseconds: random.nextInt(5) * 1000), () {
+              setState(() {
+                fillData();
+              });
+            });
           }
-          if (response.meta != null && response.meta.messageType == "1") {
-            oneButtonDialog(context, "", response.meta.message,
-                !(response.meta.status == STATUS_403));
-          }
-          setState(() {
-            ongoing = false;
-            loading = false;
-          });
         });
       }
     });

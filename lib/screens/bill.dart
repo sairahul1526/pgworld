@@ -516,10 +516,15 @@ class BillActivityState extends State<BillActivity> {
                     setState(() {
                       loading = false;
                     });
-                    if (bill != null) {
-                      Navigator.pop(context, "");
+                    if (onValue != null) {
+                      if (bill != null) {
+                        Navigator.pop(context, "");
+                      } else {
+                        Navigator.pop(context, "");
+                      }
                     } else {
-                      Navigator.pop(context, "");
+                      oneButtonDialog(
+                          context, "Network error", "Please try again", true);
                     }
                   });
                 }
