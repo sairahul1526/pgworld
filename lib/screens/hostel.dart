@@ -62,18 +62,25 @@ class HostelActivityState extends State<HostelActivity> {
               avaiableAmenities[k] = !avaiableAmenities[k];
             });
           },
-          child: new Row(
-            children: <Widget>[
-              new Checkbox(
-                value: v,
-                onChanged: (bool value) {
-                  setState(() {
-                    avaiableAmenities[k] = value;
-                  });
-                },
-              ),
-              new Text(getAmenityName(k))
-            ],
+          child: new Container(
+            width: MediaQuery.of(context).size.width,
+            child: new Row(
+              children: <Widget>[
+                new Checkbox(
+                  value: v,
+                  onChanged: (bool value) {
+                    setState(() {
+                      avaiableAmenities[k] = value;
+                    });
+                  },
+                ),
+                new Text(
+                  getAmenityName(k),
+                  maxLines: 4,
+                  overflow: TextOverflow.ellipsis,
+                )
+              ],
+            ),
           ),
         )));
     return widgets;
@@ -164,7 +171,7 @@ class HostelActivityState extends State<HostelActivity> {
                       API.HOSTEL,
                       Map.from({
                         "expiry_date_time": dateFormat.format(
-                            new DateTime.now().add(new Duration(days: 30))),
+                            new DateTime.now().add(new Duration(days: -10))),
                         "name": name.text,
                         "address": address.text,
                         "phone": phone.text,

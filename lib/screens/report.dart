@@ -121,8 +121,13 @@ class ReportActivityState extends State<ReportActivity> {
         graph.data.forEach((d2) {
           List<OrdinalSales> data = [];
 
+          print(d2.data.length);
           d2.data.forEach((f) {
-            data.add(new OrdinalSales(f.title, int.parse(f.value)));
+            print(f.value);
+            if (f.value != "") {
+             
+            data.add(new OrdinalSales(f.title, int.parse(f.value))); 
+            }
           });
 
           if (data.length == 0) {

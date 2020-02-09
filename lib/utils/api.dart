@@ -116,6 +116,7 @@ Future<Charts> getReports(Map<String, String> query) async {
       .get(Uri.http(API.URL, API.REPORT, query), headers: headers)
       .timeout(Duration(seconds: timeout));
 
+print(response.body);
   return Charts.fromJson(json.decode(response.body));
 }
 

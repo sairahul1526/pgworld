@@ -161,10 +161,10 @@ String getAmenityName(String id) {
       return "AC";
       break;
     case "5": // power backup
-      return "Power Backup";
+      return "Power\nBackup";
       break;
     case "6": // washing mahcine
-      return "Washing Machine";
+      return "Washing\nMachine";
       break;
     case "7": // geyser
       return "Geyser";

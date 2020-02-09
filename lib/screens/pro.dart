@@ -30,7 +30,7 @@ class ProActivityState extends State<ProActivity> {
         ),
         backgroundColor: Colors.white,
         title: new Text(
-          "Cloud PG PRO",
+          "Cloud PG",
           style: TextStyle(color: Colors.black),
         ),
         elevation: 4.0,
@@ -58,7 +58,7 @@ class ProActivityState extends State<ProActivity> {
                   children: <Widget>[
                     new Expanded(
                       child: new Text(
-                        "Reach further with Cloud PG PRO",
+                        "Reach further with Cloud PG",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
@@ -77,7 +77,7 @@ class ProActivityState extends State<ProActivity> {
                   children: <Widget>[
                     new Expanded(
                       child: new Text(
-                        "Become a Cloud PG PRO and unlock the following features",
+                        "",
                         textAlign: TextAlign.center,
                       ),
                     )
@@ -95,7 +95,7 @@ class ProActivityState extends State<ProActivity> {
                   children: <Widget>[
                     new Expanded(
                       child: new Text(
-                        "1. Store Bills, Expenses and other documents\n\n2. Filter Bills, Users, Rooms\n\n3. Charts and graphs\n\n4. Manage multiple hostels\n\n5.Multiuser\n\n6. A totally ad-free experience\n\n7. Plus more goodies to come!",
+                        "1. Store Bills, Expenses and other documents\n\n2. Filter Bills, Users, Rooms\n\n3. Charts and graphs\n\n4. Manage multiple hostels\n\n5. Multiuser\n\n6. A totally ad-free experience\n\n7. Plus more goodies to come!",
                       ),
                     )
                   ],

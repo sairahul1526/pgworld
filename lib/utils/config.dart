@@ -33,16 +33,16 @@ class COLORS {
 }
 
 class CONTACT {
-  static const TERMS_URL = "http://cloudpg.in/terms.html";
-  static const PRIVACY_URL = "http://cloudpg.in/privacy.html";
+  static const TERMS_URL = "https://sites.google.com/view/cloudpg-in/terms";
+  static const PRIVACY_URL = "https://sites.google.com/view/cloudpg-in/privacy";
   static const ABOUT_URL = "http://cloudpg.in/about";
-  static const SUPPORT_MAIL = "support@cloudpg.in";
+  static const SUPPORT_MAIL = "rahul.cloudpg@gmail.com";
 }
 
 String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "2.6";
+  static const ANDROID = "3.0";
   static const IOS = "1.1";
 }
 

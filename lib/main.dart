@@ -20,6 +20,7 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   // TestWidgetsFlutterBinding.ensureInitialized();
   runApp(new MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: "CloudPG",
     home: new MyApp(),
   ));

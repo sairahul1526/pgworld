@@ -269,72 +269,72 @@ class SettingsActivityState extends State<SettingsActivity> {
                             ],
                           )
                         : new Text(""),
-                    new Container(
-                      margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          new Container(
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            child: new Text(
-                              "Subscription Expiry",
-                            ),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                              margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
-                              child: new Text(expiry != null ? expiry : ""),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    new Container(
-                      height: 20,
-                    ),
-                    new GestureDetector(
-                      onTap: () {
-                        var options = {
-                          'key': 'rzp_test_ZMeXzB3F3VAv6q',
-                          'amount': 100228,
-                          'name': 'Acme Corp.',
-                          'description': 'Fine T-Shirt',
-                          'payment_capture': '1',
-                          'prefill': {
-                            'contact': '8888888888',
-                            'email': 'dravid.rahul1526@gmail.com'
-                          }
-                        };
-                        _razorpay.open(options);
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => new InvoicesActivity()));
-                      },
-                      child: new Container(
-                        color: Colors.transparent,
-                        height: 30,
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            new Icon(Icons.receipt),
-                            new Container(
-                              width: 20,
-                            ),
-                            new Expanded(
-                              child: new Text("Subscription Invoices"),
-                            ),
-                            new Icon(
-                              Icons.arrow_right,
-                              color: Colors.grey,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
+                    // new Container(
+                    //   margin: new EdgeInsets.fromLTRB(0, 15, 0, 0),
+                    //   child: new Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     children: <Widget>[
+                    //       new Container(
+                    //         width: MediaQuery.of(context).size.width * 0.3,
+                    //         child: new Text(
+                    //           "Subscription Expiry",
+                    //         ),
+                    //       ),
+                    //       new Expanded(
+                    //         child: new Container(
+                    //           margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
+                    //           child: new Text(expiry != null ? expiry : ""),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     new Container(
                       height: 20,
                     ),
+                    // new GestureDetector(
+                    //   onTap: () {
+                    //     var options = {
+                    //       'key': 'rzp_test_ZMeXzB3F3VAv6q',
+                    //       'amount': 100228,
+                    //       'name': 'Acme Corp.',
+                    //       'description': 'Fine T-Shirt',
+                    //       'payment_capture': '1',
+                    //       'prefill': {
+                    //         'contact': '8888888888',
+                    //         'email': 'dravid.rahul1526@gmail.com'
+                    //       }
+                    //     };
+                    //     _razorpay.open(options);
+                    //     // Navigator.push(
+                    //     //     context,
+                    //     //     MaterialPageRoute(
+                    //     //         builder: (context) => new InvoicesActivity()));
+                    //   },
+                    //   child: new Container(
+                    //     color: Colors.transparent,
+                    //     height: 30,
+                    //     child: new Row(
+                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //       children: <Widget>[
+                    //         new Icon(Icons.receipt),
+                    //         new Container(
+                    //           width: 20,
+                    //         ),
+                    //         new Expanded(
+                    //           child: new Text("Subscription Invoices"),
+                    //         ),
+                    //         new Icon(
+                    //           Icons.arrow_right,
+                    //           color: Colors.grey,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // new Container(
+                    //   height: 20,
+                    // ),
                     new GestureDetector(
                       onTap: () {
                         hostelsPage(context, new HostelsActivity());
