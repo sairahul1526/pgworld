@@ -10,6 +10,7 @@ class API {
   static const LOG = "log";
   static const NOTE = "note";
   static const NOTICE = "notice";
+  static const PAYMENT = "payment";
   static const REPORT = "report";
   static const ROOM = "room";
   static const USER = "user";
@@ -39,10 +40,10 @@ class CONTACT {
   static const SUPPORT_MAIL = "rahul.cloudpg@gmail.com";
 }
 
-String mediaURL = "https://test-pgworld.s3.ap-south-1.amazonaws.com/";
+String mediaURL = "https://pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "3.0";
+  static const ANDROID = "3.1";
   static const IOS = "1.1";
 }
 
@@ -53,9 +54,15 @@ class APIKEY {
   static const IOS_TEST = "R4n7N8G4m9B4S5n2";
 }
 
+class RAZORPAY {
+  static const KEY = "rzp_live_dlraNHNbIJRuCy";
+}
+
 String adminName = "";
 String adminEmailID = "";
 String hostelID = "";
+String admin = "0";
+String adminID = "";
 String hostelName = "";
 List<String> amenities = new List();
 

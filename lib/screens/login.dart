@@ -65,6 +65,8 @@ class LoginState extends State<Login> {
           adminName = prefs.getString("username");
           adminEmailID = prefs.getString("email");
           hostelID = prefs.getString("hostelID");
+          admin = prefs.getString("admin");
+          adminID = prefs.getString("adminID");
           hostelName = prefs.getString("hostelName");
           amenities = prefs.getString("amenities").split(",");
           Navigator.of(context).pushReplacement(new MaterialPageRoute(
@@ -115,8 +117,12 @@ class LoginState extends State<Login> {
               prefs.setString('username', response.admins[0].username);
               prefs.setString('email', response.admins[0].email);
               prefs.setString('hostelIDs', response.admins[0].hostels);
+              prefs.setString('admin', response.admins[0].admin);
+              prefs.setString('adminID', response.admins[0].id);
               adminName = response.admins[0].username;
               adminEmailID = response.admins[0].email;
+              admin = response.admins[0].admin;
+              adminID = response.admins[0].id;
               Future<Hostels> hostelResponse = getHostels(
                   Map.from({'id': response.admins[0].hostels, 'status': '1'}));
               hostelResponse.then((response) {

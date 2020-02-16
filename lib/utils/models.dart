@@ -53,6 +53,7 @@ class Admin {
   final String email;
   final String hostels;
   final String amenities;
+  final String admin;
   final String status;
   final String createdBy;
   final String modifiedBy;
@@ -66,6 +67,7 @@ class Admin {
       this.email,
       this.hostels,
       this.amenities,
+      this.admin,
       this.status,
       this.createdBy,
       this.modifiedBy,
@@ -80,6 +82,7 @@ class Admin {
       email: json['email'],
       hostels: json['hostels'],
       amenities: json['amenities'],
+      admin: json['admin'],
       status: json['status'],
       createdBy: json['created_by'],
       modifiedBy: json['modified_by'],
@@ -410,6 +413,7 @@ class Invoices {
 class Invoice {
   final String id;
   final String hostelID;
+  final String paymentID;
   final String amount;
   final String description;
   final String status;
@@ -421,6 +425,7 @@ class Invoice {
   Invoice(
       {this.id,
       this.hostelID,
+      this.paymentID,
       this.amount,
       this.description,
       this.status,
@@ -433,6 +438,7 @@ class Invoice {
     return Invoice(
       id: json['id'],
       hostelID: json['hostelID'],
+      paymentID: json['payment_id'],
       amount: json['amount'],
       description: json['description'],
       status: json['status'],

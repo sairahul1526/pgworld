@@ -132,27 +132,31 @@ class HostelsActivityState extends State<HostelsActivity> {
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
-          new IconButton(
-            onPressed: () {
-              Future<Admins> statusResponse =
-                  getStatus({"hostel_id": hostelID});
-              statusResponse.then((response) {
-                if (response != null) {
-                  if (response.meta.status != STATUS_403) {
-                    addPage(context,
-                        new HostelActivity(null, false, hostels.length <= 1));
-                  } else {
-                    Navigator.push(
-                      context,
-                      new MaterialPageRoute(
-                          builder: (context) => new ProActivity()),
-                    );
-                  }
-                }
-              });
-            },
-            icon: new Icon(Icons.add),
-          )
+          prefs.getString("admin") == "1"
+              ? new IconButton(
+                  onPressed: () {
+                    Future<Admins> statusResponse =
+                        getStatus({"hostel_id": hostelID});
+                    statusResponse.then((response) {
+                      if (response != null) {
+                        if (response.meta.status != STATUS_403) {
+                          addPage(
+                              context,
+                              new HostelActivity(
+                                  null, false, hostels.length <= 1));
+                        } else {
+                          Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => new ProActivity()),
+                          );
+                        }
+                      }
+                    });
+                  },
+                  icon: new Icon(Icons.add),
+                )
+              : new Container()
         ],
       ),
       body: ModalProgressHUD(

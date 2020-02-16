@@ -36,7 +36,7 @@ class InvoicesActivityState extends State<InvoicesActivity> {
     super.initState();
 
     filter["status"] = "1";
-    filter["hostel_id"] = hostelID;
+    filter["admin_id"] = adminID;
     filter["limit"] = defaultLimit;
     filter["offset"] = offset;
     filter["orderby"] = "created_date_time";
@@ -169,7 +169,7 @@ class InvoicesActivityState extends State<InvoicesActivity> {
                                       ),
                                     ),
                                     new Text(
-                                      "₹" + item.amount,
+                                      "₹" + (int.parse(item.amount)/100).toString(),
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
                                         fontSize: 15,
@@ -192,6 +192,26 @@ class InvoicesActivityState extends State<InvoicesActivity> {
                                         ),
                                       )
                                     : new Container(),
+                                new Container(
+                                  width: width * 0.7,
+                                  child: new Text(
+                                    "Invoice ID - " + item.id,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                new Container(
+                                  width: width * 0.7,
+                                  child: new Text(
+                                    "Payment ID - " + item.paymentID,
+                                    overflow: TextOverflow.clip,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

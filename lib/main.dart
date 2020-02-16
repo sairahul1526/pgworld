@@ -87,6 +87,8 @@ class _MyHomePageState extends State<MyHomePage> {
           adminName = prefs.getString("username");
           adminEmailID = prefs.getString("email");
           hostelID = prefs.getString("hostelID");
+          admin = prefs.getString("admin");
+          adminID = prefs.getString("adminID");
           amenities = prefs.getString("amenities") != null
               ? prefs.getString("amenities").split(",")
               : new List();
