@@ -195,7 +195,9 @@ class SettingsActivityState extends State<SettingsActivity> {
                             child: new Container(
                               margin: new EdgeInsets.fromLTRB(15, 0, 0, 0),
                               child: new Text(
-                                prefs.getString('username').toUpperCase(),
+                                prefs.getString('username') != null
+                                    ? prefs.getString('username').toUpperCase()
+                                    : "",
                                 style: TextStyle(color: Colors.black),
                               ),
                             ),

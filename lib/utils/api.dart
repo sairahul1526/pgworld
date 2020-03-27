@@ -14,7 +14,7 @@ import './config.dart';
 Future<Admins> getAdmins(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.ADMIN, query), headers: headers)
+        .get(Uri.https(API.URL, API.ADMIN, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Admins.fromJson(json.decode(response.body));
@@ -28,7 +28,7 @@ Future<Admins> getAdmins(Map<String, String> query) async {
 Future<Bills> getBills(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.BILL, query), headers: headers)
+        .get(Uri.https(API.URL, API.BILL, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Bills.fromJson(json.decode(response.body));
@@ -42,7 +42,7 @@ Future<Bills> getBills(Map<String, String> query) async {
 Future<Dashboards> getDashboards(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.DASHBOARD, query), headers: headers)
+        .get(Uri.https(API.URL, API.DASHBOARD, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Dashboards.fromJson(json.decode(response.body));
@@ -56,7 +56,7 @@ Future<Dashboards> getDashboards(Map<String, String> query) async {
 Future<Employees> getEmployees(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.EMPLOYEE, query), headers: headers)
+        .get(Uri.https(API.URL, API.EMPLOYEE, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Employees.fromJson(json.decode(response.body));
@@ -70,7 +70,7 @@ Future<Employees> getEmployees(Map<String, String> query) async {
 Future<Foods> getFoods(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.FOOD, query), headers: headers)
+        .get(Uri.https(API.URL, API.FOOD, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Foods.fromJson(json.decode(response.body));
@@ -84,7 +84,7 @@ Future<Foods> getFoods(Map<String, String> query) async {
 Future<Invoices> getInvoices(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.INVOICE, query), headers: headers)
+        .get(Uri.https(API.URL, API.INVOICE, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Invoices.fromJson(json.decode(response.body));
@@ -98,7 +98,7 @@ Future<Invoices> getInvoices(Map<String, String> query) async {
 Future<Issues> getIssues(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.ISSUE, query), headers: headers)
+        .get(Uri.https(API.URL, API.ISSUE, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Issues.fromJson(json.decode(response.body));
@@ -112,7 +112,7 @@ Future<Issues> getIssues(Map<String, String> query) async {
 Future<Logs> getLogs(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.LOG, query), headers: headers)
+        .get(Uri.https(API.URL, API.LOG, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Logs.fromJson(json.decode(response.body));
@@ -126,7 +126,7 @@ Future<Logs> getLogs(Map<String, String> query) async {
 Future<Notes> getNotes(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.NOTE, query), headers: headers)
+        .get(Uri.https(API.URL, API.NOTE, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Notes.fromJson(json.decode(response.body));
@@ -140,7 +140,7 @@ Future<Notes> getNotes(Map<String, String> query) async {
 Future<Notices> getNotices(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.NOTICE, query), headers: headers)
+        .get(Uri.https(API.URL, API.NOTICE, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Notices.fromJson(json.decode(response.body));
@@ -154,7 +154,7 @@ Future<Notices> getNotices(Map<String, String> query) async {
 Future<Charts> getReports(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.REPORT, query), headers: headers)
+        .get(Uri.https(API.URL, API.REPORT, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Charts.fromJson(json.decode(response.body));
@@ -168,7 +168,7 @@ Future<Charts> getReports(Map<String, String> query) async {
 Future<Rooms> getRooms(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.ROOM, query), headers: headers)
+        .get(Uri.https(API.URL, API.ROOM, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Rooms.fromJson(json.decode(response.body));
@@ -182,7 +182,7 @@ Future<Rooms> getRooms(Map<String, String> query) async {
 Future<Users> getUsers(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.USER, query), headers: headers)
+        .get(Uri.https(API.URL, API.USER, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Users.fromJson(json.decode(response.body));
@@ -196,7 +196,7 @@ Future<Users> getUsers(Map<String, String> query) async {
 Future<Hostels> getHostels(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.HOSTEL, query), headers: headers)
+        .get(Uri.https(API.URL, API.HOSTEL, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Hostels.fromJson(json.decode(response.body));
@@ -210,7 +210,7 @@ Future<Hostels> getHostels(Map<String, String> query) async {
 Future<Admins> getStatus(Map<String, String> query) async {
   try {
     final response = await http
-        .get(Uri.http(API.URL, API.STATUS, query), headers: headers)
+        .get(Uri.https(API.URL, API.STATUS, query), headers: headers)
         .timeout(Duration(seconds: timeout));
 
     return Admins.fromJson(json.decode(response.body));
@@ -226,7 +226,7 @@ Future<bool> add(String endpoint, Map<String, String> body) async {
   }
   var request = new http.MultipartRequest(
     "POST",
-    Uri.http(
+    Uri.https(
       API.URL,
       endpoint,
     ),
@@ -250,7 +250,7 @@ Future<bool> update(String endpoint, Map<String, String> body,
     Map<String, String> query) async {
   var request = new http.MultipartRequest(
     "PUT",
-    Uri.http(API.URL, endpoint, query),
+    Uri.https(API.URL, endpoint, query),
   );
   request.headers.addAll(headers);
   request.fields["admin_name"] = adminName;
@@ -270,7 +270,7 @@ Future<bool> update(String endpoint, Map<String, String> body,
 Future<bool> delete(String endpoint, Map<String, String> query) async {
   var request = new http.MultipartRequest(
     "DELETE",
-    Uri.http(API.URL, endpoint, query),
+    Uri.https(API.URL, endpoint, query),
   );
   request.fields["admin_name"] = adminName;
 
@@ -290,9 +290,9 @@ Future<bool> delete(String endpoint, Map<String, String> query) async {
 Future<String> upload(File file) async {
   var request = new http.MultipartRequest(
     "POST",
-    Uri.http(
+    Uri.https(
       API.URL,
-      "upload",
+      API.UPLOAD,
     ),
   );
   request.headers.addAll(headers);

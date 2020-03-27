@@ -1,29 +1,31 @@
 class API {
-  static const URL = "cloudpg.ap-south-1.elasticbeanstalk.com";
-  static const ADMIN = "admin";
-  static const BILL = "bill";
-  static const DASHBOARD = "dashboard";
-  static const EMPLOYEE = "employee";
-  static const FOOD = "food";
-  static const INVOICE = "invoice";
-  static const ISSUE = "issue";
-  static const LOG = "log";
-  static const NOTE = "note";
-  static const NOTICE = "notice";
-  static const PAYMENT = "payment";
-  static const REPORT = "report";
-  static const ROOM = "room";
-  static const USER = "user";
-  static const USERBOOK = "userbook";
-  static const USERBOOKED = "userbooked";
-  static const USERVACATE = "uservacate";
-  static const SIGNUP = "signup";
-  static const SUPPORT = "support";
-  static const STATUS = "status";
-  static const HOSTEL = "hostel";
+  static const URL = "he2bhv1eb0.execute-api.ap-south-1.amazonaws.com";
+  static const ADMIN = "prod/admin";
+  static const BILL = "prod/bill";
+  static const DASHBOARD = "prod/dashboard";
+  static const EMPLOYEE = "prod/employee";
+  static const FOOD = "prod/food";
+  static const INVOICE = "prod/invoice";
+  static const ISSUE = "prod/issue";
+  static const LOG = "prod/log";
+  static const NOTE = "prod/note";
+  static const NOTICE = "prod/notice";
+  static const PAYMENT = "prod/payment";
+  static const REPORT = "prod/report";
+  static const ROOM = "prod/room";
+  static const USER = "prod/user";
+  static const USERBOOK = "prod/userbook";
+  static const USERBOOKED = "prod/userbooked";
+  static const USERVACATE = "prod/uservacate";
+  static const SIGNUP = "prod/signup";
+  static const SUPPORT = "prod/support";
+  static const STATUS = "prod/status";
+  static const HOSTEL = "prod/hostel";
 
-  static const RENT = "rent";
-  static const SALARY = "salary";
+  static const RENT = "prod/rent";
+  static const SALARY = "prod/salary";
+
+  static const UPLOAD = "prod/upload";
 }
 
 const ONESIGNAL_APP_ID = "47916c74-a7c2-4819-bb65-911776d5b814";
@@ -43,8 +45,8 @@ class CONTACT {
 String mediaURL = "https://pgworld.s3.ap-south-1.amazonaws.com/";
 
 class APPVERSION {
-  static const ANDROID = "3.1";
-  static const IOS = "1.1";
+  static const ANDROID = "4.0";
+  static const IOS = "4.0";
 }
 
 class APIKEY {
