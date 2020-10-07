@@ -1,3 +1,5 @@
+https://play.google.com/store/apps/details?id=com.saikrishna.cloudpg&hl=en_IN
+
 # PG/Hostel Management app (Made with Flutter)
 
 1. You can manage multiple PG's in one place without logging again. 
@@ -14,14 +16,6 @@
 12. Helps you to get the overall performance of your PG Business. PG's income's and expenses can be added from the dashboard. App will summarize finance data from various income and expense sources and present it to you to have a better understanding of your PG's growth.
 13. Mail data of tenants, bills, employees, rooms with filters.
 And many more.
-
-
-![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/1.webp?raw=true)
-![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/2.webp?raw=true)
-![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/3.webp?raw=true)
-![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/4.webp?raw=true)
-![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/5.webp?raw=true)
-![Alt Text](https://raw.githubusercontent.com/sairahul1526/pgworld/master/screenshots/6.webp?raw=true)
 
 ## Backend code @ [API](https://github.com/sairahul1526/pgworld-api)
 ## PG/Hostel [Tenant App](https://github.com/sairahul1526/pgworldtenant) (Not upto 100%)
