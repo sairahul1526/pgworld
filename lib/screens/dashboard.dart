@@ -242,11 +242,13 @@ class DashBoardActivityState extends State<DashBoardActivity> {
                                       color: Colors.black,
                                     ),
                                   ),
-                                  new Text("Users",
-                                      style: new TextStyle(
-                                        fontSize: 17,
-                                        color: Colors.grey,
-                                      )),
+                                  new Text(
+                                    "Users",
+                                    style: new TextStyle(
+                                      fontSize: 17,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
